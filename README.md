@@ -1,2 +1,2 @@
 # seandabbs.github.io
-Initial commit of the page.
+Welcome page. Work in progress.
