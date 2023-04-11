@@ -1,2 +1,2 @@
 # seandabbs.github.io
-Welcome page. Work in progress.
+Portfolio page. Work in progress.

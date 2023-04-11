@@ -1,19 +1,72 @@
 <!DOCTYPE html>
 <html>
+
+<head>
+  <title>
+    seandabbs | portfolio
+  </title>
+</head>
 <style>
 *{
-  font-family: monospace;
+  font-family: sans-serif;
   overflow: visible;
 }
 
 
 body{
   background-color: #222222;
+  margin:0;
+  padding:0;
+}
 
+div, center{
+  margin:0;
+  padding: 0;
+}
+
+h1, h2, p{
+  padding:1em;
+  margin:0;
 }
 
 </style>
-<body style="overflow:visible">
-  <h1 style="color:#9900ff">Welcome.</h1>
+
+<body style="overflow:visible; ">
+
+<div style="padding:0em;">
+  <h1 style="color:#5DABB5">Welcome.</h1>
+  <h2 style="color:#eee">This is a portfolio of some of my coding projects.<br>
+    Some were made for university assignments, others just for fun.<br>
+    <a href="https://github.com/seandabbs">My github profile is here</a>. Updates in progress.</h2>
+</div>
+
+<div style="background:#DAB;padding:0em;">
+  <h2>NTSC Analog Television Signal Demonstration</h2>
+  <center>
+    <video controls style="width:min(97vmin, 90vmax);">
+      <source src="media/NTSC_Animation1.ogg" type="video/ogg">
+    </video>
+  </center>
+<!--
+<img width="100%" src="media/NTSC_Animation.gif" alt="A scene depicting two graphs and a three dimensional representation of a cathode ray tube (CRT) television scan in action. Three beams sweep across the top of the screen from left ro right, lighting up phosphor dots on the CRT screen, creating an image. One graph depicts the NTSC signal used to carry the video information, and the other shows the in-phase and quadrature components of this NTSC signal.">-->
+  <p>This MATLAB script generates an animation showing an NTSC signal, in-phase and quadrature (IQ) components, and cathode ray tube (CRT) scan, all synchronized with each other. This was for a class project about demonstrating an image system of the student's choosing. My goal was to highlight how chrominance (color hue) is incorporated into analog television signals, which were originally designed only for luminance (brightness). By modulating the otherwise grayscale signal with color data (the "squiggles" on each step in the signal, except for the white [no color saturation] bar), color TV signals are backward compatible with black-and-white TVs, and black-and-white videos are forward compatible with color TVs. Running this script will simulate images of the user's choice; in this example I chose the SMPTE color test pattern. Some elements are exaggerated to better show details: each of the three beams isn't really a unique color or even visible, the phosphor grid would really have a smaller pitch, and signal voltage might be inverted depending on the stage at which it is measured.
+  </p>
+</div>
+
+<div style="background:#5DABB5;padding:0em;">
+  <h2>Tileable Hexagons</h2>
+  <center>
+    <iframe style="border:none; width:min(97vmin, 90vmax); height: 70vh;" src="HexMeshCylinder_v14.html"></iframe>
+  </center>
+  <p>A javascript/HTML/CSS tool that generates a tileable pattern of hexagons. I added the "torus" mode to demonstrate the wrap-around nature of the pattern. This wasn't made for anything specific.
+</div>
+
+<!--
+<div style="background:#78b;padding:0em;">
+  <h2>Gear Tool</h2>
+</div>
+-->
+
+
 </body>
 </html>
