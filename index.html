@@ -10,6 +10,7 @@
 *{
   font-family: Verdana, sans-serif;
   overflow: visible;
+  font-size:20px;
 }
 
 
@@ -342,12 +343,12 @@ input{
   <center>
     <div style="border:none; width:min(97vmin, 90vmax); height: 70vh;" src="hexgrid.html" srcdoc="hexgrid.html">
 
-        <div id="main" class="" style="width:100%;overflow-x: hidden;overflow-y: visible;background-color:none;overflow:scroll;pointer-events:none;">
+        <div id="main" class="" style="width:100%;overflow-x: hidden;overflow-y: visible;background-color:none;overflow:scroll;pointer-events:none;max-width:100%,max-height:100%;">
           <p id="inputs" style="pointer-events:auto;font-size:12pt;margin: 1em 1em 1em 1em;">
               <i>Interactive Hexagonal Grid and Torus Generator</i><br><br>
-              This will generate a hexagonal grid with many parameters. If <i>torus</i> is true, the grid will be mapped to a torus in 3D, and can be rotated using the w, s, a, d, q, and e keys. Color fields accept most text formats of a color, as well as rgba().<br><br>
-        numHexagonsWide&nbsp;<input id="input_numHexagonsWide" placeholder="7" value="7" placeholder="7" /><br>
-        numHexagonsHigh&nbsp;<input id="input_numHexagonsHigh" placeholder="48" value="48" placeholder="48" /><br>
+              This will generate a hexagonal grid with many parameters. If <i>torus</i> is true, the grid will be mapped to a torus in 3D, and can be rotated using the WASDEQ keys or the mouse/touchscreen. Color fields accept most text formats of a color, as well as rgba().<br><br>
+        numHexagonsWide&nbsp;<input id="input_numHexagonsWide" placeholder="7" value="7" /><br>
+        numHexagonsHigh&nbsp;<input id="input_numHexagonsHigh" placeholder="20" value="20" /><br>
         radiusMargin&nbsp;<input id="input_radiusMargin" placeholder="20" value="20" /><br>
         nodeRange&nbsp;<input id="input_nodeRange" placeholder="0" value="0" /><br>
         cellVertexRange&nbsp;<input id="input_cellVertexRange" placeholder="0" value="0" /><br>
@@ -681,7 +682,7 @@ input{
           // var torusGyroStyle = 'style="padding:0;transition: transform 0.033333s linear;-webkit-transition: transform 0.033333s linear;"';
           var torusGyroStyle = 'style="padding:0;"';
 
-          svg+='<div id="torusWrapper" class="gear" style="width:100%;height:100%;font-size:'+
+          svg+='<div id="torusWrapper" class="gear" style="overflow:clip;width:100%;height:100%;font-size:'+
           // ((scale/100)*(Math.PI*(majRadius+minRadius))/(Math.PI*rangeX))+'em;">'+
           ((0.5*scale)/(majRadius+minRadius))+'em;">'+
           '<div id="torus_z" class="gearContainer gyro" '+torusGyroStyle+'>'+
@@ -1079,6 +1080,7 @@ input{
 
         setTimeout(startRotation, 500);
         // startRotation();
+        init3d();
       }
 
       // run in torus mode:
@@ -1251,6 +1253,55 @@ input{
           // rotateTorus();
         }
       }
+
+
+
+      // pointer (mouse and/or touchscreen, etc) events handlers
+
+      var dragStatus = false;
+      var dragInitialRotations = {
+        x:rotations.x,
+        y:rotations.y,
+        z:rotations.z,
+      };
+      var dragStart = {};
+
+      function torusClicked(event){
+        dragStatus = true;
+        dragInitialRotations = {
+          x: rotations.x,
+          y: rotations.y,
+          z: rotations.z
+        };
+        dragStart = {
+          x: event.pageX,
+          y: event.pageY
+        };
+        // console.log("onpointerdown...");
+      }
+
+      function torusDragged(event){
+        if (dragStatus == true){
+          rotations.y = dragInitialRotations.y + (180*(event.pageX - dragStart.x) / window.innerWidth);
+          rotations.x = dragInitialRotations.x - (180*(event.pageY - dragStart.y) / window.innerHeight);
+
+          rotateTorus();
+        }
+      }
+
+      function torusLetGo(event){
+        dragStatus = false;
+
+        // console.log("onpointerup...");
+      }
+
+      function init3d() {
+        // const torus = document.body;
+        document.onpointerdown = torusClicked;
+        document.onpointermove = torusDragged;
+        document.onpointerup = torusLetGo;
+      }
+
 
       </script>
 
