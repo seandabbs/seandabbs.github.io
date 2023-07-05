@@ -10,9 +10,18 @@
 *{
   font-family: Verdana, sans-serif;
   overflow: visible;
-  font-size:20px;
 }
 
+@media screen and (max-width: 3in){
+  body{
+    font-size: 0.33in;
+  }
+}
+@media screen and (min-width: 3.001in){
+  body{
+    /* font-size: 0.33in; */
+  }
+}
 
 html{
   height: 100%;
@@ -25,7 +34,7 @@ body{
   padding:0;
   body: 100%;
   background-image: url('media/parallaxPattern.png');
-  height: 3em;
+  height: 1em;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -290,7 +299,7 @@ input{
 <div style="background:#DAB;padding:0em;" class="block">
   <h2>NTSC Analog Television Signal Demonstration</h2>
   <h3 style="padding-top: 0;padding-left:3em;" >
-    <a class="MATLAB" >MATLAB</a> <a href="https://github.com/seandabbs/NTSC_Analog_Television">(Source Code)</a>
+    <a class="MATLAB" >(MATLAB)</a> <a href="https://github.com/seandabbs/NTSC_Analog_Television">Source Code</a>
   </h3>
 <center>
   <img style="width:min(97vmin, 90vmax);" src="media/ntsc_signal.png">
@@ -313,7 +322,7 @@ input{
 <div style="background:#5DABB5;padding:0em;" class="block"><!-- yep. -->
   <h2>Texture Analysis with Machine Learning</h2>
   <h3 style="padding-top: 0;padding-left:3em;" >
-    <a class="Python" >Python</a>/<a class="TensorFlow">TensorFlow</a>/<a class="MATLAB" >MATLAB</a>
+    <a class="Python" >(Python</a>/<a class="TensorFlow">TensorFlow</a>/<a class="MATLAB" >MATLAB)</a>
   </h3>
   <center style="">
     <img style="width:min(97vmin, 90vmax);margin:0 0;padding:0 0;" src="media/iPhoneClasses.png"><br>
@@ -327,7 +336,7 @@ input{
 <div style="background:#78b;padding:0em;" class="block">
   <h2>Tileable Hexagons</h2>
   <h3 style="padding-top: 0;padding-left:3em;" >
-    <a class="w3" >JavaScript/CSS/HTML</a> <a href="https://github.com/seandabbs/Tileable_Hexagons">(Source Code)</a>
+    <a class="w3" >(JavaScript/CSS/HTML)</a> <a href="https://github.com/seandabbs/Tileable_Hexagons">Source Code</a>
   </h3>
   <center>
     <video controls style="width:min(48vmin, 45vmax);">
@@ -344,7 +353,7 @@ input{
     <div style="border:none; width:min(97vmin, 90vmax); height: 70vh;" src="hexgrid.html" srcdoc="hexgrid.html">
 
         <div id="main" class="" style="width:100%;overflow-x: hidden;overflow-y: visible;background-color:none;overflow:scroll;pointer-events:none;max-width:100%,max-height:100%;">
-          <p id="inputs" style="pointer-events:auto;font-size:12pt;margin: 1em 1em 1em 1em;">
+          <p id="inputs" style="pointer-events:auto;margin: 1em 1em 1em 1em;">
               <i>Interactive Hexagonal Grid and Torus Generator</i><br><br>
               This will generate a hexagonal grid with many parameters. If <i>torus</i> is true, the grid will be mapped to a torus in 3D, and can be rotated using the WASDEQ keys or the mouse/touchscreen. Color fields accept most text formats of a color, as well as rgba().<br><br>
         numHexagonsWide&nbsp;<input id="input_numHexagonsWide" placeholder="7" value="7" /><br>
@@ -1277,6 +1286,7 @@ input{
           x: event.pageX,
           y: event.pageY
         };
+        document.documentElement.style.overflow = "hidden";
         // console.log("onpointerdown...");
       }
 
@@ -1291,7 +1301,7 @@ input{
 
       function torusLetGo(event){
         dragStatus = false;
-
+        document.documentElement.style.overflow = "auto";
         // console.log("onpointerup...");
       }
 
