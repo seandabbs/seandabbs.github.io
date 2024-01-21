@@ -23,7 +23,7 @@
 }
 
 html, body{
-  background-color: none;
+  background-color: #110022;
   color: #ddd;
   /* font-size: 10vmin; */
   font-family: monospace;
@@ -265,25 +265,28 @@ button{
 
           <div id="main" class="display:flex" style="white-space: normal;overflow: hidden;background-color:none;pointer-events:none;">
             <p id="inputs" style="pointer-events:auto;margin: 1em 2em 2em 1em;">
-                <i>Interactive Hexagonal Grid and Torus Generator</i><br><br>
-                This will generate a hexagonal grid with many parameters. If <i>torus</i> is true, the grid will be mapped to a torus in 3D, and can be rotated using the WASDEQ keys or the mouse/touchscreen. Color fields accept most text formats of a color, as well as rgba().
-                <div class="flex2">
-                  <span>numHexagonsWide&nbsp;<input id="input_numHexagonsWide" placeholder="7" value="7" /></span>
-                  <span>numHexagonsHigh&nbsp;<input id="input_numHexagonsHigh" placeholder="20" value="20" /></span>
-                  <span>radiusMargin&nbsp;<input id="input_radiusMargin" placeholder="20" value="20" /></span>
-                  <span>nodeRange&nbsp;<input id="input_nodeRange" placeholder="0" value="0" /></span>
-                  <span>cellVertexRange&nbsp;<input id="input_cellVertexRange" placeholder="0" value="0" /></span>
-                  <span>handleRange&nbsp;<input id="input_handleRange" placeholder="0" value="0" /></span>
-                  <span>curveExtent&nbsp;<input id="input_curveExtent" placeholder="3" value="3" /></span>
-                  <span>strokeColor&nbsp;<input id="input_strokeColor" placeholder="black" value="black" /></span>
-                  <span>strokeWidth&nbsp;<input id="input_strokeWidth" placeholder="1" value="1" /></span>
-                  <span>fillColor&nbsp;</i><input id="input_fillColor" placeholder="cyan" value="cyan" /></span>
-                  <span>wrap&nbsp;<input id="input_wrap" placeholder="true" value="true" /></span>
-                  <span>scale&nbsp;<input id="input_scale" placeholder="1" value="1" /></span>
-                  <span>torus&nbsp;<input id="input_torus" placeholder="true" value="true" /></span>
-                </div>
-          <br><button style="pointer-events:auto;" onclick="enterGUI()">Generate</button><br><br>
-          <i>(Refresh page after generating to generate a new hexagonal grid.)</i>
+              <center>
+                        <i>Interactive Hexagonal Grid and Torus Generator</i><br><br>
+
+                        This will generate a hexagonal grid with many parameters. If <i>torus</i> is true, the grid will be mapped to a torus in 3D, and can be rotated using the WASDEQ keys or the mouse/touchscreen. Color fields accept most text formats of a color, as well as rgba().
+                        <div class="flex2">
+                          <span>numHexagonsWide&nbsp;<input id="input_numHexagonsWide" placeholder="7" value="7" /></span>
+                          <span>numHexagonsHigh&nbsp;<input id="input_numHexagonsHigh" placeholder="20" value="20" /></span>
+                          <span>radiusMargin&nbsp;<input id="input_radiusMargin" placeholder="20" value="20" /></span>
+                          <span>nodeRange&nbsp;<input id="input_nodeRange" placeholder="0" value="0" /></span>
+                          <span>cellVertexRange&nbsp;<input id="input_cellVertexRange" placeholder="0" value="0" /></span>
+                          <span>handleRange&nbsp;<input id="input_handleRange" placeholder="0" value="0" /></span>
+                          <span>curveExtent&nbsp;<input id="input_curveExtent" placeholder="3" value="3" /></span>
+                          <span>strokeColor&nbsp;<input id="input_strokeColor" placeholder="black" value="black" /></span>
+                          <span>strokeWidth&nbsp;<input id="input_strokeWidth" placeholder="1" value="1" /></span>
+                          <span>fillColor&nbsp;</i><input id="input_fillColor" placeholder="cyan" value="cyan" /></span>
+                          <span>wrap&nbsp;<input id="input_wrap" placeholder="true" value="true" /></span>
+                          <span>scale&nbsp;<input id="input_scale" placeholder="0.8" value="0.8" /></span>
+                          <span>torus&nbsp;<input id="input_torus" placeholder="true" value="true" /></span>
+                        </div>
+                  <br><button style="pointer-events:auto;" onclick="enterGUI()">Generate</button><br><br>
+                  <i>(Refresh page after generating to generate a new hexagonal grid.)</i>
+                </center>
               </p>
           </div>
 

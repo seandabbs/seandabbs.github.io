@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>⬢ portfolio ⬢</title>
+  <title>𝐏𝐨𝐫𝐭𝐟𝐨𝐥𝐢𝐨</title>
 </head>
 <link rel="stylesheet" type="text/css" href="styles.css">
 <!-- <link rel="icon" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text color='blue' x='0' y='24' font-size='32'>&#x2B22;</text></svg>" type="image/svg+xml"> -->
@@ -141,26 +141,27 @@ justify-content: space-around;
 
 <body style="overflow:visible; ">
 
-  <div class="parallax" style="height:20vh;"></div>
+  <div class="parallax" style="height:5vh;"></div>
 
 
-<div style="" class="block frosted" style="height:54vh;">
+<div style="" class="block" style="height:54vh;">
   <div class="innerBlock" style="height:100%">
     <h1 class="">Hello.</h1>
     <h4 style="color:#eee">
-      This is an interactive portfolio of some of my coding projects.<br><br>
-      Interest areas include...<br>
-      <span class="flex centerdiv">
+      This is an interactive portfolio of some of my software developed for personal projects or school assignments.<br><br>
+
+      <a style="margin-bottom:3vh">Interest areas include...<br></a>
+      <span style="width:100%;" class="flex centerdiv">
         <a>&nbsp;Data&nbsp;Visualization&nbsp;</a>
         <a>&nbsp;Electromagnetics&nbsp;</a>
         <a>&nbsp;Image&nbsp;Processing&nbsp;</a>
       </span><br>
-      <a href="https://github.com/seandabbs">My github profile is here</a>. </h4>
-      <h1 class="flex">&#x2193;&nbsp;&#x2193;&nbsp;&#x2193;</h1>
+      My github profile is <a href="https://github.com/seandabbs">here</a>. </h4>
+      <!-- <h1 class="flex">&#x2193;&nbsp;&#x2193;&nbsp;&#x2193;</h1> -->
   </div>
 </div>
 
-<div class="parallax" style="height:20vh;"></div>
+<div class="parallax" style="height:5vh;"></div>
 
 <!--<div style="background:#DAB;padding:0em;" class="block frosted">-->
 
@@ -172,13 +173,14 @@ justify-content: space-around;
       <a class="" >(MATLAB)</a> <a href="https://github.com/seandabbs/NTSC_Analog_Television">Source Code</a>
     </h4>
   <center>
-    <img style="width:min(97%, 90vmin);" src="media/ntsc_signal.png">
+    <img class="figure" style="width:min(97%, 90vmin);" src="media/ntsc_signal.png">
   </center>
     <center>
-      <video controls style="width:min(97%, 90vmin);">
+      <video controls class="figure" style="width:min(97%, 90vmin);">
         <source src="media/ntsc.webm" type="video/webm">
         <source src="media/ntsc.mp4" type="video/mp4">
         <source src="media/NTSC_Animation1.ogg" type="video/ogg">
+        <p>Alt text: a 3D model of a CRT television scanning, along with plots showing the signal.</p>
       </video>
     </center>
 
@@ -187,53 +189,75 @@ justify-content: space-around;
   </div>
 </div>
 
-<div class="parallax" style="height:20vh;"></div>
+<div class="parallax" style="height:5vh;"></div>
 
 <!--<div style="background:#5DABB5;padding:0em;" class="block frosted">-->
 <div style="" class="block frosted">
-
   <div class="innerBlock">
     <h3>Texture Analysis with Machine Learning</h3>
     <h4 style="padding-top: 0;padding-left:1em;" >
       <a class="" >(Python/TensorFlow/MATLAB)</a>
     </h4>
     <center style="">
-      <img style="width:min(97%, 90vmin);margin:0 0;padding:0 0;" src="media/iPhoneClasses.png"><br>
-      <img style="width:min(97%, 90vmin);margin:0 0;padding:0 0;" src="media/pyramids.png">
+      <img class="figure" style="width:min(97%, 90vmin);margin:0 0;padding:0 0;" src="media/iPhoneClasses.png"><br>
+      <img class="figure" style="width:min(97%, 90vmin);margin:0 0;padding:0 0;" src="media/pyramids.png">
     </center>
     <p>Part of a group project for a class. A ResNet model was trained on data from the Describable Textures Dataset, then used to classify the textures in images of household objects. Some experiments were also performed with classifying different levels of image resolution pyramids.</p>
   </div>
 </div>
 
-<div class="parallax" style="height:20vh;"></div>
+<div class="parallax" style="height:5vh;"></div>
 
 <div style="" class="block frosted">
+  <div class="innerBlock">
+    <h3>COVID and Happiness: Data Visualization / Data Science</h3>
+    <h4 style="padding-top: 0;padding-left:1em;" >
+      <a class="" >(JavaScript/d3.js/CSS/HTML)</a> <a href="https://github.com/seandabbs/COVID_Happiness_Data_Science">Source Code</a>
+    </h4>
+    <center>
+      <img class="figure" style="width:min(100%, 90vmin);" src="media/COVIDHappinessCountries.png"><br>
+    </center>
 
+    <p style="margin-bottom:3vh;">An interactive single-page app developed for a data science class visualization project. The page provides parallax scrolling, animations, interactive tooltips, and menus as the user explores the data from several perspectives. See this web app in a <a href="pages/COVIDHappiness.html">separate page</a> (animations work best with full screen) or see embedded page below.<br></p>
+    <center>
+      <iframe class="figure" style="border:none;width:100%; height: 95vh;" src="pages/COVIDHappiness.html"></iframe>
+    </center>
+  </div>
+</div>
+
+<div class="parallax" style="height:5vh;"></div>
+
+<div style="" class="block frosted">
   <div class="innerBlock">
     <h3>Tileable Hexagons</h3>
     <h4 style="padding-top: 0;padding-left:1em;" >
       <a class="" >(JavaScript/CSS/HTML)</a> <a href="https://github.com/seandabbs/Tileable_Hexagons">Source Code</a>
     </h4>
     <center>
-      <video controls style="width:min(50%, 45vmin);">
+      <video controls class="figure" style="width:min(50%, 45vmin);">
         <source src="media/hex1.mp4" type="video/mp4">
         <source src="media/hex1.webm" type="video/hex1.webm">
       </video>
-      <video controls style="width:min(50%, 45vmin);">
+      <video controls class="figure" style="width:min(50%, 45vmin);">
         <source src="media/hex2.mp4" type="video/mp4">
         <source src="media/hex2.webm" type="video/hex2.webm">
       </video><br>
-      <img style="width:min(100%, 90vmin);" src="media/hex3.png"><br>
+      <img class="figure" style="width:min(100%, 90vmin);" src="media/hex3.png"><br>
     </center>
+    <p style="margin-bottom:3vh;">A personal project. This is part visualization and geometry, part art. See this web app in a <a href="pages/HexGrid.html">separate page</a> (best with full screen) or see embedded page below.<br></p>
     <center>
-
-      <iframe style="border:none; width:100%; height: 100vh;" src="pages/HexGrid.html"></iframe>
+      <iframe class="figure" style="border:none; width:100%; height: 95vh;" src="pages/HexGrid.html"></iframe>
     </center>
   </div>
 
+
+
 </div>
 
-<div class="parallax" style="height:20vh;"></div>
+
+
+
+<div class="parallax" style="height:5vh;"></div>
 
 
 <!--
@@ -288,7 +312,8 @@ function setBodyBackgroundToSVG(svgContent) {
 
   const parallaxElements = document.getElementsByClassName('parallax');
   for (const element of parallaxElements) {
-    element.style.backgroundImage = `url(${svgDataUri})`;
+    // element.style.backgroundImage = `url(${svgDataUri})`;
+    0;
     // element.style.backgroundSize = 'cover';
   }
 }
