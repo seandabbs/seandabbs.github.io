@@ -33,7 +33,8 @@ html{
 
 
 body{
-  background-color: #222222;
+  background-color: #111111;
+  /* background: linear-gradient(180deg, #222, #111); */
   margin:0;
   padding:0;
   body: 100%;
@@ -161,14 +162,15 @@ justify-content: space-around;
   </div>
 </div>
 
-<div class="parallax" style="height:5vh;"></div>
+<div class="parallax" style="height:5vh;text-align:center;">⁂ ⁂ ⁂</div>
 
 <!--<div style="background:#DAB;padding:0em;" class="block frosted">-->
 
-<div style="" class="block frosted">
+<div style="" class="block" id="p1">
 
   <div class="innerBlock">
     <h3 style="filter: none">NTSC Analog Television Signal Demonstration</h3>
+
     <h4 style="padding-top: 0;padding-left:1em;" >
       <a class="" >(MATLAB)</a> <a href="https://github.com/seandabbs/NTSC_Analog_Television">Source Code</a>
     </h4>
@@ -189,10 +191,10 @@ justify-content: space-around;
   </div>
 </div>
 
-<div class="parallax" style="height:5vh;"></div>
+<div class="parallax" style="height:5vh;text-align:center;">⁂ ⁂ ⁂</div>
 
 <!--<div style="background:#5DABB5;padding:0em;" class="block frosted">-->
-<div style="" class="block frosted">
+<div style="" class="block" id="p2">
   <div class="innerBlock">
     <h3>Texture Analysis with Machine Learning</h3>
     <h4 style="padding-top: 0;padding-left:1em;" >
@@ -206,11 +208,11 @@ justify-content: space-around;
   </div>
 </div>
 
-<div class="parallax" style="height:5vh;"></div>
+<div class="parallax" style="height:5vh;text-align:center;">⁂ ⁂ ⁂</div>
 
-<div style="" class="block frosted">
+<div style="" class="block">
   <div class="innerBlock">
-    <h3>COVID and Happiness: Data Visualization / Data Science</h3>
+    <h3>COVID and Happiness: Data Visualization</h3>
     <h4 style="padding-top: 0;padding-left:1em;" >
       <a class="" >(JavaScript/d3.js/CSS/HTML)</a> <a href="https://github.com/seandabbs/COVID_Happiness_Data_Science">Source Code</a>
     </h4>
@@ -220,14 +222,14 @@ justify-content: space-around;
 
     <p style="margin-bottom:3vh;">An interactive single-page app developed for a data science class visualization project. The page provides parallax scrolling, animations, interactive tooltips, and menus as the user explores the data from several perspectives. See this web app in a <a href="pages/COVIDHappiness.html">separate page</a> (animations work best with full screen) or see embedded page below.<br></p>
     <center>
-      <iframe class="figure" style="border:none;width:100%; height: 95vh;" src="pages/COVIDHappiness.html"></iframe>
+      <iframe class="figure" style="border:none;width:100%; height: 90vh;" src="pages/COVIDHappiness.html"></iframe>
     </center>
   </div>
 </div>
 
-<div class="parallax" style="height:5vh;"></div>
+<div class="parallax" style="height:5vh;text-align:center;">⁂ ⁂ ⁂</div>
 
-<div style="" class="block frosted">
+<div style="" class="block">
   <div class="innerBlock">
     <h3>Tileable Hexagons</h3>
     <h4 style="padding-top: 0;padding-left:1em;" >
@@ -255,9 +257,9 @@ justify-content: space-around;
 </div>
 
 
+<!--
 
-
-<div class="parallax" style="height:5vh;"></div>
+<div class="parallax" style="height:5vh;"></div> -->
 
 
 <!--
@@ -270,59 +272,9 @@ justify-content: space-around;
 <div class="parallax"></div>
 <script>
 
-function generateWavyLinesSVG() {
-  const svgWidth = 800;
-  const svgHeight = 600;
-  const numWavyLines = 3 + Math.round(3*Math.random());
-  const marg = 10;
-  const inc = 190;
-  const centerHue = 190;
-  const hueVar = 90;
-  const centerLightness = 30;
-  const lightVar = 10;
+/*
 
-  let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}">`;
-
-  for (let i = 0; i < numWavyLines; i++) {
-    const startY = (i + 1) * (svgHeight / (numWavyLines + 1));
-
-    svgContent += `<path d="M ${-marg} ${svgHeight+marg} L ${-marg} ${startY}`;
-    for (let x = -marg; x <= svgWidth+(2*inc)+marg; x += inc) {
-      const y = startY + (5*marg*Math.random());
-      const cprand = (3*marg*Math.random());
-      const cp1x = x + cprand - (marg/2);
-      const randiff = (i*5*marg)+(3*marg);
-      svgContent += ` S ${cp1x} ${y-(cp1x/7)}, ${x+(randiff/2)} ${y}`;
-    }
-    var hue = centerHue+(hueVar*(numWavyLines-i)/numWavyLines)-(hueVar/2);
-    var lightness = centerLightness+(lightVar*(i)/numWavyLines)-(lightVar/2);
-    var color = `hsla(${hue}, 30%, ${lightness}%, 1)`;
-    var ctrl = marg;
-    // console.log(color);
-    svgContent += ` L ${svgWidth+ctrl} ${svgHeight+ctrl} Z" fill="${color}" stroke="none" stroke-width="0" />`;
-  }
-
-  svgContent += '</svg>';
-  return svgContent;
-}
-function setBodyBackgroundToSVG(svgContent) {
-  const svgDataUri = `data:image/svg+xml;base64,${btoa(svgContent)}`;
-  document.body.style.backgroundImage = `url(${svgDataUri})`;
-  // document.body.style.backgroundSize = 'cover';
-
-  const parallaxElements = document.getElementsByClassName('parallax');
-  for (const element of parallaxElements) {
-    // element.style.backgroundImage = `url(${svgDataUri})`;
-    0;
-    // element.style.backgroundSize = 'cover';
-  }
-}
-
-// Generate the SVG content
-const svgContent = generateWavyLinesSVG();
-
-// Set the body background to the generated SVG
-setBodyBackgroundToSVG(svgContent);
+*/
 
 </script>
 
