@@ -1,0 +1,2924 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title> Foster I</title>
+  <!-- <script type="module" src='https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.2.0/math.js'></script> -->
+
+<!-- <script type="text/javascript" src='https://cdnjs.com/libraries/mathjs'></script> -->
+
+<!-- copyright 2024 seandabbs.github.io -->
+</head>
+<style>
+
+*{
+  font-family: Verdana, sans-serif;
+  overflow: visible;
+  background: none;
+
+  /* border: 1px black; */
+}
+
+#main{
+  overflow:hidden;
+}
+
+html{
+  font-size: 1.25em;
+}
+@media (max-width: 980px) {
+  html{
+    font-size: 1.75rem;
+  }
+}
+
+h2{
+  margin: 0;
+  height: 0;
+  padding: 0;
+}
+/* pre{
+  display: block;
+  position: relative;
+
+    margin: 0;
+    height: 0;
+    padding: 0;
+} */
+p{
+  /* margin: 0.5em; */
+}
+span, div, sub, sup{
+  font-family: inherit;
+}
+
+.header{
+    /* font-size: 1.25em; */
+    font-size: 1em;
+    justify-content: center;
+    align-self: center;
+
+}
+
+body{
+  justify-content: center;
+  margin: 0;
+  --bgColor: black;
+  background: var(--bgColor); /*  !!! */
+  overflow: visible;
+  --fontColor: #dd99dd;
+  color: var(--fontColor);
+  /* font-size: 0.8em;  */
+  /* makes everything smaller..... */
+}
+
+.visblock{
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: space-evenly;
+  /* vertical-align: middle;
+  align-items: center;
+  flex-direction: column; */
+  counter-increment: page;
+  position: relative;
+
+}
+
+.fullheight{
+  align-items: center;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.visblock::after {
+  position: absolute;
+  padding-bottom: 2em;
+  padding-right: 2em;
+  content: counter(page);
+  /* align-self: end; */
+  right: 0;
+  bottom: 0;
+}
+
+.centerdiv{
+  text-align: center;
+  /* display: block; */
+
+  display: block;
+  justify-content: center;
+  /* flex-direction: column; */
+
+  width: 100vw;
+  /* flex-grow: 1; */
+}
+
+.sticky{
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.responsiveSVG{
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* charts are responsive */
+.chart{
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  padding-bottom: 100%;
+  vertical-align: top;
+  overflow: hidden;
+}
+
+.code{
+  font-family: monospace;
+  background: #123030;
+  color: #edffed;
+  border-radius: 1em;
+  padding: 1em;
+}
+
+.lightCode{
+  font-family: monospace;
+  background: #f5f5f5;
+  color: #010101;
+  border-radius: 1em;
+  /* border: 1em solid black; */
+  padding: 1em;
+}
+
+.math{
+  font-family:serif;
+  letter-spacing: 0.1em;
+  /* font-size: 1.2em; */
+  font-size: 1em;
+  white-space: nowrap;
+}
+/* grow to fit container evenly */
+.g{
+  flex-grow: 1;
+}
+
+.fraction{
+  /* font-family: serif; */
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  text-align: center;
+  letter-spacing: 0.1em;
+
+}
+.fraction > span {
+  display: block;
+  padding: 0.1em;
+}
+.fraction span.bottom {
+  border-top: thin solid;
+}
+.fraction span.symbol{
+  display: none;
+}
+
+.sum{
+  font-size: 2em;
+  margin-right: -0.2em;
+}
+span.sum sub{
+  margin-left:-1.2em;
+  bottom:-1em;
+  font-size:0.4em;
+  position:relative;
+}
+
+.bar{
+  background-color: transparent;
+  display: inline-block;
+  width: 0.075em;
+  height: 3em;
+  background-color: red;
+  background-color: var(--fontColor);
+  margin-bottom: -1em;
+  margin-left: 0.1em;
+  margin-right: 0.1em;
+}
+
+span.bar + sub{
+  margin-left:0.2em;
+  bottom:-1em;
+  font-size:0.7em;
+  position:relative;
+}
+
+.evenColumns{
+  /* display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+
+  margin: 0 auto; */
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  overflow: auto;
+}
+
+.evenCol{
+  /* padding: 1rem; */
+  /* position: relative;
+  display: flex;
+  display: grid;
+  justify-content: center;
+
+  text-align: center; */
+  flex: 1;
+  max-width: 5%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* border: 1px solid #ff0; */
+  overflow: visible;
+}
+.wrapColumns{
+  /* display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  margin: 0 auto; */
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1em 1em;
+  flex-direction: row;
+  /* width: 100%;
+  overflow: auto; */
+}
+
+/* classes for the single s interactivity */
+.sHover::before {
+  content: '\2192';
+  margin-right: 5px;
+}
+
+.intermediateStep{
+  display: none;
+}
+
+/* .sSingle:hover {
+
+  position: relative;
+
+} */
+.singleS{
+
+      position:absolute;
+    width:2em;
+    display:inline-block;
+}
+.singleS:active {
+  transform: translateY(0.25em);
+  transition: 0.3s;
+}
+.singleS:hover + .singleSsibling{
+  color: yellow;
+}
+.singleSa:hover::before {
+  display: inline-block;
+    margin-left: -2.5em;
+    content: '⤴';
+    transform: scaleX(-1) translateY(-0.25em);
+    /* transform: ; */
+    color: yellow;
+    /* margin-right: 5px; */
+}
+.singleSb:hover::before {
+  display: inline-block;
+
+    margin-left: -2.5em;
+    content: '⤵';
+    transform: scaleX(-1) translateY(0.25em);
+    /* transform:; */
+    /* margin-right: 5px; */
+    color: yellow;
+}
+.addRootLeft{
+  width:1em;
+  display:inline-block;
+}
+.addRoot{
+  display: inline-block;
+  width: 1em;
+  /* height: 0; */
+}
+.addRoot:hover::after {
+    display: inline-block;
+    /* opacity: 0.5; ＋*/
+    content: '(+)';
+    /* transform: scaleX(-1); */
+    margin-left: -0.5em;
+    width: 1em;
+    height: 0;
+    color: #5f5;
+    text-shadow: 0.05em 0.05em 0 black;
+}
+
+.addRoot:active {
+  transform: translateY(0.25em);
+  transition: 0.3s;
+}
+
+.binomial{
+  /* z-index: 2; */
+}
+.binomial:hover{
+  color:yellow;
+}
+.delRoot{
+  /* margin-left: 0; */
+      position:absolute;
+      display: inline-block;
+      width: 3em;
+      text-shadow: 0.05em 0.05em 0 black;
+}
+.delRoot:hover::before {
+    display: inline-block;
+    /* opacity: 0.5; */
+    /* text-decoration: line-through;*/
+    /* position:absolute; */
+    /* content: '━━━━━━━━'; */
+    /* content: '╳⌦'; */
+    text-align: left;
+    vertical-align: top;
+    content: '✘';
+    /* background: black; */
+    font-family: monospace;
+    letter-spacing: 0;
+    /* width: 0;
+    height: 0; */
+    font-size: 1.5em;
+    line-height: 1;
+    margin-left: -1.5em;
+    margin-top: -0.25em;
+    /* margin-bottom: auto; */
+    /* z-index: 1; */
+    /* border-radius: 0.5em;
+    border: solid red; */
+    /* content: '(＋)';
+    transform: scaleX(-1); */
+    /* margin-right: 5px; */
+    color: red;
+}
+.delRoot:hover::before:active {
+  transform: translateY(-0.5em);
+}
+.delRoot:active {
+  transform: translateY(0.25em);
+  transition: 0.3s;
+}
+
+.delRoot:hover + .binomial{
+  color: red;
+}
+
+
+/*   better grid for circuit    */
+
+.gridgrid{
+  display: grid;
+  /* maybe change below two to stretch? */
+  justify-content: space-around;
+  align-content: space-around;
+  /* for individual cells */
+  justify-items: center;
+  align-items: center;
+
+  grid-template-columns: [first] 40px [line2] 50px [line3] auto [col4-start] 50px [five] 40px [end];
+  grid-template-rows: [row1-start] 25% [row1-end] 100px [third-line] auto [last-line];
+
+}
+.colucolu{
+  flex: 1;
+  /* display: flex;
+  flex-direction: column; */
+  justify-content: space-around;
+  align-items: center;
+  /* width: 100%; */
+  overflow: auto;
+  /* max-width: 5%; */
+  box-sizing: border-box;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #ff0;
+  overflow: visible;
+}
+.cellcell{
+  /* flex-direction: row;
+  display: flex; */
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border: 1px solid #00f;
+}
+
+/*  invalide PRF notification  */
+@keyframes alertFade{
+  0% {opacity: 0;
+      transform: scale(1,1);}
+  5% {opacity: 1;
+      transform: scale(2,2);}
+  /* 25% {transform: rotateZ(-5deg);} */
+  50% {opacity: 1;
+    transform: scale(2,2);}
+  100% {opacity: 0;transform: scale(0.5,0.5);}
+}
+.invalidPRF{
+  display: none;
+  opacity: 0;
+  width: 4em;
+  transition: opacity 3s ease;
+}
+.invalidPRF.show{
+  display: inline-block;
+  color: red;
+  font-size: 3em;
+  width: 0;
+  height: 0;
+  margin: 0 0;
+  position: absolute;
+  animation: alertFade 3s;
+}
+
+/*   */
+</style>
+
+<body>
+
+
+<div class="main" id="main">
+
+<!--
+
+Commented out blocks below were for more detail on the network synthesis process,
+presented as slides. Might return later as some kind of modal window or separate
+page.
+
+-->
+
+
+  <!-- <div id="p1-1" class="visblock fullheight" style="height:100vh;justify-content: space-evenly;">
+    <h1 style="justify-content: space-evenly;">Network Synthesis: Foster I Realization</h1>
+  </div>
+
+  <div class="visblock fullheight" style="height:100vh;">
+    <div style="width:80%;">
+      <a class="header" >Background</a>
+      <br><br>&#8226; We have been analyzing circuits in the Laplace domain, looking at the impedence function Z(s).
+      <br><br>&#8226; "Realization": how can we create ("realize") circuit components, given Z(s)?
+      <br><br>&#8226; 4 methods of canonical realization, each producing a different "topology" of circuit.
+      <br><br>&ensp;&ensp;&ensp;&ensp;- Foster I
+      <br><br>&ensp;&ensp;&ensp;&ensp;- Foster II
+      <br><br>&ensp;&ensp;&ensp;&ensp;- Cauer I
+      <br><br>&ensp;&ensp;&ensp;&ensp;- Cauer II
+      <br><br>&#8226; In this lecture: Foster I
+      <br><br>&#8226; Methods involve rearranging polynomials and other algebra to get component values for inductors and capacitors.
+    </div>
+  </div>
+
+  <div class="visblock fullheight" style="height:100vh;">
+
+    <div style="width:80%;">
+      <a class="header" >Partial Fraction Expansion</a>
+      <br><br>&#8226; Remember: we're starting with some fraction, F(s), of one polynomial divided by another.
+      <br><br>&ensp;&ensp;&ensp;&ensp;- Something like
+        <span class="math">F(s) =
+          <span class="fraction">
+            <span>4s<sup>3</sup> + 3s<sup>2</sup> + 2s + 1</span>
+            <span class="symbol">/</span>
+            <span class="bottom">3s<sup>2</sup> + 2s + 1</span>
+          </span>
+        </span>
+
+      <br><br>&ensp;&ensp;&ensp;&ensp;- In our case, usually an impedence, Z(s), or admittance, Y(s).
+      <br><br>&ensp;&ensp;&ensp;&ensp;- We want to <i>expand</i> (or "decompose") that fraction into a more convenient format.
+
+      <br><br>&#8226; PFE can be done in MATLAB:<br>
+<pre class="lightCode" style="display:inline-block;">
+b = [4 3 2 1];
+a = [3 2 1]; % specify as coefficients in descending order.
+[residues, poles, directTerms] = residue(b, a)
+</pre>
+      <br>&#8226; OR: PFE can also be done in Python with SymPy:<br>
+<pre class="code" style="display:inline-block;">
+from sympy import symbols, apart
+s = symbols('s')
+b = 4*s**3 + 3*s**2 + 2*s + 1
+a = 3*s**2 + 2*s + 1 # specify as symbolic expression
+pfe = apart( b / a )
+</pre>
+      <br>&#8226; OR: since we are working with lossless functions, we can use <i>Foster's expansion</i> to expand it by hand...
+
+
+    </div>
+  </div>
+
+  <div class="visblock fullheight" style="height:100vh;">
+    <div style="width:80%;">
+      <a class="header" >Foster's Expansion of a Lossless Function</a>
+      <br><br>&#8226; Change format: expanding
+        <span class="math">F(s) =
+          <span class="fraction">
+            <span>s(s<sup>2</sup> - c<sub>1</sub>)(s<sup>2</sup> - c<sub>2</sub>)</span>
+            <span class="symbol">/</span>
+            <span class="bottom">(s<sup>2</sup> - ω<sub>1</sub>)(s<sup>2</sup> - ω<sub>2</sub>)</span>
+          </span>
+        </span>
+      &nbsp; into &nbsp;
+        <span class="math">F(s) =
+          <span class="fraction">
+            <span>k<sub>0</sub></span>
+            <span class="symbol">/</span>
+            <span class="bottom">s</span>
+          </span> + k<sub>&infin;</sub>s +
+          <span class="sum" style="margin-right:0.5em;">
+            &sum;<sub>i</sub></span><span class="fraction">
+            <span>k<sub>i</sub>s</span>
+            <span class="symbol">/</span>
+            <span class="bottom">(s<sup>2</sup> + ω<sub>i</sub><sup>2</sup>)</span>
+          </span>
+        </span>
+      <br><br>&#8226; Solve for <i>Residues</i>
+      <span class="math">k<sub>0</sub></span>,
+      <span class="math">k<sub>&infin;</sub></span>, and
+      <span class="math">k<sub>i</sub></span>'s:
+      <br><br>
+
+      <div style="display:flex;justify-content: space-around;">
+
+        <span class="math">
+          k<sub>0</sub>= s F(s)<span class="bar"> </span><sub>s=0</sub>
+        </span>
+
+        <span class="math">
+          k<sub>&infin;</sub> =
+          <span class="fraction">
+            <span>F(s)</span>
+            <span class="symbol">/</span>
+            <span class="bottom">s</span>
+          </span>
+          <span class="bar"> </span><sub>s=&infin;</sub>
+        </span>
+
+        <span class="math">k<sub>i</sub> =
+          <span class="fraction">
+            <span>(s<sup>2</sup> + ω<sub>i</sub><sup>2</sup>)</span>
+            <span class="symbol">/</span>
+            <span class="bottom">s</span>
+          </span> F(s)<span class="bar"> </span><sub>s<sup>2</sup>=-ω<sub>i</sub><sup>2</sup></sub>
+        </span>
+
+      </div>
+
+    </div>
+  </div> -->
+
+  <!-- Below div can be uncommented in place of the other to return to non-scrolling -->
+    <!-- <div class="visblock fullheight" style="height:100vh;"> -->
+  <div class="visblock" >
+    <div style="width:90%;">
+      <a class="header" >Network Synthesis Tool: Foster I</a>
+      <br>
+      <div id="" class="wrapColumns" style="padding:5px;">
+        <span class="math">F(s) = </span>
+        <span id="fosterIex" style="background:#111;border-radius: 0.5em;"></span>
+        <span class="math">=</span>
+        <span id="fosterIexD"  ></span>
+      </div>
+      <div id="fosterIexK" class="wrapColumns" style="background:#111;border-radius:0.5em;"></div>
+      <div id="fosterIexExpanded" class="evenColumns"></div>
+      <div id="fosterIexExpanded2" class="evenColumns" style="background:#222;"></div>
+      <!-- <div id="fosterIckt"></div> -->
+      <div class="centerdiv" style="overflow: visible; max-width: 100%; max-height: 10vh; perspective: none;">
+        <div id="fosterIckt" class="chart" style="overflow: visible; max-width: 100%; max-height: 10vh;"></div>
+      </div>
+      <div id="gridgrid" class="gridgrid">
+      </div>
+
+      <!-- <div class="gridgrid">
+        <div class="colucolu">
+          <div class="cellcell">aa1</div>
+          <div class="cellcell">bb1</div>
+          <div class="cellcell">cc1</div>
+        </div>
+        <div class="colucolu">
+          <div class="cellcell">aa2</div>
+          <div class="cellcell">bb2</div>
+          <div class="cellcell">cc2</div>
+        </div>
+        <div class="colucolu">
+          <div class="cellcell">aa3</div>
+          <div class="cellcell">bb3</div>
+          <div class="cellcell">cc3</div>
+        </div>
+        <div class="colucolu">
+          <div class="cellcell">aa4</div>
+          <div class="cellcell">bb4</div>
+          <div class="cellcell">cc4</div>
+        </div>
+      </div> -->
+
+      <div style="color:var(--bgColor);">.</div>
+      <div style="color:var(--bgColor);height:70vh;">.</div>
+      <!-- <div id="workspace" style=width:100%;height:100%;></div> -->
+
+    </div>
+
+  </div>
+
+      <!-- <div class="visblock fullheight" style="height:100vh;pointer-events:none;">
+        <div style="width:80%;pointer-events:none;">
+          <a class="header" style="margin-bottom:80vh;" >Foster I Example Results</a>
+      <br><br>&#8226; Now we have expanded F(s). Does this equation remind you of anything from circuit theory...?
+      <br><br>&ensp;&ensp;&ensp;&ensp;- Each term is one segment of a series circuit.
+      <br><br>&ensp;&ensp;&ensp;&ensp;- Some segments will be a parallel pair of inductor and capacitor.
+      <div style="color:var(--bgColor);">.</div>
+
+
+
+        </div>
+
+      </div> -->
+
+  <!-- <div class="visblock fullheight" style="height:100vh;pointer-events:none;">
+    <div style="width:80%;pointer-events:none;">
+      <a class="header" style="margin-bottom:80vh;" >Foster I Example Results</a>
+
+      <div class="centerdiv" style="overflow: visible; max-width: 100%; max-height: 10vh; perspective: none;">
+        <div id="fosterI" class="chart" style="overflow: visible;"></div>
+      </div>
+
+
+    </div> -->
+
+  </div>
+
+  <!-- <div id="p3-3" class="visblock fullheight" style="height:100vh;">
+    Conclusion
+    <div id="puthere"></div>
+  </div> -->
+
+  </div>
+
+
+
+<script type="module">
+
+// Import D3.js
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+// import * as math from "https://www.jsdelivr.com/package/npm/mathjs";
+// import * as math from "https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.2.0/math.js";
+// import * as math from "https://www.jsdelivr.com/package/npm/mathjs";
+// import { create, all } from 'mathjs';
+
+// const config = { };
+// const math = create(all, {});
+// console.log(math.sqrt(-4).toString());
+
+// Setup and function definitions:
+
+// -----------------------
+
+// Below functions were for debugging svg curves; might be useful at another time.
+// from https://using-d3js.com/05_01_paths.html
+//
+
+function addCurveOutline(start, bControl1, bControl2, end, selection, ggs){
+  var bData = [start, bControl1, bControl2, end];
+
+  var data = [ [bData[0],bData[1]], [bData[2],bData[3]] ];
+
+  ggs[0].selectAll(".circle")
+    .data(bData)
+    .attr("cx", (d) => d[0])
+    .attr("cy", (d) => d[1]);
+    // .attr("r", 5);
+
+  // console.log(ggs[1])
+  ggs[1].selectAll(".line")
+    .data(data)
+    .attr("x1", (d) => d[0][0])
+    .attr("x2", (d) => d[1][0])
+    .attr("y1", (d) => d[0][1])
+    .attr("y2", (d) => d[1][1]);
+}
+
+function addCurveOutlineInit(start, bControl1, bControl2, end, selection,
+  circlesName, dashesName){
+  var bData = [start, bControl1, bControl2, end];
+
+  var data = [ [bData[0],bData[1]], [bData[2],bData[3]] ];
+
+  var gCircles = selection.append("g")
+    .attr("class", circlesName);
+  var gDashes = selection.append("g")
+    .attr("class", dashesName);
+
+  var c = gCircles.selectAll(".circle")
+    .data(bData)
+    .enter()
+    .append("circle")
+    .attr("class", "circle")
+    .attr("cx", (d) => d[0])
+    .attr("cy", (d) => d[1])
+    .attr("r", 3)
+    .attr("fill", "red");
+
+  var l = gDashes.selectAll(".line")
+    .data(data)
+    .enter()
+    .append("line")
+    .attr("class", "line")
+    .attr("x1", (d) => d[0][0])
+    .attr("x2", (d) => d[1][0])
+    .attr("y1", (d) => d[0][1])
+    .attr("y2", (d) => d[1][1])
+    .attr("stroke-dasharray", 2)
+    .attr("stroke", "red");
+
+  return [gCircles, gDashes];
+}
+
+// ---
+
+//
+// Below functions create a line with multiple arcs.
+//
+
+function multiArc(axName, arcName, arcs, color, ggs){
+  // updates a multi-arc line with D3JS
+
+  var arcPath = d3.path();
+  arcPath.moveTo(arcs[0][0], arcs[0][1]);
+  // console.log(ggs)
+  var ggcnt = 0;
+
+  // iterate through every three points in the arcs array of points
+  for (var i=1; i<arcs.length; i+=3){
+
+    arcPath.bezierCurveTo(arcs[i][0], arcs[i][1], arcs[i+1][0], arcs[i+1][1],
+      arcs[i+2][0], arcs[i+2][1]);
+    // console.log(i)
+    // console.log(ggs[i-1])
+    addCurveOutline(arcs[i-1], arcs[i], arcs[i+1], arcs[i+2],
+      d3.select("#"+axName), ggs[ggcnt]);
+    ggcnt++;
+  }
+
+  // Select the path and update its data
+  d3.select("#"+arcName)
+    .attr("fill", "none")
+    .attr("stroke", color)
+    .attr("stroke-width", 1.5)
+    .attr("d", arcPath);
+
+
+}
+
+function multiArcInit(axName, arcName, arcs, color){
+  // Initializes a multi-arc path in d3js
+
+  var arcPath = d3.path();
+  arcPath.moveTo(arcs[0][0], arcs[0][1]);
+  var ggs = [];
+
+  // Create the updated SVG path and add the debug checking visuals
+  for (var i=1; i<arcs.length; i+=3){
+
+    arcPath.bezierCurveTo(arcs[i][0], arcs[i][1], arcs[i+1][0], arcs[i+1][1],
+      arcs[i+2][0], arcs[i+2][1]);
+
+
+    var gg = addCurveOutlineInit(arcs[i-1], arcs[i], arcs[i+1], arcs[i+2],
+         d3.select("#"+axName), "circlez", "dashez");
+    ggs.push(gg);
+  }
+
+  // Apply the update to the arc line
+  d3.select("#"+arcName)
+    .attr("fill", "red")
+    .attr("stroke", color)
+    .attr("stroke-width", 1.5)
+    .attr("d", arcPath);
+
+    return ggs
+}
+
+
+// assumes counter clockwise:
+function tangents(rs, angle, dist, cx, cy, angoff){
+  // angoff = angoff;
+  var ptx = rs * Math.cos(angle),
+      pty = rs * Math.sin(angle);
+  var dx = dist * Math.cos( (angle + angoff ) + Math.PI/2),
+      dy = dist * Math.sin( (angle + angoff ) + Math.PI/2);
+
+  // "before" control point, middle point, and "after" control point:
+  return [ [cx+ptx-dx, cy+pty-dy], [cx+ptx, cy+pty], [cx+ptx+dx, cy+pty+dy] ];
+}
+
+function anglesToArcs(angles, cx, cy, rs, cpd, yoffs){
+  // console.log(yoffs)
+  var arcs = []
+  var ofs = 0;
+  // var cpd = rs*4*(Math.sqrt(2)-1)/3;
+  var angle = angles[0]+ofs;
+  var yoff = yoffs[0];
+  var tri = tangents(rs, angle, cpd, cx, cy, (-0.5*yoff/rs));
+  // console.log("start tri:");
+  // console.log(tri);
+  arcs.push( [tri[1][0],tri[1][1]+yoff]);
+  arcs.push( [tri[2][0],tri[2][1]+yoff]);
+
+  for (var i=1; i<angles.length-1; i++){
+    angle = angles[i]+ofs;
+    yoff = yoffs[i]
+    tri = tangents(rs, angle, cpd, cx, cy, (-0.5*yoff/rs) );
+    arcs.push( [tri[0][0],tri[0][1]+yoff]);
+    arcs.push( [tri[1][0],tri[1][1]+yoff]);
+    arcs.push( [tri[2][0],tri[2][1]+yoff]);
+
+  }
+  angle = angles[angles.length-1]+ofs;
+  yoff = yoffs[yoffs.length-1];
+  tri= tangents(rs, angle, cpd, cx, cy, (-0.5*yoff/rs));
+  arcs.push( [tri[0][0],tri[0][1]+yoff]);
+  arcs.push( [tri[1][0],tri[1][1]+yoff]);
+  return arcs;
+
+}
+
+
+
+//NOTE: Good potential 3D plot, for future features:
+// https://stackoverflow.com/questions/21043260/3-dimension-x-y-and-z-graph-using-d3-js#answer-57340982
+
+
+
+//
+// Now, below are the network synthesis-specific functions.
+//
+
+function inductor(svg, color, txt, a, b, ratio, vs, n, sw=1.5){
+  // Creates an inductor SVG.
+  // vs - vertical scale
+  // const cpd = rs*4*(Math.sqrt(2)-1)/3;
+  // var extra = 1; // extra loops over the bare minimum
+  // a[0]/=sc;
+  // a[1]/=sc;
+  //
+  // b[0]/=sc;
+  // b[1]/=sc;
+
+  const dw = (b[0] - a[0]);
+  const dw2 = dw/2;
+  const mid = a[0] + dw2;
+  // n-=0.5;
+  // const r = (dw - ratio*(tl-1))/2;
+  const r = dw * ratio/2;
+  n = n - 0.5;
+  const perTurn = 30;
+  const tl = 1 + (perTurn * n);
+  var data = [];
+  const xinc = (dw - (2*r))/(tl-1);
+
+  const dh2 = (vs*r);
+
+  const line = d3.line()
+    .x((d) => d.x)
+    .y((d) => d.y);
+  var ymax = 0;
+  for (var t=0; t<tl; t++){
+    var angle = Math.PI + ( ((t%perTurn)/perTurn) * Math.PI*2);
+    data.push( {x: a[0] + r + (t*xinc) + (r*Math.cos(angle)),
+                y: a[1] + (vs*r*Math.sin(angle))});
+    ymax = Math.max(ymax, data[data.length-1].y);
+  }
+
+  // console.log(data);
+  svg.append("path")
+    .attr("d", line(data))
+    .attr("stroke", color)
+    .attr("stroke-width", "0.2em")
+    .attr("vector-effect", "non-scaling-stroke")
+    .attr("stroke-linejoin","round")
+    .attr("stroke-linecap","round")
+    .attr("fill", "none");
+
+  svg.append("text")
+    .attr("x", mid)
+    .classed("svgmath",true)
+    // .attr("y", a[1]+((ymax-a[1])*2))
+    // .attr("y", a[1]+((ymax-a[1])*1))
+    .attr("y", a[1]+(dh2*1.4))
+    .attr("fill", color)
+    .text(txt)
+    .attr("text-anchor","middle")
+    .attr("font-size", "1em")
+    .attr("dominant-baseline","hanging");
+
+
+}
+function capacitor(svg, color, txt, a, b, ratio, vs, n, sw=1.5){
+  // Creates a capacitor SVG.
+  // const cpd = rs*4*(Math.sqrt(2)-1)/3;
+  // var extra = 1; // extra loops over the bare minimum
+  // a[0]/=sc;
+  // a[1]/=sc;
+  //
+  // b[0]/=sc;
+  // b[1]/=sc;
+  // n is unused; just used in the sister function "inductor()".
+
+  const dw = (b[0] - a[0]);
+
+  const dw2 = dw/2;
+  const mid = a[0]+dw2;
+  ratio/=2;
+  vs/=2;
+
+
+  const dh2 = dw2*vs;
+
+  var datal = [
+    {x: a[0], y: a[1]},
+    {x: mid-(dw2*ratio), y: a[1]},
+    {x: mid-(dw2*ratio), y: a[1]+(dw2*vs)},
+    {x: mid-(dw2*ratio), y: a[1]-(dw2*vs)}
+  ];
+
+  var datar = [
+    {x: mid+(dw2*ratio), y: b[1]+(dw2*vs)},
+    {x: mid+(dw2*ratio), y: b[1]-(dw2*vs)},
+    {x: mid+(dw2*ratio), y: b[1]},
+    {x: b[0], y: b[1]}
+  ];
+
+  var pathStr = `M${a[0]}, ${a[1]}` +
+                `L${mid-(dw2*ratio)}, ${a[1]}` +
+                `L${mid-(dw2*ratio)}, ${a[1]+(dw2*vs)}` +
+                `L${mid-(dw2*ratio)}, ${a[1]-(dw2*vs)}` +
+                `M${mid+(dw2*ratio)}, ${b[1]+(dw2*vs)}` +
+                `L${mid+(dw2*ratio)}, ${b[1]-(dw2*vs)}` +
+                `L${mid+(dw2*ratio)}, ${b[1]}` +
+                `L${b[0]}, ${b[1]}`;
+
+  svg.append("path")
+    // .attr("d", line([...datal, null, ...datar]))
+    .attr("d", pathStr)
+    .attr("stroke", color)
+    .attr("stroke-width", "0.2em")
+    .attr("stroke-linecap","round")
+    .attr("stroke-linejoin","round")
+    .attr("vector-effect", "non-scaling-stroke")
+    .attr("fill", "none");
+
+svg.append("text")
+  .attr("fill", color)
+  .attr("x", mid)
+  .classed("svgmath",true)
+  .attr("y", a[1]+(dh2*1.4))
+  .text(txt)
+  .attr("text-anchor","middle")
+  .attr("font-size", "1em")
+  .attr("dominant-baseline","hanging");
+
+
+}
+
+function componentSVG(parentDiv, plotId, w, h, iscap, strokeWidth, color){
+  // Wrapper for inductor() and capacitor()
+
+  // append the svg object to the body of the page
+  // Note: no height/width, just viewbox, to stay responsive
+  console.log("parentDiv "+parentDiv+"; plotId "+plotId);
+  var svg = d3.select("div#"+parentDiv)
+    .append("svg")
+      .attr("id", plotId)
+      // .attr("preserveAspectRatio", "xMidYMid meet")
+      // .attr("viewBox", `0 0 ${w*10} ${h*10}`)
+
+      .attr("viewBox", `0 0 200 100`)
+      .attr("width", w+'em')
+      .attr("height", h+'em')
+      // .classed("responsiveSVG", true)
+  svg.append("style")
+    .text(`
+      .svgmath{
+
+        font-family: serif;
+
+      }
+      `);
+
+  // iscap = this.componentLabels[i][j].slice(-1)=='F';
+  // const color = (iscap?[255,0,255,1]:[0,255,255,1]);
+  // h*=10;
+  // w*=10;
+  // (iscap?capacitor:inductor)(
+  //     svg,
+  //     `rgba(${color[0]},${color[1]},${color[2]},${color[3]})`,
+  //     "",
+  //     // [x0, y0],
+  //     // [x1, y1],
+  //     [0, 0.5*h],
+  //     [w, 0.5*h],
+  //     (iscap?0.5:0.25), (iscap?0.5:1), 4);
+
+  (iscap?capacitor:inductor)(
+      svg,
+      // `rgba(${color[0]},${color[1]},${color[2]},${color[3]})`,
+      color,
+      "",
+      // [x0, y0],
+      // [x1, y1],
+      [0, 50],
+      [200, 50],
+      (iscap?0.5:0.25), (iscap?1:2), 4, strokeWidth);
+  return svg;
+}
+
+
+
+class Fs {
+  // This is the main class of this program. F(s); represents a positive-real function
+  // and all the steps to expand it and represent it (/realize it) as a circuit diagram.
+  //
+  constructor(b,a,id,parentHTML,
+    distHTML=null,kisHTML=null,expandedHTML=null, expanded2HTML=null, cktHTML=null,b1=0,a1=0){
+    // Setup/ init for an instance of this class
+    //a1, b1: additional factors of s to be multiplied.
+    this.b = b;
+    this.a = a;
+    this.id = id;
+    this.parent = parentHTML;
+    this.dist = distHTML;
+    this.kis = kisHTML;
+    this.expandedHTML = expandedHTML;
+    this.expanded2HTML = expanded2HTML;
+    this.ckt = cktHTML;
+    this.plots = {};
+    this.plt = ''; // name/key
+
+    this.colors = ["#ff0000", "#0000ff",
+      "#00a1a1", "#20cf20",
+      "#bf00bf", "#ff8600",
+      "#ffff00", "#8171bb",
+    "#bb1986", "#99ab33"];
+
+
+    this.makeHTML();
+
+    this.updateAll()
+
+
+  }
+  color(i){
+    // colors, with "wraparound" when highest index of color is exceeded.
+    return this.colors[i%this.colors.length];
+  }
+  makeHTML(){
+    // This creates the initial HTML equation for the positive real functions
+    // (PRF) driving point function, representing F(s).
+    // It adds in a lot of interactivity, letting the user
+    // change, add, and remove values,
+    // but has checks to try and maintain PRF status.
+    // The constants in the binomials follow a convention of increasing
+    // in value from left to right.
+
+    // b and a are not typical descending order form; just binomials,
+    // or 1 of linear monomial s for the first element.
+    const et=' contenteditable="true" data-currentlyentering="false" ';
+    const ct=this.id+'_editable';
+    // console.log('makeHTML start: this.b, this.a:');
+    // console.log(this.b);
+    // console.log(this.a);
+
+    // Loop through numerator (b)(j=0), then denominator (a)(j=1).
+    var x = [this.b, this.a]; // current side, numer. or denom. ... "fractand"?
+    var o = [this.a, this.b]; // opposite side.
+    var xt = ['b','a'];
+    var ts = ['', ''];
+    var xdeg = [ (this.b[0]+(2*(this.b.length-1))),
+                (this.a[0]+(2*(this.a.length-1))) ];
+    var xdvb = [ (this.b[0]+(2*(this.b.length-1)))%2,
+                (this.a[0]+(2*(this.a.length-1)))%2 ];
+    var xid = '', xiid = '';
+
+    for (var j=0;j<2;j++){
+      // if we could subtract a root/2 from this fractand's degree, and still
+      // have a difference of 1 between numerator and denominator degrees,
+      // allow deletion of a root on this fractand.
+      xid = this.id+'_'+xt[j]; // this.id + b or a
+      var degDiffSub = Math.abs( (xdeg[j]-2)-xdeg[(j+1)%2] );
+      var degDiffAdd = Math.abs( (xdeg[j]+2)-xdeg[(j+1)%2] );
+
+      // console.log(xt[j]+ ' degree diff aadd: '+degDiffAdd);
+      // console.log([(xdeg[j]),xdeg[(j+1)%2]]);
+      // also check that removing a root will leave at least one left.
+      if ( (degDiffSub==1) && (x[j].length>2) ){
+        var delClass = 'delRoot';
+        this[xt[j]+'RootDeletable'] = true;
+        // console.log('deletable   '+xt[j]+delClass)
+      } else{
+        var delClass = '';
+        this[xt[j]+'RootDeletable'] = false;
+      }
+
+      // if there is a single s monomial, prepend an "s"
+      ts[j]='';
+      if ( x[j][0]==1 ){
+        // if this fractand could lose its monomial s and still satisfy
+        // the positive real fraction (PRF) requirements, assign the singleS class.
+        if ( Math.abs( (xdeg[j]-1) - (xdeg[(j+1)%2]+1) )==1 ){
+          ts[j]='<span id="'+xid+'0" title="Move s (constants will re-calculate to maintain positive-real function status)" class="singleS singleS'+xt[j]+'">&nbsp;</span>'+
+            '<span class="singleSsibling">s</span>';
+        } else{
+          ts[j]='<span id="'+xid+'0">s</span>';
+        }
+      }
+
+      // loop through all binomials
+      for (var i=1; i<x[j].length; i++){
+        xiid = xid+i; // this.id + b or a + the root's index
+        // If we're able to delete, and this is the last/rightmost/highest root value
+        if ( (this[xt[j]+'RootDeletable']) && (i==x[j].length-1) ){
+          ts[j]+='<span id="'+xiid+'DelRoot" title="Delete Binomial" class="delRoot">&nbsp;&nbsp;</span>';
+        }
+
+        ts[j]+='<span id="root'+xiid+'"'+' class="binomial" title="Click constant to edit value. Press Enter when done. Note that constants\' values must follow the convention of increasing from left to right." >';
+        ts[j]+='(s<sup>2</sup> + <span value="'+x[j][i]+'" class="'+ct+
+            '" id="'+xiid+'"'+et+'>'+x[j][i]+'</span>)</span>';
+      }
+
+      // If we can add another root/binomial:
+      if (degDiffAdd==1){
+        this[xt[j]+'RootAddable'] = true;
+        // wrap this in an addRootLeft (for spacing/middle align),
+        // and an addRoot on the right.
+        ts[j]='<span class="addRootLeft">&nbsp;</span>'+
+              ts[j]+
+              '<span id = "'+xid+'AddRoot" title="Add Binomial" class="addRoot">&nbsp;</span>';
+      }
+      else{
+        this[xt[j]+'RootAddable'] = false;
+      }
+    }
+
+    // put the numerator and denominator together into the html F(s) fraction.
+    var t = '<span class="math" style="position:relative; id="'+this.id+'">'+
+    '<span title="This entire expression is editable!" style="position:absolute;left:-1em;">✏</span>';
+    t+=this.fractionHTML(ts[0],ts[1])
+    t+='</span>';
+
+    t+='<span id="invalidPRF" style="z-index:7" class="invalidPRF">!!!</span>';
+
+    // console.log(`setting parent ${this.parent} to text ${t}.`);
+    this.parent.innerHTML = t;
+
+    //
+    // add event listeners:
+    //
+
+    // contenteditables:
+    var editables = document.getElementsByClassName(ct);
+    for (const ed of editables){
+      console.log(ed);
+      // contenteditable root values:
+      ed.addEventListener("keydown", (evt) => {
+        if (evt.key === 'Enter'){
+          evt.preventDefault();
+          if (ed.getAttribute('data-currentlyentering')=='false'){
+
+            // get newly input value:
+            var newval = ed.innerText.trim();
+            newval = (newval == '') ? 0 : newval*1;
+
+            const xidx = ed.id.lastIndexOf('_')+1;
+            const x = ed.id[xidx];
+            const i = parseInt(ed.id.slice(xidx+1));
+            const oldval = this[x][i];
+            console.log(`${ed.id} = x: ${x}, i: ${i}`);
+            // console.log( this );
+            ed.setAttribute('value', newval);
+            ed.innerText = ''+newval+'';
+
+            // Check if this new value is valid:
+            // first, isolate the new values to try for b and a:
+            const btry = JSON.parse(JSON.stringify(this.b));
+            const atry = JSON.parse(JSON.stringify(this.a));
+            if (x=='b'){
+              btry[i] = newval;
+            } else {
+              atry[i] = newval;
+            }
+            const prf = this.handlePRF(btry,atry);
+            if (prf){
+              // ed.setAttribute('value', newval);
+              // ed.innerText = ''+newval+'';
+            }
+            else {
+              ed.setAttribute('value', oldval);
+              ed.innerText = ''+oldval+'';
+            }
+
+
+            // move cursor to end, to be more natural...
+            const sel = window.getSelection();
+            const range = document.createRange();
+            range.selectNodeContents(ed);
+            range.collapse();
+            sel.removeAllRanges();
+            sel.addRange(range);
+
+            ed.setAttribute('data-currentlyentering','true');
+          } else {
+            console.log('Stop holding down Enter!');
+          }
+        }
+      });
+
+      // also add the keyup to return it to normal so we aren't infinitely
+      // updating if someone holds doen the enter key:
+      ed.addEventListener("keyup", (evt) => {
+          if (evt.key === 'Enter'){
+            ed.setAttribute('data-currentlyentering','false');
+        }
+      });
+
+    }
+
+    // delRoots in general (parts of the binomial):
+    var delRoots = document.getElementsByClassName('delRoot');
+    for (const dr of delRoots){
+      // console.log(ed);
+      // contenteditable root values:
+      dr.addEventListener("click", (evt) => {
+        console.log('clicked delRoot');
+        const xidx = dr.id.lastIndexOf('_')+1;
+        const x = dr.id[xidx];
+        const i = parseInt(dr.id.slice(xidx+1));
+        console.log(`Clicked ${dr.id} = x: ${x}, i: ${i}`);
+
+        if (this[x+'RootDeletable']){
+          // Check if the new setup would be valid:
+          // first, isolate the new values to try for b and a:
+          const btry = JSON.parse(JSON.stringify(this.b));
+          const atry = JSON.parse(JSON.stringify(this.a));
+          if (x=='b'){
+            btry.splice(i,1);
+          } else {
+            atry.splice(i,1);
+          }
+          const prf = this.handlePRF(btry,atry);
+        }
+      });
+    }
+
+    // monomial s's (should only be one anyway):
+    var Ss = document.getElementsByClassName('singleS');
+    for (const sss of Ss){
+      // console.log(ed);
+      // contenteditable root values:
+      sss.addEventListener("click", (evt) => {
+        const xidx = sss.id.lastIndexOf('_')+1;
+        const x = sss.id[xidx];
+        const i = parseInt(sss.id.slice(xidx+1));
+        console.log(`Clicked ${sss.id} = x: ${x}, i: ${i}`);
+
+        // Check if the new setup would be valid:
+        // first, isolate the new values to try for b and a:
+        const btry = JSON.parse(JSON.stringify(this.b));
+        const atry = JSON.parse(JSON.stringify(this.a));
+
+        if (x=='b'){
+          btry[0] = 0;
+          atry[0] = 1;
+          var source = btry;
+          var destin = atry;
+        } else {
+          atry[0] = 0;
+          btry[0] = 1;
+          var source = atry;
+          var destin = btry;
+        }
+        const prf = this.handlePRF(btry,atry,true);
+
+        // If this wouldn't work, then we can automatically adjust the "destination"
+        // fractand's roots so that they alternate between the source fractand's.
+        // ex:
+        // if we start with
+        //  (s2 + 1)(s2 + 5)
+        //  s(s2 + 2)(s2 + 10)
+        // we'd have to change to
+        //  s(s2 + 3)(s2 + 11)
+        //   (s2 + 2)(s2 + 10)
+        //
+        // ... and we can see the alternating pattern now,
+        // increasing from left to right (just by convention; easier to see)
+        //     0      3       11
+        //        2       10
+
+        if (!prf){
+          //
+          console.log('Invalid; making sequence monotonically increasing now.');
+          console.log('\nBefore: sourc/destin');
+          console.log(source);
+          console.log(destin);
+          // there should be the same number of roots in the denom and numer:
+          var interLeaved = [];
+          for (var j=1; j<source.length; j++){
+            interLeaved.push(source[j]);
+            interLeaved.push(destin[j]);
+
+            // if ( destin[j] < source[j] ){
+            //     destin[j] = source[j]+1;
+            //
+            // }
+
+          }
+          // console.log('\nInterLeaved: before, after');
+          // console.log(interLeaved);
+
+          for (var j=1; j<interLeaved.length; j++){
+            // interLeaved[j] = Math.max(
+            //   Math.min( interLeaved[j], interLeaved[j+1]),
+            //   interLeaved[j-1]
+            // );
+            // interLeaved[j] = Math.max( interLeaved[j], interLeaved[j-1] + 1 );
+            if ( interLeaved[j] < interLeaved[j-1] + 1 ){
+              interLeaved[j] = interLeaved[j-1] + 1;
+            }
+            //
+          }
+          // console.log(interLeaved);
+
+          source = [ source[0] ];
+          destin = [ destin[0] ];
+          for (var j=0; j<interLeaved.length; j++){
+            if (j%2){ /*odds*/
+              destin.push(interLeaved[j]);
+              // console.log('added '+interLeaved[j]+' to destin.');
+            } else{ /* evens */
+              // console.log('added '+interLeaved[j]+' to source.');
+              source.push(interLeaved[j]);
+            }
+
+          }
+
+          // console.log('\nAfter: sourc/destin');
+          // console.log(source);
+          // console.log(destin);
+
+          if (x=='b'){
+            this.b = JSON.parse(JSON.stringify(source));
+            this.a = JSON.parse(JSON.stringify(destin));
+          } else {
+            this.b = JSON.parse(JSON.stringify(destin));
+            this.a = JSON.parse(JSON.stringify(source));
+          }
+
+          this.makeHTML();
+          this.updateAll();
+
+        }
+
+
+        // // swap the one in the first index, a->b or b->a:
+        // this[x][0] = 0;
+        // this[x=='b'?'a':'b'][0] = 1;
+        // this.makeHTML();
+        // this.updateAll();
+
+
+
+      });
+    }
+
+    // addRoots:
+    var addRoots = document.getElementsByClassName('addRoot');
+    for (const ar of addRoots){
+      // console.log(ed);
+      // contenteditable root values:
+      ar.addEventListener("click", (evt) => {
+        console.log('clicked addroot');
+        const xidx = ar.id.lastIndexOf('_')+1;
+        const x = ar.id[xidx];
+        // const i = parseInt(ed.id.slice(xidx+1));
+        console.log(`Clicked ${ar.id} = x: ${x}`);
+        if (this[x+'RootAddable']){ /*RootAddable check might be redundant...*/
+          console.log('before adding...');
+          console.log( this[x])
+          // this[x].push(this[x].reduce((runSum, d) => runSum + (2*d), 0));
+          // Add a value that's 1 higher than the current highest.
+          this[x].push( Math.max(
+            this.b.reduce((runMax, d) => Math.max(runMax,d), 1),
+            this.a.reduce((runMax, d) => Math.max(runMax,d), 1)
+          ) + 1);
+          console.log( 'after adding to '+x+'' );
+          console.log(this[x]);
+          this.makeHTML();
+          this.updateAll();
+        }
+      });
+    }
+
+    return t;
+
+  }
+
+
+  distributePolynomials(x1,x){
+    // performs algebra to distribute an expression of a product of binomials.
+    // Assumes we are given scalar x1, and x where x[0] is 1 or 0,
+    // and subsequent x[i] values are constants in binomials ( s^2 + x[i] )
+    var ns = [];
+    for (var i=0; i<(2*(x.length+1)); i++){
+      ns.push( [] ); // add an array that we'll add coefficients to
+    }
+
+    // var p0 = {c:0, n:0};
+
+    var ps = x.slice(1).map( (d,idx) => [ {c:1,n:2}, {c:d,n:0} ] );
+
+    if ( (x[0]==1) && (x1==1) ){ ps.unshift([{c:1, n:2}]); }
+    else if ( ((x[0]==1) && (x1==0)) || ((x[0]==0) && (x1==1)) ) { ps.unshift([{c:1, n:1}]); }
+    // else if ( (x[0]==0) && (x1==0) ) { 0; } // do not add anything
+
+    // ps.push( [p0] );
+    // console.log(ps);
+    // console.log( ps.reduce((txt, d) => txt + '('+
+    //     d.map( (e) => (e.c+'s^'+e.n)).join( ' + ' ).replaceAll('s^0','')+
+    //     // d +
+    //     ')', '').replaceAll('(1s^','(s^') );
+
+    var rs = ps[0];
+    var rst = [];
+    for (var i=1; i<ps.length; i++){
+
+      for (var p of ps[i]){
+        for (var r of rs){
+          rst.push( {c:p.c*r.c, n:p.n+r.n} );
+        }
+      }
+      rs = rst;
+      rst = [];
+      // .reduce((runSum, d) => runSum + d, 0);
+    }
+    var maxn = 0;
+    for (var r of rs){
+      ns[r.n].push( r.c );
+      maxn = Math.max(maxn, r.n);
+    }
+    ns = ns.slice(0,maxn+1);
+    // console.log(rs);
+    // console.log(ns);
+    // for (var i=0; i<ns.length; i++){
+    ns = ns.map( (ds) => (ds.reduce((runSum, d) => runSum + d, 0)));
+    // console.log(ns);
+      // if ( ns[i] !==0 ){
+    var txtd = ns.map((d, idx) => (d+'s^'+idx).replace('s^0',''))
+             .map((d, idx) => (d.length>1?(
+               d.slice(d.length-2,d.length)=='^1'?(
+                 d.slice(0,d.length-2)):d):d)) /* replace s^1 with s */
+             .map((d, idx) => (d.length>1?(
+               d.slice(0,2)=='1s'?(
+                 d.slice(1)):d):d)) /* replace 1s with s */
+             .filter(td=>(td[0]!='0'))
+             .reverse();
+    //   }
+    // }
+    console.log('\n');
+    console.log(ns);
+    // console.log(ns[-1]);
+    console.log(txtd.join(' + '));
+
+    //
+    // for (var i=1; i<x.length; i++){
+    //   num+=b[i];
+    //   .reduce((runSum, d) => runSum + d, 0);
+    // }
+    // '<span class="math" id='+this.id+'>'+
+    //   '<span class="fraction">'+
+    //     '<span>'+(this.b[0]==1?'<span id="'+this.id+'_b0">s</span>':'');
+    // bids.push(this.id+'_b0');
+    //
+    // var bid = '';
+    // for (var i=1; i<this.b.length; i++){
+    //   bid = this.id+'_b'+i
+    //   t+='(s<sup>2</sup> + <span value="'+this.a[i]+'" class="'+ct+'" id='+bid+'" '+et+'>'+this.b[i]+'</span>)';
+    //   bids.push(bid);
+    // }
+    //
+    // t+='</span>';
+
+    // console.log(t);
+    return ns;
+
+  }
+
+  nsToHTML(ns){
+    // ns, or exponential degrees, expanded into html
+    return ns.map((c, n) => c==0 ? '' : (n==0 ? c : (n==1? c+'s': c+'s<sup>'+n+'</sup>') ) )
+              .map( (c, n) => c.length>1? c.slice(0,2)=='1s' ? c.slice(1) : c  : c)
+              .filter(td => (td!=''))
+              .reverse()
+              .join(' + ');
+  }
+
+  gcd(num,den){
+    // greatest common denominator.
+    var b=num, a=den, c;
+    while (a){
+      c = b % a; b = a; a = c;
+    }
+    return [num/b, den/b];
+  }
+  solveResidues(b,a){
+    // solve residues k0, kinf (AKA koo) and ki's.
+
+
+    // setup for k0 and koo, since they both depend on even/odd num or denom
+    if ((b[0]==1) && (a[0]==0)){ /* S on top; a unaffected */
+      // k0; additional s on top -> s^2
+      var bk0 = [0, ...b.slice(1), 0];
+      var ak0 = a;
+      // koo; additional s on bottom -> s canceled
+      var bkoo = [0, ...b.slice(1)];
+      var akoo = a;
+    } else { /* S on bottom; b unaffected */
+      // k0; additional s on top -> s canceled
+      var ak0 = [0, ...a.slice(1)];
+      var bk0 = b;
+      // koo; additional s on bottom -> s^2
+      var akoo = [0, ...a.slice(1), 0];
+      var bkoo = b;
+
+    }
+
+    // ------- k0 ------------
+    var bfacsk0 = bk0.slice(1);
+    var afacsk0 = ak0.slice(1);
+    var nd = this.gcd(bfacsk0.reduce((pprod, d) => pprod*d, 1),
+                      afacsk0.reduce((pprod, d) => pprod*d, 1));
+
+    var k0 = {
+     num:nd[0],
+     den:nd[1],
+     quo:nd[0]/nd[1],
+     bfacs:bfacsk0,
+     afacs:afacsk0
+    };
+
+    this.k0t = this.fractionHTML(
+                bfacsk0.reduce((pprod, d) => pprod+'('+d+')', ''),
+                afacsk0.reduce((pprod, d) =>pprod+'('+d+')', '')
+              );
+
+    // ------- koo ------------
+    // for this, we're careful and distribute the polynomials first,
+    // then apply L'Hôpital's rule.
+    // Since the initial F(s) should be a PRF where |deg(num)-deg(denom)| = 1,
+    // the koo evaluation, which divides by s, will either have:
+    //
+    // |deg(denom)-deg(num)| = 0, where we end up with:
+    //  coefficient of numerators highest-degree term /
+    // -----------------------------------------------
+    //  coefficient of denominator's highest-degree term
+    //
+    // OR deg(denom)-deg(num)| = 2, where we end up with 0.
+    var bnskoo = this.distributePolynomials(0,bkoo);
+    var bhighest = bnskoo[bnskoo.length-1];
+    var anskoo = this.distributePolynomials(0,akoo);
+    var ahighest = anskoo[anskoo.length-1];;
+    var koo = bnskoo.length==anskoo.length ? {num:bhighest,
+                                              den:ahighest,
+                                              quo:bhighest/ahighest} : {num:0,
+                                                                        den:1,
+                                                                        quo:0};
+
+    this.koot = this.makeDistributedHTML(bnskoo,anskoo,'koot');
+
+    // ------- ki's ------------
+    var kis = [];
+    this.kits = []; // text/html
+    bkoo = bkoo.slice(1); // prepare for loop
+
+    for (var i =1; i<a.length; i++){
+
+      const wi2 = -a[i];
+
+      // for our b factors, we use what we already calculated in koo,
+      // because those b's were already divided by an  s,
+      // like we have to do for ki's
+      var bfacs = bkoo.map((d) => (d + wi2));
+      // for our a factors, we also start out with a's from koo,
+      // but we remove idx 0 and the index of the current ki root.
+      var afacs = akoo.filter((d, idx) => ( (idx>0)&&(idx!=i) ) )
+                      .map((d) => (d + wi2));
+
+      var nd = this.gcd(bfacs.reduce((pprod, d) => pprod*d, 1),
+                        afacs.reduce((pprod, d) => pprod*d, 1));
+
+      this.kits.push(this.fractionHTML(
+                  bfacs.reduce((pprod, d) => pprod+'('+d+')', ''),
+                  afacs.reduce((pprod, d) =>pprod+'('+d+')', '')
+                ));
+
+      kis.push({
+       num:nd[0],
+       den:nd[1],
+       quo:nd[0]/nd[1],
+       bfacs:bfacs,
+       afacs:afacs
+      });
+    }
+
+    return [k0, koo, ...kis];
+  }
+
+  makeDistributedHTML(bns,ans,htmlId='j'){
+    // Sort of wrapper for nsToHTML(); Distributes numerator and denominator.
+    //NOTE: does NOT include CSS class "math"; needs external wrapper for that.
+    return '<span id="'+htmlId+'">'+
+    this.fractionHTML(
+      this.nsToHTML(bns),
+      this.nsToHTML(ans)
+    )+
+    '</span>';
+  }
+  makeKisHTML(){
+    // Puts the residues into expressions in HTML format.
+    // Adds optionally viewable "intermediate steps", which can be toggled.
+    const bar = '<span class="bar"> </span>';
+    var t = '';
+
+    // k0
+    t+='<span id = "k0"class="math" >'+
+        '<span >'+
+          'k<sub>0</sub> = s F(s)'+bar+'<sub>s=0</sub> = '+
+        '</span>'+
+        '<span style="display: none;" class="intermediateStep" >'+this.k0t+' = '+'</span>'+
+        '<span>'+
+          ((this.k[0].den==1) ? this.k[0].num : this.fractionHTML(
+                                                          this.k[0].num,
+                                                          this.k[0].den))+
+        '</span>'+
+      ',&nbsp;&nbsp;&nbsp;</span>';
+
+
+    // koo
+    t+='<span id = "kinf" class="math" >'+
+        '<span>'+
+          'k<sub>&infin;</sub> = '+
+          this.fractionHTML('F(s)','s')+bar+'<sub>s=&infin;</sub> = '+
+        '</span>'+
+        '<span style="display: none;" class="intermediateStep" >'+
+          this.koot+bar+'<sub>s=&infin;</sub> = '+
+        '</span>'+
+        '<span>'+
+          ((this.k[1].den==1) ? this.k[1].num : this.fractionHTML(
+                                                          this.k[1].num,
+                                                          this.k[1].den))+
+        '</span>'+
+        ((this.k.length>0)?',&nbsp;&nbsp;&nbsp;':'')+
+      '</span>';
+
+
+    // ki's
+    for (var i=2; i<this.k.length; i++){
+      var wi2 = 'ω<sub>'+(i-1)+'</sub><sup>2</sup>';
+      t+='<span class="math">'+
+        '<span>k<sub>'+(i-1)+'</sub> = '+
+        this.fractionHTML('(s<sup>2</sup> + '+wi2+')','s')+' F(s)'+
+        bar+'<sub>s<sup>2</sup>=-'+wi2+'=-'+this.a[(i-1)]+'</sub> = </span>'+
+        '<span style="display: none;" class="intermediateStep" >'+
+          this.kits[i-2]+' = '+
+        '</span>'+
+        '<span>'+this.fractionHTML( this.k[i].num,this.k[i].den)+'</span>'+
+        ((i<this.k.length-1)?',&nbsp;&nbsp;&nbsp;':'') + '</span>';
+
+    }
+
+    // add optional information visibility toggle button:
+    var infob = '<div id="infobutton" title="Show Intermediate Steps" style="font-size: 1.25em;position: absolute; top: -0.75em;'+
+    ' right: -0.25em; cursor: pointer; user-select: none;">'+
+    '&#9432;+</div>';
+
+    t+=infob;
+
+    return t;
+  }
+  makeExpandedHTML(){
+    // Makes the Foster expanded expression of F(s, by incorporating residues.
+    const colstart = '<div class="evenCol"><span class="math g">';
+    const colend = '</span></div>';
+
+
+
+    // first column, F(s) =
+    var t = colstart+ 'F(s) = ' + colend;
+
+    // k0
+    t += colstart +
+      this.fractionHTML(
+        ((this.k[0].den==1) ? this.k[0].num : this.fractionHTML(
+                                                        this.k[0].num,
+                                                        this.k[0].den)),
+        's'
+      )+
+      colend +
+      colstart + ' + ' + colend;
+
+    // koo
+    t += colstart + (this.k[1].quo==1?'':''+this.k[1].quo+'') + 's' + colend;
+
+    // ki's
+    for (var i=2; i<this.k.length; i++){
+      t+= colstart + ' + </span></div>'+
+
+         colstart + ''+
+          this.fractionHTML(
+              this.fractionHTML(
+                  this.k[i].num,
+                  this.k[i].den
+              )+'s',
+              '(s<sup>2</sup> + '+this.a[i-1]+')'
+          )+
+        colend;
+    }
+
+    // placeholder column
+    t +=  colstart + ' ' + colend;
+
+    return t;
+  }
+  makeExpanded2HTML(){
+    // the Foster expanded expression broken up to more clearly show component values.
+    // Not really used anymore; this functionality was added into the new circuitGrid() function,
+    // so that terms of the expression can be horizontally aligned with circuit components.
+    const colstart = '<div class="evenCol"><span class="math g">';
+    const colend = '</span></div>';
+
+    var componentLabels = []; // populate now for use later w/ SVG circuit diagram
+
+    // We will add several elements to the text string t; these are columns,
+    // where each is a term in the expanded expression, meant to line up with
+    // the svg circuit diagram component columns later.
+
+    // var t =  colstart + ' </span></div>'; // placeholder
+    var t = ''; // placeholder
+
+    // first column: only equals sign
+    t+= colstart + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= ' + colend; //
+
+    // k0
+    t+= colstart + ''+
+        this.fractionHTML(1,
+          this.fractionHTML(
+            this.k[0].den,
+            this.k[0].num, 'magenta'
+          )+'s'
+        ) +
+      colend; // Inverted fraction; first term (should be a capacitor)
+    componentLabels.push([''+this.k[0].den+'/'+this.k[0].num+' F']);
+
+    t+= colstart + ' + ' + colend; // plus sign
+
+    // koo
+    t+= colstart + ''+
+      '<span style="color:cyan">('+this.k[1].quo+')</span>'+
+      's' + colend;
+    componentLabels.push([''+this.k[1].quo+' H']);
+
+    // ki's
+    for (var i=2; i<this.k.length; i++){
+      console.log(`i:${i},this.k[i]:`);
+      console.log(this.k[i]);
+      var cap = this.gcd(this.k[i].den*this.a[i-1], this.k[i].num);
+
+      t+= colstart + ' + ' + colend+
+
+         colstart +
+          this.fractionHTML(
+            1,
+            this.fractionHTML(
+              this.k[i].den,
+              this.k[i].num,'magenta') + 's' +
+            ' + ' +
+            this.fractionHTML(
+              1,
+              this.fractionHTML(
+                cap[1],
+                cap[0],'cyan') + 's'
+            )
+          ) + colend;
+      componentLabels.push( [cap[1]+'/'+cap[0]+' H', this.k[i].den+'/'+this.k[i].num+' F'] );
+    }
+    // placeholder column
+    t +=  colstart + ' ' + colend;
+
+    this.componentLabels = componentLabels;
+    console.log('component labels:');
+    console.log(this.componentLabels);
+    return t;
+  }
+
+  makeCktHTML(){
+    // This makes the circuit diagram HTML, using one SVG element.
+    // Not really used anymore; replaced in favor of circuitGrid()
+
+    // var plots = {};
+    var plt = "fosterSVG";
+    this.plt = plt;
+    var defstext = '';
+    var margin = 0;
+    this.plots[plt] = makePlot(plt,"fosterIckt",margin,[-10, 10],[-2,2], 500, 100);
+    const w = this.plots[plt]["w"];
+    const h = this.plots[plt]["h"];
+
+    const ncols = this.componentLabels.length;
+    var iscap = true; // default
+    const colw = w/ncols;
+    const colw2 = colw/2;
+    const colw4 = colw/4;
+    const colw8 = colw/8;
+    const circleRadius = 3;
+    var colorIdx = 0;
+
+    // loop through columns and first add connecting lines.
+    // Components to be added later so they are drawn on top.
+    for (var ci=0; ci< ncols; ci++){
+      var i = ci;
+      var cx0 = ci*colw;
+      var cx1 = cx0 + colw;
+      var x0 = cx0 + colw4;
+      var x1 = x0 + colw2;
+
+        var col = this.componentLabels[i];
+        var nrows = col.length;
+        var lastLine = false;
+        // loop through rows
+        for (var j=0; j< nrows; j++){
+          var y0 = h*((j+1)/(nrows+1));
+          var y1 = h*((j+1)/(nrows+1));
+
+          iscap = this.componentLabels[i][j].slice(-1)=='F';
+          const color = (iscap?[255,0,255,1]:[0,255,255,1]);
+
+
+            var pathStr = `M${cx0}, ${y0}` +
+                          `L${x0}, ${y0}`;
+
+
+            var lineData = [ { "x": cx0, "y": y0},  { "x": x0, "y": y0} ];
+
+            var lineFunction = d3.line()
+                                     .x(function(d) { return d.x; })
+                                     .y(function(d) { return d.y; });
+            var xoff = nrows==1?colw4:colw8;
+            const gn = 100; // gradient number
+            //NOTE: start is outermost, not necesarily leftmost; stop is innermost
+            const arrstarts = [ [x0-xoff, y0], [x1+xoff, y1]];
+            const arrstops = [ [x0, y0], [x1, y1] ];
+            const colorstarts = [ [255,255,255,1], [255,255,255,1] ];
+            const colorstops = [ color, color ];
+            const colstarts = [ [cx0, h/2], [cx1, h/2]]
+
+            for (var cba=0;cba<2;cba++){
+
+              var arrstart = arrstarts[cba];
+              var arrstop = arrstops[cba];
+              var colorstart = colorstarts[cba];
+              var colorstop = colorstops[cba];
+              var colstart = colstarts[cba];
+
+              if (nrows>1){
+                this.plots[plt]["svg"].append("line")
+                  .attr("x1", arrstart[0] ).attr("y1", arrstart[1] )
+                  .attr("x2", arrstart[0] ).attr("y2", h/2 )
+                  .attr("stroke", "white")
+                  .attr("stroke-width", 1.5)
+                  .attr("stroke-linecap","round")
+                  .attr("stroke-linejoin","round");
+                this.plots[plt]["svg"].append("line")
+                  .attr("x1", arrstart[0] ).attr("y1", h/2 )
+                  .attr("x2", colstart[0]).attr("y2", h/2 )
+                  .attr("stroke", "white")
+                  .attr("stroke-width", 1.5)
+                  .attr("stroke-linecap","round")
+                  .attr("stroke-linejoin","round");
+              }
+
+              // solid color version:
+              this.plots[plt]["svg"].append("line")
+                  .attr("x1", arrstart[0] ).attr("y1", arrstart[1] )
+                  .attr("x2", arrstop[0] ).attr("y2", arrstop[1] )
+                  .attr("stroke", "white")
+                  .attr("stroke-width", 1.5)
+                  .attr("stroke-linecap","round")
+                  .attr("stroke-linejoin","round");
+
+              if ( (i==0 && cba==0) ){
+
+                this.plots[plt]["svg"].append("circle")
+                    .attr("cx", arrstart[0]-circleRadius )
+                    .attr("cy", arrstart[1] )
+                    .attr("r", circleRadius )
+                    .attr("stroke", "white")
+                    .attr("stroke-width", 1.5)
+                    .attr("fill","none");
+
+              }
+              if (i==ncols-1 && cba==1 && !lastLine) {
+
+                this.plots[plt]["svg"].append("line")
+                    .attr("x1", colstart[0] ).attr("y1", h/2 )
+                    .attr("x2", colstart[0] ).attr("y2", h )
+                    .attr("stroke", "white")
+                    .attr("stroke-width", 1.5)
+                    .attr("stroke-linecap","round")
+                    .attr("stroke-linejoin","round");
+
+                    var lineData = [ { "x": colstart[0], "y": h/2},
+                                      { "x": colstart[0], "y": h},
+                                      { "x": 0, "y": h}  ];
+
+                    var lineFunction = d3.line()
+                                             .x(function(d) { return d.x; })
+                                             .y(function(d) { return d.y; });
+                                             // .interpolate("cardinal");
+                    // console.log(lineFunction)
+                    //
+                    this.plots[plt]["svg"].append("path")
+                      .attr("d", lineFunction(lineData) )
+                      .attr("stroke", "white")
+                      .attr("stroke-width", 1.5)
+                      .attr("stroke-linecap","round")
+                      .attr("stroke-linejoin","round")
+                      .attr("fill", "none");
+
+                    this.plots[plt]["svg"].append("circle")
+                        .attr("cx", -circleRadius )
+                        .attr("cy", h )
+                        .attr("r", circleRadius )
+                        .attr("stroke", "white")
+                        .attr("stroke-width", 1.5)
+                        .attr("fill","none");
+
+                    lastLine = true;
+              }
+
+            }
+
+            colorIdx+=1;
+          } // end row loop
+
+        // } // end if check for non-boundary columns
+      // }
+
+    } // end column loop
+
+    // now add components over top
+    for (var ci=0; ci< ncols; ci++){
+      var i = ci;
+      var cx0 = ci*colw;
+      var cx1 = cx0 + colw;
+      var x0 = cx0 + colw4;
+      var x1 = x0 + colw2;
+
+
+        // main component columns
+
+        var col = this.componentLabels[i];
+        var nrows = col.length;
+
+        // loop through rows
+        for (var j=0; j< nrows; j++){
+          var y0 = h*((j+1)/(nrows+1));
+          var y1 = h*((j+1)/(nrows+1));
+          iscap = this.componentLabels[i][j].slice(-1)=='F';
+          const color = (iscap?[255,0,255,1]:[0,255,255,1]);
+          (iscap?capacitor:inductor)(
+              this.plots[plt]["svg"],
+              `rgba(${color[0]},${color[1]},${color[2]},${color[3]})`,
+              this.componentLabels[i][j],
+              [x0, y0],
+              [x1, y1],
+              (iscap?0.5:0.25), (iscap?0.5:1), 4);
+
+          // draw lines after
+          colorIdx+=1;
+        }
+    }
+
+
+     // console.log("makeCktHTML: following two objects: this.plots, this.plt");
+     // console.log(this.plots);
+     // console.log(this.plt);
+
+  }
+
+  circuitGrid(){
+    // a resizing grid consisting of multiple separate SVGs,
+    // so terms of the math expression can be horizontally aligned with the components.
+    // The components are also given colors matching their associated value within the Foster
+    // expanded expression.
+    const lineTextCommon = 'stroke-linejoin="round" stroke-linecap="round" style="'+
+      ' stroke: #e1e1e1; stroke-width:0.2em; vector-effect: non-scaling-stroke;" />';
+    const lineT = '<path d="M 50 0 V 50" '+lineTextCommon;
+    const lineL = '<path d="M 0 50 H 50" '+lineTextCommon;
+    const lineR = '<path d="M 50 50 H 100" '+lineTextCommon;
+    const lineB = '<path d="M 50 50 V 100" '+lineTextCommon;
+    const lineCircle = '<circle cx="50" cy="50" r="50" '+lineTextCommon;
+
+
+    var cols = '2em auto 2em auto 1em';
+    var rows = '1em 1em 40px';
+    var colSizes = [];
+    var rowSizes = ["7em",
+        "auto", "2em", "2em",
+        "2em",
+        "2em", "2em", "2em",
+        "auto", "2em" ];
+
+    this.grid = document.createElement('div');
+    this.grid.style.display = 'grid';
+    // this.grid.style.overflow = "visible";
+    this.grid.maxHeight = "25%";
+    document.getElementById('fosterIckt').appendChild(this.grid);
+    // grid.style.placeItems = "end center";
+    // grid.style.border = "0.1em solid blue";
+
+    //------
+    //
+    // the expression broken up to more clearly show component values.
+    const colstart = '<span class="math g">';
+    const colend = '</span>';
+    this.cellString = `
+overflow : visible;
+alignItems : center;
+justifyItems : center;
+position : relative;
+justifyContent : center;
+display : flex;
+    `;
+    var t ='';
+    this.colCount = 1;
+    var rowCount = 1; // both 1-based
+    this.cellCount = 0;
+    var colorCount = 0;
+
+    var componentLabels=[];
+
+    /* Rows:
+    1 [ expanded F(s) terms (or long division?)]  1 / 2
+    2 [ top element's label]            2 / 3
+    3   [ top element of parallel ]             3 / 4
+    4 [ branch to top element ]               4 / 5
+  *  5 [ main line, + branches/nodes ]
+    6 [ branch line to bottom element of parallel, or to first in serial to gnd ]
+    7 [ bottom element of parrallel  or ffirst part of irst component to gnd of serial ]
+    8 [ bottom element's label, second part of first serial element ]
+    9 [ | ]
+    10 [] - ]
+    11 [ T ]
+    12 [ | ]
+    13 [ o------+ ]
+    */
+    var cell, capLabel, indLabel, color;
+
+    // -------------------- col 1 ---------------
+    colSizes.push("0.5em");
+    this.gridAddCell( "1 / 2", [], colstart + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= ' + colend, "");
+    this.gridAddCell( "5 / 6", [lineCircle], "", "");
+    this.colCount+=1;
+
+
+    // -------------- col 2 ------
+
+    colSizes.push("3em");
+    this.gridAddCell( "5 / 6", [lineL,lineR], "", "");
+    // this.colCount+=1;
+
+
+    //
+    // K0
+    //
+    if (this.k[0].num!==0){
+      this.colCount+=1;
+      // ------------------ col 3 ----------------
+
+      colSizes.push("2em");
+      var color = this.color(colorCount); //incremented later so we skip if k0==0
+
+      // k0 label
+      t= colstart + ''+
+          this.fractionHTML(1,
+            this.fractionHTML(
+              this.k[0].den,
+              this.k[0].num, color
+            )+'s'
+          ) +
+        colend; // Inverted fraction; first term (should be a capacitor)
+      // capLabel = '<span style="white-space: nowrap;" >'+
+      //                     this.k[0].den+'/'+this.k[0].num+' F'+
+      //                 '</span>';
+      capLabel = '<span class="math" style="white-space: nowrap;color:'+color+';" >'+
+                  this.fractionHTML(this.k[0].den,this.k[0].num)+' F'+
+              '</span>';
+      componentLabels.push([capLabel]);
+
+      this.gridAddCell( "1 / 2", [], t, "");
+      cell = this.gridAddCell( "4 / 5", [], capLabel, "");
+      cell.style.alignItems = "end";
+      this.gridAddCell( "5 / 6", [], "", true, "", color);
+
+      this.colCount+=1;
+
+
+
+
+      // ---------- col 4 ------
+      colSizes.push("auto");
+      this.gridAddCell( "5 / 6", [lineL,lineR], "", "");
+      // add a plus sign for the expanded terms, if there's a koo component/term:
+      if (this.k[1].num!==0){
+        this.gridAddCell( "1 / 2", [], '+', "");
+        this.cellCount+=1;
+      }
+
+      // this.colCount+=1; // don't increment yet...
+    }
+    colorCount+=1;
+
+    //
+    // Koo
+    //
+    if (this.k[1].num!==0){
+      this.colCount+=1;
+      // ------------------ col 5 ----------------
+
+      colSizes.push("2em");
+      var color = this.color(colorCount); //incremented later so we skip if k0==0
+
+      // koo
+      t= colstart + ''+
+        '<span style="color:'+color+'">('+this.k[1].quo+')</span>'+
+        's' + colend;
+      // indLabel = '<span style="white-space: nowrap;" >'+
+      //   ( (this.k[1].den==1)? this.k[1].num : this.k[1].num+'/'+this.k[1].den)+' H'+
+      //               '</span>';
+      indLabel = '<span class="math" style="white-space: nowrap;color:'+color+';" >'+
+        this.fractionHTML(this.k[1].num,this.k[1].den)+' H'+
+              '</span>';
+
+      componentLabels.push([indLabel]);
+      this.gridAddCell( "1 / 2", [], t, "");
+      cell = this.gridAddCell( "4 / 5", [], indLabel, "");
+      cell.style.alignItems = "end";
+      this.gridAddCell( "5 / 6", [], "", false, "", color);
+      this.colCount+=1;
+
+      // ---------- col 6 --------------------------
+      colSizes.push("auto");
+      this.gridAddCell( "5 / 6", [lineL,lineR], "", "");
+      // this.colCount+=1; // don't increment yet...
+    }
+    colorCount+=1;
+
+    // ------------------ col 7+ ----------------
+    //
+    // ki's
+    //
+    var kiCount = 0;
+    for (var i=2; i<this.k.length; i++){
+      // Check that we have a non-zero residue/k value:
+      if (this.k[i].num !== 0){
+        // first, add the plus sign, if there was a term before this:
+        if ( (this.k[0].num!==0) || (this.k[1].num!==0) || (kiCount>0) ){
+          this.gridAddCell( "1 / 2", [], '+', "");
+          this.cellCount+=1;
+        }
+        // now we can move on:
+        this.colCount+=1;
+
+        // Left column: line branches
+
+        colSizes.push("2em");
+        //     1/2
+        //     2/3
+        //  ,- 3/4
+        //  |  4/5
+        // -|  5/6
+        //  |  6/7
+        //  '- 7/8
+        // this.gridAddCell( "3 / 4", [lineR,lineB], "", "");
+        // this.gridAddCell( "4 / 5", [lineT,lineB], "", "");
+        // this.gridAddCell( "5 / 6", [lineL,lineB,lineT], "", "");
+        // this.gridAddCell( "6 / 7", [lineT,lineB], "", "");
+        // this.gridAddCell( "7 / 8", [lineR,lineT], "", "");
+        this.gridAddCell( "4 / 5", [lineR,lineB], "", "");
+        // this.gridAddCell( "5 / 6", [lineT,lineB], "", "");
+        this.gridAddCell( "5 / 6", [lineL,lineB,lineT], "", "");
+        // this.gridAddCell( "6 / 7", [lineT,lineB], "", "");
+        this.gridAddCell( "6 / 7", [lineR,lineT], "", "");
+
+        // this.colCount+=1; // wait before updating: let equation term span 3 cols
+
+
+        // Center column: equation term, cmponents and their labels
+        colSizes.push("2em");
+        var ind = this.gcd(this.k[i].den*this.a[i-1], this.k[i].num);
+        var indColor = this.color(colorCount); colorCount+=1;
+        var capColor = this.color(colorCount); colorCount+=1;
+
+        t = colstart +
+            this.fractionHTML(
+              1,
+              this.fractionHTML(
+                this.k[i].den,
+                this.k[i].num,capColor) + 's' +
+              ' + ' +
+              this.fractionHTML(
+                1,
+                this.fractionHTML(
+                  ind[1],
+                  ind[0],indColor) + 's'
+              )
+            ) + colend;
+        indLabel = '<span style="white-space: nowrap;" >'+
+                          ind[1]+'/'+ind[0]+' H'+
+                       '</span>';
+        capLabel = '<span style="white-space: nowrap;" >'+
+                          this.k[i].den+'/'+this.k[i].num+' F'+
+                       '</span>';
+
+
+        indLabel = '<span class="math" style="white-space: nowrap;color:'+indColor+';" >'+
+             this.fractionHTML(ind[1],ind[0])+' H'+
+                   '</span>';
+        capLabel = '<span class="math" style="white-space: nowrap;color:'+capColor+';" >'+
+                     this.fractionHTML(this.k[i].den,this.k[i].num)+' F'+
+                 '</span>';
+        componentLabels.push( [indLabel, capLabel] );
+        // equation term
+        // top ind label
+        // top ind
+        //
+        //
+        //
+        // bottom cap
+        // bottom cap label
+        var termColSpan = ""+this.colCount+" / "+(this.colCount+3)+"";
+        cell = this.gridAddCell( "1 / 2", [], t, "", termColSpan); cell.style.height="9em";
+        this.colCount+=1;
+        // cell = this.gridAddCell( "2 / 3", [], indLabel, "");cell.style.alignItems = "end";
+        // this.gridAddCell( "3 / 4", [], "", false);
+        // //
+        // //
+        // //
+        // this.gridAddCell( "7 / 8", [], "", true);
+        // cell = this.gridAddCell( "8 / 9", [], capLabel, "");cell.style.alignItems = "start";
+
+        cell = this.gridAddCell( "3 / 4", [], indLabel, "");cell.style.alignItems = "end";
+        this.gridAddCell( "4 / 5", [], "", false, "", indColor);
+        //
+        //
+        //
+        this.gridAddCell( "6 / 7", [], "", true, "", capColor);
+        cell = this.gridAddCell( "7 / 8", [], capLabel, "");cell.style.alignItems = "start";
+
+
+        this.colCount+=1;
+
+
+        // Right column: line branches
+        colSizes.push("2em");
+        //     1/2
+        //     2/3
+        // -,  3/4
+        //  |  4/5
+        //  |- 5/6
+        //  |  6/7
+        // -'  7/8
+        //     8/9
+        // this.gridAddCell( "3 / 4", [lineL,lineB], "", "");
+        // this.gridAddCell( "4 / 5", [lineT,lineB], "", "");
+        // this.gridAddCell( "5 / 6", [lineR,lineB,lineT], "", "");
+        // this.gridAddCell( "6 / 7", [lineT,lineB], "", "");
+        // this.gridAddCell( "7 / 8", [lineL,lineT], "", "");
+        this.gridAddCell( "4 / 5", [lineL,lineB], "", "");
+        // this.gridAddCell( "4 / 5", [lineT,lineB], "", "");
+        this.gridAddCell( "5 / 6", [lineR,lineB,lineT], "", "");
+        // this.gridAddCell( "6 / 7", [lineT,lineB], "", "");
+        this.gridAddCell( "6 / 7", [lineL,lineT], "", "");
+
+        this.colCount+=1;
+
+        // add straight line column after:
+        colSizes.push( (i<this.k.length-1)?"auto":"1em");
+        this.gridAddCell( "5 / 6", [lineL,lineR], "", "");
+
+        // this.colCount+=1; // don't increment yet...
+        kiCount+=1;
+      }
+
+    }
+
+    this.colCount+=1;
+
+    //
+    //  Draw lines back around to the begining (node 0)
+    //
+    //                -,
+    //                 |  (multiple rows)
+    //  o     ----    -'
+    colSizes.push("2em");
+    this.gridAddCell( "5 / 6", [lineL,lineB], "", "");
+    var cell = this.gridAddCell( "6 / "+(rowSizes.length-1)+"", [lineT,lineB], "", "", ""+this.colCount);
+    // var cell = this.gridAddCell( "6 / "+(rowSizes.length-1)+"", [lineT,lineB], "", "");
+    // console.log(cell.childNodes[0]);
+    cell.style.overflow = "visible";
+    cell.style.alignSelf = "stretch";
+    // cell.childNodes[0].style.width = "";
+    // cell.childNodes[0].style.height = "100%"; // adjusting for variable-height/width VERTICAL
+
+    this.gridAddCell( ""+rowSizes.length+" / "+(rowSizes.length+1)+"",
+                                  [lineL,lineT], "", "");
+    var cell = this.gridAddCell( ""+rowSizes.length+" / "+(rowSizes.length+1)+"",
+                                  [lineL,lineR], "", "");
+    cell.style.gridColumn = "2 / "+this.colCount;
+    cell.style.zIndex = "-1";
+    var cell = this.gridAddCell( ""+rowSizes.length+" / "+(rowSizes.length+1)+"",
+          [lineCircle], "", "");
+    cell.style.gridColumn = "1 / 2";
+
+
+    this.grid.style.gridTemplateColumns = colSizes.join(' ');
+    this.grid.style.gridTemplateRows = rowSizes.join(' ');
+
+
+  }
+
+  gridAddCell(gridRow, lines, label, component, cols="", color="#fefefe"){
+    // Adds a cell to the grid created by circuitGrid().
+    // There are three main cases:
+    // line(s): SVGs of lines or circle
+    // label: text; usually a component's value of expression term.
+    // component: SVG of a component
+    //
+    // optional parameter cols will specif which columns this element spans.
+    // gridColumn is assumed to be this.colCount
+    // we will not do colSizes.push("2em") here, bc there would be redundancies
+        var cellID = "cell_"+this.cellCount;
+        var cell = document.createElement('div');
+        cell.id = cellID;
+        cell.style.cssText = this.cellString;
+        // cell.style.gridColumn = ""+this.colCount;
+        cell.style.gridRow = gridRow;
+        if (cols!==""){
+          cell.style.gridColumn = cols;
+        } else{
+          cell.style.gridColumn = ""+this.colCount;
+        }
+        // cell.style.alignSelf = "center";
+        // cell.style.justifySelf = "center";
+
+        this.grid.appendChild(cell);
+
+        if (label !== "") {
+          cell.innerHTML = label; //
+          cell.style.alignSelf = "center";
+          cell.style.justifySelf = "center";
+        }
+
+
+        if (component !== "") {
+          var componentID = "component_" + (component?"cap":"ind") + cellID ;
+          var svg = componentSVG(cellID, componentID, 2, 1, component, 0.2, color);
+
+          var svgn = cell.childNodes[cell.childNodes.length-1];
+
+          svgn.style.height = "1em";
+          svgn.style.width = "2em";
+          svgn.style.position = "absolute";
+          // svgn.style.bottom = "-0.5em";
+          svgn.style.left = "0em";
+          svgn.style.alignSelf = "center";
+          svgn.style.zIndex = "2";
+        }
+
+
+        if (lines.length > 0){
+          var innerHTML = '';
+          if (cols!==""){
+            innerHTML += '<svg height="100%" style ="';
+          } else {
+            innerHTML += '<svg width="100%" style ="';
+          }
+          innerHTML +='align-self: center; justify-self: center; overflow:visible;  left: 0em;" '+
+            'viewBox="0 0 100 100" >'+
+            lines.join("")+
+            '</svg>';
+            cell.innerHTML = innerHTML;
+        }
+
+        cell.style.alignItems = "center";
+        cell.style.justifyItems = "center";
+        cell.style.justifyContent = "center";
+        this.cellCount+=1;
+        return cell;
+
+  }
+
+  updateSVGTextSize(){
+    // this doesn't work...
+
+    // console.log("updateSVGTextSize");
+    // console.log(this.plots);
+    // console.log(this.plt);
+    var svg = this.plots[this.plt]["svg"]._groups[0][0];
+    var svg = document.getElementById('fosterSVG');
+    var texts = svg.getElementsByTagName('text');
+
+
+    // var svgBoundingBox = svg.getBoundingClientRect();
+    for (var i=0; i<texts.length; i++){
+      texts[i].setAttribute('font-size', '1em')
+    }
+  }
+  fractionHTML(num,den,color=null){
+    // Used a lot. Creates a fraction in html.
+    if (den==1){
+      return '<span class="" '+
+        (color==null?'':'style="color:'+color+';"') + '>' +
+        num+
+      '</span>';
+    }
+    return '<span class="fraction" '+
+      (color==null?'':'style="color:'+color+';"') + '>' +
+      '<span>'+num+'</span>'+
+      '<span class="symbol">/</span>'+
+      '<span class="bottom">'+den+'</span>'+
+    '</span>';
+
+  }
+
+  arrInterp(arr1,arr2,ratio){
+    // array interpolation... not used
+    var arr = []
+    for (var ch=0;ch<arr1.length;ch++){
+      arr.push( (ratio * (arr2[ch]-arr1[ch])) + arr1[ch] )
+    }
+    return arr;
+
+  }
+
+  monotonic(arr){
+    // modifies a sequence to be monotonically increasing
+    const l = arr.length;
+    const smalls = [];
+    const before = Array(l).fill(-1);
+    const inds = Array(l).fill(-1);
+
+    for (var i=0; i<l; i++){
+      const smallestIdx = binSearch(smalls, arr[i]);
+      // if this is the last:
+      if (smallestIdx == arr[j]){
+        smalls.push(arr[i]);
+      } else{
+        smalls[smallestIdx] = arr[i];
+
+      }
+      inds[i] = smallestIdx;
+      if (smallestIdx > 0){
+        before[i] = inds.indexOf(smallestIdx-1);
+      }
+    }
+
+
+
+
+  }
+
+  checkPRF(bnew,anew){
+    // Check to see if a prospective change to F(s) would be result in a valid PRF or not
+    var prf = true;
+
+    // Check that the residues are positive:
+    var knew = this.solveResidues(bnew,anew).map( (d) => d.quo);
+    prf &= knew.reduce( (allPos, d) => allPos && d>=0, true );
+
+    //TODO: check that residues are real?
+    return prf;
+  }
+
+  alertInvalidPRF(){
+    // alert that a change would be invalid
+    var inval = document.getElementById('invalidPRF');
+    inval.classList.add('show');
+    console.log('inval span classes:');
+    console.log(inval.classList);
+    inval.addEventListener('animationend', () => {
+      console.log('timeout of animation...')
+      inval.classList.remove('show');
+    });
+  }
+
+  handlePRF(bnew,anew,bypass=false){
+    // wrapper to check if a change will be valid, alert if //
+    const prf = this.checkPRF(bnew,anew);
+
+    if (prf) {
+
+      // set this object's b and a values to what we passed in
+      this.b = JSON.parse(JSON.stringify(bnew));
+      this.a = JSON.parse(JSON.stringify(anew));
+
+      // perform updates
+      this.makeHTML();
+      this.updateAll();
+
+    } else {
+      if (bypass){
+        console.log("bypassing...");
+      } else {
+
+        this.alertInvalidPRF();
+        console.log('\n\nThe attempted change would have resulted in an invalid PRF!!!\n\n');
+      }
+      // this.updateAll();
+    }
+    return prf;
+  }
+
+  updateAll(){
+    // update the entire page, or at least all elements associated with this F(s).
+    this.bns = this.distributePolynomials(0,this.b);
+    this.ans = this.distributePolynomials(0,this.a);
+
+    if (this.dist != null) {
+      this.dist.innerHTML = '<span class="math">'+
+                            this.makeDistributedHTML(this.bns,this.ans)+
+                            '</span>';
+    }
+    // var bk0 = this.b;
+    // bk0[0] = 1;
+    // this.Fsk0 = new Fs( this.b)
+    this.k = this.solveResidues(this.b,this.a);
+
+    console.log(`Residues :`);
+    // console.log(res);
+    console.log(this.k);
+
+
+    if (this.kis != null) {
+      this.kis.innerHTML = this.makeKisHTML();
+      // add feature to hide intermediate steps:
+      var infob = document.getElementById("infobutton");
+      infob.onclick = function() {
+        var hidables = document.getElementsByClassName("intermediateStep");
+        for (const hid of hidables){
+          if (hid.style.display !== 'none'){
+            hid.style.display = 'none';
+            infob.innerHTML = '&#9432;+';
+            infob.title="Show Intermediate Steps";
+          } else {
+            hid.style.display = 'inline-block';
+            infob.innerHTML = '&#9432;-';
+            infob.title="Hide Intermediate Steps";
+          }
+        }
+      }
+
+      // "intermediateStep"
+    }
+    if (this.expandedHTML != null) {
+      this.expandedHTML.innerHTML = this.makeExpandedHTML();
+    }
+    // if (this.expanded2HTML != null) {
+    //   this.expanded2HTML.innerHTML = this.makeExpanded2HTML();
+    // }
+
+    if (this.ckt != null) {
+      this.ckt.innerHTML = '';
+      // this.makeCktHTML();
+      this.circuitGrid();
+      // updateSVGTextSize()
+      // // event listener for font sizes:
+      // window.addEventListener('resize', updateSVGTextSize);
+    }
+
+
+  }
+
+
+}
+
+// function updateSVGTextSize(){
+//   console.log("updateSVGTextSize");
+//   // console.log(this.plots);
+//   // console.log(this.plt);
+//   // var svg = this.plots[this.plt]["svg"]._groups[0][0];
+//   var svg = document.getElementById('fosterSVG');
+//   var texts = svg.getElementsByTagName('text');
+//
+//
+//   // var svgBoundingBox = svg.getBoundingClientRect();
+//   for (var i=0; i<texts.length; i++){
+//     texts[i].setAttribute('font-size', '12px')
+//   }
+// }
+
+// const fs1obj = new Fs([1, 69, 42], [0, 3, 4],
+//                   'fs1', document.getElementById('puthere'));
+// fs1obj.makeHMTL();
+// console.log(fs1obj);
+
+
+// const fs1obj = new Fs([0, 1, 5, 20], [1, 2, 10], 'fs1',
+//                       document.getElementById('fosterIex'),
+//                       document.getElementById('fosterIexD'),
+//                       document.getElementById('fosterIexK'),
+//                       document.getElementById('fosterIexExpanded'),
+//                       document.getElementById('fosterIexExpanded2'),
+//                       document.getElementById('fosterIckt'));
+
+
+// main call, creates an instance of the Fs class.
+const fs1obj = new Fs([0, 1, 5, 20], [1, 2, 10], 'fs1',
+                      document.getElementById('fosterIex'),
+                      document.getElementById('fosterIexD'),
+                      document.getElementById('fosterIexK'),
+                      document.getElementById('fosterIexExpanded'),
+                      document.getElementById('fosterIexExpanded2'),
+                      document.getElementById('fosterIckt'));
+// fs1obj.makeHMTL();
+// console.log(fs1obj);
+// console.log("b");
+// var bb = fs1obj.nsToHTML(fs1obj.bns);
+// console.log("a");
+// var aa = fs1obj.nsToHTML(fs1obj.ans);
+//
+// document.getElementById('fosterIexD').innerHTML = '<span class="math" id="j"> ='+
+//   '<span class="fraction">'+
+//     '<span>'+bb+'</span>'+
+//     '<span class="symbol">/</span>'+
+//     '<span class="bottom">'+aa+'</span>'+
+//   '</span>'+
+// '</span>';
+
+// document.getElementById('puthere').innerHTML = inhtml;
+// modified from D3 tutorials
+// https://d3-graph-gallery.com/graph/scatter_basic.html
+
+
+var plots = {}; // where all the main data will be stored.
+
+
+//
+//      S-plane / Z-plane plot ------------------------------------------------
+//
+
+// ------------- Initial setup ----------------------------------
+
+
+function makePlot(plt,parentDiv,margin,xDomain,yDomain,wview, hview, addAxes=false){
+  console.log(parentDiv);
+  // makes an svg/d3 plot. More useful for plots with axes and labels.
+  // var plt = "planePlot"; // key name for modularity
+  var plots = {};
+  plots[plt] = {
+    top: margin, right: margin, bottom: margin, left: margin,
+    parentDiv: parentDiv,
+    xDomain: xDomain,
+    yDomain: yDomain,
+
+    // top: 10, right: 10, bottom: 10, left: 10,
+    // parentDiv: "s-plane-z-plane",
+    // xDomain: [-10, 10],
+    // yDomain: [-10, 10],
+    data:[]
+
+  };
+
+  // plots[plt]["wview"] = 500;
+  // plots[plt]["hview"] = 500;
+
+  plots[plt]["wview"] = wview;
+  plots[plt]["hview"] = hview;
+  plots[plt]["w"] = plots[plt]["wview"] - plots[plt].left - plots[plt].right
+  plots[plt]["h"] = plots[plt]["hview"] - plots[plt].top - plots[plt].bottom
+  plots[plt]["w2"] = plots[plt]["w"]/2;
+  plots[plt]["h2"] = plots[plt]["h"]/2;
+  plots[plt]["xRange"] = [0, plots[plt]["w"]];
+  plots[plt]["yRange"] = [0, plots[plt]["h"]];
+
+  plots[plt]["xsc"] = plots[plt].w/(plots[plt].xDomain[1]-plots[plt].xDomain[0]);
+  plots[plt]["ysc"] = plots[plt].h/(plots[plt].yDomain[1]-plots[plt].yDomain[0]);
+
+
+
+  // append the svg object to the body of the page
+  // Note: no height/width, just viewbox, to stay responsive
+  plots[plt]["svg"] = d3.select("div#"+plots[plt].parentDiv)
+    .append("svg")
+      .attr("id", plt)
+      .attr("preserveAspectRatio", "xMidYMid meet")
+      .attr("viewBox", `0 0 ${plots[plt].wview} ${plots[plt].hview}`)
+      .classed("responsiveSVG", true)
+  plots[plt]["svg"].append("style")
+    .text(`
+      .svgmath{
+
+        font-family: serif;
+
+      }
+      `);
+  plots[plt]["svg"].append("g")
+    .attr("id", "ax1")
+    .attr("transform", "translate("+ plots[plt].left+ ","+ plots[plt].top+ ")");
+
+  if (addAxes){
+    // Add X axis
+    plots[plt]["xAxis"]  = d3.scaleLinear()
+      .domain(plots[plt].xDomain)
+      .range(plots[plt].xRange);
+
+    plots[plt]["svg"].append("g")
+      .attr("transform", "translate(0," + plots[plt].h2 + ")")
+      .call(d3.axisBottom(plots[plt].xAxis));
+
+    // Add Y axis
+    plots[plt]["yAxis"] = d3.scaleLinear()
+      .domain(plots[plt].yDomain)
+      .range(plots[plt].yRange);
+
+    plots[plt]["svg"].append("g")
+      .attr("transform", "translate(" + plots[plt].w2 + ",0)")
+      .call(d3.axisLeft(plots[plt].yAxis));
+  }
+
+  console.log(plots[plt]["svg"]);
+  return plots[plt];
+};
+
+// var plots = {};
+// var plt = "planePlot";
+// plots[plt] = makePlot(plt,"s-plane-z-plane",10,[-10, 10],[-10, 10], 500, 500);
+//
+// plt="fosterIckt";
+// plots[plt] = makePlot(plt,"fosterI",10,[-10, 10],[-10, 10], 500, 200);
+// const w = plots[plt]["w"];
+// inductor(plots[plt]["svg"], "red", "H",
+//       [plots[plt]["w2"]*1.5, plots[plt]["h2"]-(2*plots[plt].ysc)],
+//       [(plots[plt]["w2"]*1.5) + (2*plots[plt].xsc), plots[plt]["h2"]-(2*plots[plt].ysc)],
+//        0.25, 1.5, 4);
+//
+// capacitor(plots[plt]["svg"], "green", "F",
+//       [(plots[plt]["w2"]*1.5), plots[plt]["h2"]+ (2*plots[plt].ysc)],
+//       [(plots[plt]["w2"]*1.5) +(2*plots[plt].xsc), plots[plt]["h2"]+(2*plots[plt].ysc)],
+//       0.5, 1.5);
+//
+
+
+// -----------------------------------------------
+
+
+
+
+
+// const angles = [-Math.PI, -Math.PI/2, 0, Math.PI/2, Math.PI];
+//
+// var lines = [
+//                 {r:3,cxo:0,cyo:0,color:"blue",pathName:"planePathArcOuter"},
+//                 {r:1.5,cxo:-plots[plt].xsc*1.5,cyo:0,color:"green",pathName:"planePathArcInner"}
+//               ];
+//
+// for (var i=0; i<lines.length; i++ ){
+//   plots[plt].data[i] = {};
+//   plots[plt].data[i].pathName = lines[i].pathName;
+//   plots[plt].data[i].color = lines[i].color;
+//   plots[plt].data[i].r = lines[i].r;
+//   plots[plt].data[i].rs = plots[plt].data[i].r * plots[plt].xsc;
+//   plots[plt].data[i].cpd = plots[plt].data[i].rs*4*(Math.sqrt(2)-1)/3;
+//   plots[plt].data[i].cx = plots[plt].w2 - plots[plt].data[i].rs +lines[i].cxo,
+//   plots[plt].data[i].cy = plots[plt].h2 +lines[i].cyo;
+//
+//
+//
+//   plots[plt].data[i].arcs = anglesToArcs(angles, plots[plt].data[i].cx, plots[plt].data[i].cy,
+//     plots[plt].data[i].rs, plots[plt].data[i].cpd, angles.map((x)=>0))
+//
+//   // plots[plt].data[i].pathName =
+//   plots[plt].svg.append("path")
+//     .attr("id",plots[plt].data[i].pathName);
+//
+//   // addCurveOutlineInit
+//   // console.log(plots[plt].data[i].pathName);
+//   plots[plt].data[i].ggs = multiArcInit("ax1", plots[plt].data[i].pathName,
+//     plots[plt].data[i].arcs, plots[plt].data[i].color, 0);
+//
+// }
+// console.log(plots[plt].sc);
+// console.log(plots[plt].data[0].arcs);
+
+// -----------------------------------------------
+
+
+
+// for scrolling effects ------------------------------
+window.addEventListener('scroll',scroller);
+
+function scroller(){
+  // event listener for animations or motion-graphics like transitions.
+
+  // const nvbs = document.documentElement.scrollHeight/window.innerHeight; // number of vertical blocks
+  //
+  // const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+  //
+  // const scrollpoint = window.scrollY / scrollable;
+
+  const scrollpoint = window.scrollY / window.innerHeight;
+
+  updatecharts(scrollpoint);
+}
+
+
+
+function updatecharts(scrollpoint){
+
+  // linearly interpolate/scale by scroll positions (should map to negaive scales too):
+  function interpsc(sp,s0,s1,v0,v1){ // scroll-point,start, stop, min value, max value
+    const v = ( (sp-s0)/(s1-s0) * (v1-v0) ) + v0; // calculate scaled value
+    const minpossible = Math.min(v0,v1);
+    const maxpossible = Math.max(v0,v1);
+    return Math.max(Math.min(maxpossible, v), minpossible); // clip to limits
+  }
+
+  // series of if statements to focus the scroll-based CSS updating to only specific segments
+  // if (scrollpoint <= 6.5 ){
+
+
+
+    var p1 = 2,
+        p2 = 1.9+1;
+
+    //
+    // for (var i=0; i<lines.length; i++ ){
+    //
+    //   var angsc = angles.map( (angle) => interpsc(scrollpoint, p1, p2, 0, angle) )
+    //
+    //   var yoffs = angsc.map( (angle,idx) => interpsc(scrollpoint,
+    //     p1, p2, plots[plt].data[i].rs * angles[idx], 0) ) // this helps with y height
+    //   // console.log(angsc.map( (d) => (d*plots[plt].data[i].rs)) );
+    //   // console.log(yoffs);
+    //
+    //   var cpdsc = interpsc(scrollpoint, p1, p2, 0, plots[plt].data[i].cpd);
+    //
+    //   // console.log([yoffs[0],yoffs[yoffs.length-1]])
+    //   plots[plt].data[i].arcs = anglesToArcs(angsc, plots[plt].data[i].cx, plots[plt].data[i].cy,
+    //     plots[plt].data[i].rs, cpdsc, yoffs)
+    //
+    //
+    //   // arcs2 = arcs2.map( (c) => [c[0], c[1] ]);
+    //
+    //
+    //   multiArc("ax1", plots[plt].data[i].pathName, plots[plt].data[i].arcs,
+    //     plots[plt].data[i].color, plots[plt].data[i].ggs);
+    //
+    // }
+
+
+
+  // } else if(scrollpoint > 6.5){
+  //   0;
+  // }
+}
+
+
+
+</script>
+
+</body>
+
+</html>
