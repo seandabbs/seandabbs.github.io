@@ -13,40 +13,37 @@
 *{
   font-family: Verdana, sans-serif;
   overflow: visible;
-  color: #ddd;
+  color: #c6c9cc;
 }
 
-@media screen and (max-width: 3in){
-  body{
-    /* font-size: 0.22in; */
-  }
-}
-@media screen and (min-width: 3.001in){
-  body{
-    /* font-size: 0.33in; */
-  }
-}
 
 html{
-  height: 100%;
+  /* height: 100%; */
+  background-color:#111;
+  /* background-image: url("media/bg_noise.png"); */
+  background-repeat: repeat;
+  background-attachment: fixed;
+
 }
 
 
 body{
-  background-color: #111111;
+  background-color:#111;
+  /* backdrop-filter: blur(1px) brightness(60%) contrast(90%); */
+
+  /* background-color: #111; */
   /* background: linear-gradient(180deg, #222, #111); */
   margin:0;
   padding:0;
-  body: 100%;
   /* background-image: url('media/parallaxPattern.png'); */
   /* background-color: red; */
-  height: 1em;
-  background-attachment: fixed;
+  /* background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
-  /* overflow-x:hidden; */
+  background-size: cover; */
 
+  /* overflow-x:hidden; */
+  
 }
 
 .parallax {
@@ -59,9 +56,6 @@ body{
   background-size: cover;
 }
 
-.block {
-  box-shadow(5px 25px 2px #000);
-}
 
 div, center{
   margin:0;
@@ -72,7 +66,10 @@ h1, h2, h3, p{
   /* padding:1em 1em 0.25em 1em; */
   margin:0;
 }
-
+h4{
+  padding-top: 0;
+  padding-left:1em;
+}
 code{
   font-family: monospace;
 }
@@ -87,12 +84,34 @@ code{
 .grid > div{
   min-width: 2rem;
 }
-.hello{
+.gradient{
   background: linear-gradient(to top, #00a 0%, #5DABB5 33%, #5DABB5 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
 
+}
+div.gradient{
+  text-align:center;
+  font-size: x-large;
+  width: 100%;
+
+}
+iframe{
+  margin-top: 0.5em;
+  margin-bottom: 0.5ch;
+}
+article{
+  padding: 3vh 3vw;
+}
+main{
+  background-color: #0000;
+}
+.figure{
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1vh;
+  /* box-shadow: inset 0.5vh 0.5vh 0.5vh rgba(0,0,0,0.4), inset -0.5vh -0.5vh 0.5vh rgba(255,255,255,0.4); */
 }
 .MATLAB {
   background: linear-gradient(to top, #2222ff 0%, #000 100%);
@@ -119,174 +138,141 @@ display: inline-block;}
 -webkit-text-fill-color: transparent;
 display: inline-block;}
 
-/* .inHello{
-  white-space: nowrap;
-  overflow:hidden;
-}
-.isHello{
-  display: inline-block;
-} */
-.innerBlock{
-
-  padding: 3vh 3vw;
-}
-.flex{
-display: flex;
-justify-content: space-between;
-flex-wrap: wrap;
-align-content: center;
-justify-content: space-around;
-    }
 
 </style>
 
-<body style="overflow:visible; ">
+<body>
 
-  <div class="parallax" style="height:5vh;"></div>
+<main>
 
+<article class="block" >
+  <h2 class="gradient">Hello.</h2>
+  <h4 style="color:#eeeeee">
+  <p>
+    This is an interactive portfolio of some of the software I've developed, in no particular order. Interest areas include...
+    <ul>
+      <li>&nbsp;Data&nbsp;Visualization&nbsp;</li>
+      <li>&nbsp;Electromagnetics&nbsp;</li>
+      <li>&nbsp;Image&nbsp;Processing&nbsp;</li>
+      <li>&nbsp;3D&nbsp;Graphics&nbsp;</li>
+      <li>&nbsp;UI/UX</li>
+    </ul>
+    My github profile is <a href="https://github.com/seandabbs">here</a>. 
+  </p>
+  </h4>
+</article>
 
-<div style="" class="block" style="height:54vh;">
-  <div class="innerBlock" style="height:100%">
-    <h1 class="">Hello.</h1>
-    <h4 style="color:#eee">
-      This is an interactive portfolio of some of my software developed for personal projects or school assignments.<br><br>
+<div class="gradient" aria-role="none" >⁂ ⁂ ⁂</div>
 
-      <a style="margin-bottom:3vh">Interest areas include...<br></a>
-      <span style="width:100%;" class="flex centerdiv">
-        <a>&nbsp;Data&nbsp;Visualization&nbsp;</a>
-        <a>&nbsp;Electromagnetics&nbsp;</a>
-        <a>&nbsp;Image&nbsp;Processing&nbsp;</a>
-      </span><br>
-      My github profile is <a href="https://github.com/seandabbs">here</a>. </h4>
-      <!-- <h1 class="flex">&#x2193;&nbsp;&#x2193;&nbsp;&#x2193;</h1> -->
-  </div>
-</div>
-
-<div class="parallax" style="height:5vh;text-align:center;">⁂ ⁂ ⁂</div>
-
-<!--<div style="background:#DAB;padding:0em;" class="block frosted">-->
-
-<div style="" class="block" id="p1">
-
-  <div class="innerBlock">
-    <h3 style="filter: none">NTSC Analog Television Signal Demonstration</h3>
-
-    <h4 style="padding-top: 0;padding-left:1em;" >
-      <a class="" >(MATLAB)</a> <a href="https://github.com/seandabbs/NTSC_Analog_Television">Source Code</a>
-    </h4>
+<article class="block" id="p1">
+  <h3>NTSC Analog Television Signal Demonstration</h3>
+  <h4>(MATLAB) <a href="https://github.com/seandabbs/NTSC_Analog_Television">Source Code</a></h4>
   <center>
-    <img class="figure" style="width:min(97%, 90vmin);" src="media/ntsc_signal.png">
+    <img class="figure" style="width:min(97%, 90vmin);" src="media/ntsc_signal.png" alt="A line plot of sinusoidal data representing TV image signals.">
   </center>
-    <center>
-      <video controls class="figure" style="width:min(97%, 90vmin);">
-        <source src="media/ntsc.webm" type="video/webm">
-        <source src="media/ntsc.mp4" type="video/mp4">
-        <source src="media/NTSC_Animation1.ogg" type="video/ogg">
-        <p>Alt text: a 3D model of a CRT television scanning, along with plots showing the signal.</p>
-      </video>
-    </center>
+  <center>
+    <video controls class="figure" style="width:min(97%, 90vmin);">
+      <source src="media/ntsc.webm" type="video/webm">
+      <source src="media/ntsc.mp4" type="video/mp4">
+      <source src="media/NTSC_Animation1.ogg" type="video/ogg">
+      <p>Alt text: a 3D model of a CRT television scanning, along with plots showing the signal.</p>
+    </video>
+  </center>
+  <p>
+    This script converts an input image into an NTSC television signal, and animates the signal along with an IQ plot and stylized CRT raster scan. My goal was to illustrate how color information is encoded in analog TV.
+  </p>
+</article>
 
-    <p>This script converts an input image into an NTSC television signal, and animates the signal along with an IQ plot and stylized CRT raster scan. My goal was to illustrate how color information is encoded in analog TV.
-    </p>
-  </div>
-</div>
-
-<div class="parallax" style="height:5vh;text-align:center;">⁂ ⁂ ⁂</div>
-
-<!--<div style="background:#5DABB5;padding:0em;" class="block frosted">-->
-<div style="" class="block" id="p2">
-  <div class="innerBlock">
-    <h3>Texture Analysis with Machine Learning</h3>
-    <h4 style="padding-top: 0;padding-left:1em;" >
-      <a class="" >(Python/TensorFlow/MATLAB)</a>
-    </h4>
-    <center style="">
-      <img class="figure" style="width:min(97%, 90vmin);margin:0 0;padding:0 0;" src="media/iPhoneClasses.png"><br>
-      <img class="figure" style="width:min(97%, 90vmin);margin:0 0;padding:0 0;" src="media/pyramids.png">
-    </center>
-    <p>Part of a group project for a class. A ResNet model was trained on data from the Describable Textures Dataset, then used to classify the textures in images of household objects. Some experiments were also performed with classifying different levels of image resolution pyramids.</p>
-  </div>
-</div>
-
-<div class="parallax" style="height:5vh;text-align:center;">⁂ ⁂ ⁂</div>
-
-<div style="" class="block">
-  <div class="innerBlock">
-    <h3>COVID and Happiness: Data Visualization</h3>
-    <h4 style="padding-top: 0;padding-left:1em;" >
-      <a class="" >(JavaScript/d3.js/CSS/HTML)</a> <a href="https://github.com/seandabbs/COVID_Happiness_Data_Science">Source Code</a>
-    </h4>
-    <center>
-      <img class="figure" style="width:min(100%, 90vmin);" src="media/COVIDHappinessCountries.png"><br>
-    </center>
-
-    <p style="margin-bottom:3vh;">An interactive single-page app developed for a data science class visualization project. The page provides parallax scrolling, animations, interactive tooltips, and menus as the user explores the data from several perspectives. See this web app in a <a href="pages/COVIDHappiness.html">separate page</a> (animations work best with full screen) or see embedded page below.<br></p>
-    <center>
-      <iframe class="figure" style="border:none;width:100%; height: 90vh;" src="pages/COVIDHappiness.html"></iframe>
-    </center>
-  </div>
-</div>
-
-<div class="parallax" style="height:5vh;text-align:center;">⁂ ⁂ ⁂</div>
-
-<div style="" class="block">
-  <div class="innerBlock">
-    <h3>Network Synthesis</h3>
-    <h4 style="padding-top: 0;padding-left:1em;" >
-      <a class="" >(JavaScript/d3.js/CSS/HTML)</a> <!--<a href="https://github.com/seandabbs/xxxxxxxx">Source Code</a>-->
-    </h4>
-    <p style="margin-bottom:3vh;">This tool generates a circuit diagram from a given impedence function in the Laplace domain, F(s), using one method of
-      <a href="https://en.wikipedia.org/wiki/Network_synthesis">network synthesis</a>.
-      The user can edit parts of F(s) and see the equations and circuit change, to better visualize the synthesis process.
-      View in a <a href="pages/NetworkSynthesis.html">separate page</a> or see embedded page below.<br></p>
-    <center>
-      <iframe class="figure" style="border:none; width:100%; height: 95vh;" src="pages/NetworkSynthesis.html"></iframe>
-    </center>
-  </div>
-
-<div class="parallax" style="height:5vh;text-align:center;">⁂ ⁂ ⁂</div>
-
-<div style="" class="block">
-  <div class="innerBlock">
-    <h3>Tileable Hexagons</h3>
-    <h4 style="padding-top: 0;padding-left:1em;" >
-      <a class="" >(JavaScript/CSS/HTML)</a> <a href="https://github.com/seandabbs/Tileable_Hexagons">Source Code</a>
-    </h4>
-    <center>
-      <video controls class="figure" style="width:min(50%, 45vmin);">
-        <source src="media/hex1.mp4" type="video/mp4">
-        <source src="media/hex1.webm" type="video/hex1.webm">
-      </video>
-      <video controls class="figure" style="width:min(50%, 45vmin);">
-        <source src="media/hex2.mp4" type="video/mp4">
-        <source src="media/hex2.webm" type="video/hex2.webm">
-      </video><br>
-      <img class="figure" style="width:min(100%, 90vmin);" src="media/hex3.png"><br>
-    </center>
-    <p style="margin-bottom:3vh;">A personal project. This is part visualization and geometry, part art. See this web app in a <a href="pages/HexGrid.html">separate page</a> (best with full screen) or see embedded page below.<br></p>
-    <center>
-      <iframe class="figure" style="border:none; width:100%; height: 95vh;" src="pages/HexGrid.html"></iframe>
-    </center>
-  </div>
+<div class="gradient" aria-role="none" >⁂ ⁂ ⁂</div>
 
 
+<article class="block" id="p2">
+  <h3 >3D Modeling Tool</h3>
+  <h4 >(Vanilla JavaScript, HTML, CSS, SVG)</h4>
+  <center>
+    <img class="figure" src="media/3dmodeling1.png" alt="A graphical user interface for a 3D modeling application. Some controls are shown, along with an organic blob shape and a simple cube.">
+  </center>
+  <p>
+    An application for 3D mesh and curve modeling. Supports import of Blender .blend files. Written from scratch in vanilla JS, without webGL or any other libraries. Work in progress.
+  </p>
+</article>
 
-</div>
+<div class="gradient" aria-role="none" >⁂ ⁂ ⁂</div>
 
+<article class="block" id="p3">
+  <h3>Texture Analysis with Machine Learning</h3>
+  <h4 >(Python, TensorFlow, MATLAB)</h4>
+  <center style="">
+    <img class="figure" style="width:min(97%, 90vmin);margin:0 0;padding:0 0;" src="media/iPhoneClasses.png" alt="A five-by-five group of close-up photographs of common household objects, such as striped shirts, tile flooring, wood flooring, and houseplants. Each photo is labeled with a category of texture, such as 'wrinkled', 'bumpy', or 'zigzagged'."><br>
+    <img class="figure" style="width:min(97%, 90vmin);margin:0 0;padding:0 0;" src="media/pyramids.png" alt="Four stacks of images, each shown with duplicates of itself in decreasing size going up, forming a 'pyramid' shape. Each image pyramid is labeled with one texture category for each layer, as well as a 'true' category.">
+  </center>
+  <p>Part of a group project for a class. A ResNet model was trained on data from the Describable Textures Dataset, then used to classify the textures in images of household objects. Some experiments were also performed with classifying different levels of image resolution pyramids.</p>
 
-<!--
+</article>
 
-<div class="parallax" style="height:5vh;"></div> -->
+<div class="gradient" >⁂ ⁂ ⁂</div>
 
+<article class="block">
+  <h3>COVID and Happiness: Data Visualization</h3>
+  <h4>(JavaScript, d3.js, CSS, HTML) <a href="https://github.com/seandabbs/COVID_Happiness_Data_Science">Source Code</a></h4>
+  <center>
+    <img class="figure" style="width:min(100%, 90vmin);" src="media/COVIDHappinessCountries.png" alt="A screenshot of an application showing data for populations on different continents. Six line plots are labeled Africa, Asia, Europe, North America, Oceania, and South America. The user interface shows options for displaying different variables on these plots, such as 'Life ladder', and 'Social suppoort'."><br>
+  </center>
+  <p>
+    An interactive single-page app developed for a data science class visualization project. The page provides parallax scrolling, animations, interactive tooltips, and menus as the user explores the data from several perspectives. See this web app in a <a href="pages/COVIDHappiness.html">separate page</a> (animations work best with full screen) or see embedded page below.
+  </p>
+  <center>
+    <iframe class="figure" style="border:none;width:100%; height: 90vh;" src="pages/COVIDHappiness.html"></iframe>
+  </center>
+</article>
 
-<!--
-<div style="background:#78b;padding:0em;">
-  <h2>Gear Tool</h2>
-</div>
--->
+<div class="gradient" aria-role="none">⁂ ⁂ ⁂</div>
 
+<article class="block">
+  <h3>Network Synthesis</h3>
+  <h4 >(JavaScript, d3.js, CSS, HTML, SVG)</h4>
+  <center>
+    <img class="figure" style="width:min(100%, 90vmin);" src="media/fosterI1.png" alt="A screenshot of an application showing: a polynomial equation in fractional binomial form; algebraic expansion of that equation and isolation of certain resulting values; and a circuit diagram with those values labeling the capacitors and inductors.">
+  </center>
+  <p >
+    This tool generates a circuit diagram using the Foster I method of
+    <a href="https://en.wikipedia.org/wiki/Network_synthesis">network synthesis</a>, historically used for designing analog electronic filters and equalizers.
+    The algebra and circuit diagram will update in response to editing equation F(s), the impedence function in the Laplace domain. 
+    View in a <a href="pages/NetworkSynthesis.html">separate page</a> or see embedded page below.
+  </p>
+  <center>
+    <iframe class="figure" style="border:none; width:100%; height: 95vh;" src="pages/NetworkSynthesis.html"></iframe>
+  </center>
+</article>
 
-<div class="parallax"></div>
+<div class="gradient" aria-role="none" >⁂ ⁂ ⁂</div>
+
+<article class="block">
+  <h3>Tileable Hexagons</h3>
+  <h4 >(JavaScript, CSS, HTML, SVG) <a href="https://github.com/seandabbs/Tileable_Hexagons">Source Code</a></h4>
+  <center>
+    <video controls class="figure" style="width:min(50%, 45vmin);">
+      <source src="media/hex1.mp4" type="video/mp4">
+      <source src="media/hex1.webm" type="video/hex1.webm">
+      <p>Alt text: a 3D model of a spinning snowflake-like shape, composed of heavily stylized curved hexagons.</p>
+    </video>
+    <video controls class="figure" style="width:min(50%, 45vmin);">
+      <source src="media/hex2.mp4" type="video/mp4">
+      <source src="media/hex2.webm" type="video/hex2.webm">
+      <p>Alt text: a 3D model of a spinning torus composed of hexagons.</p>
+    </video><br>
+    <img class="figure" style="width:min(100%, 90vmin);" src="media/hex3.png" alt="A two-dimensional plain hexagonal grid."><br>
+  </center>
+  <p >
+    A personal project. This is part visualization and geometry, part art. It can create 2D grids, or 3D toroidal grids using CSS 3D transformations. See this web app in a <a href="pages/HexGrid.html">separate page</a> (best with full screen) or see embedded page below.
+  </p>
+  <center>
+    <iframe class="figure" style="border:none; width:100%; height: 95vh;" src="pages/HexGrid.html"></iframe>
+  </center>
+</article>
+
+</main>
+
 <script>
 
 /*
