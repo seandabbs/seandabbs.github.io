@@ -4,194 +4,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>𝐏𝐨𝐫𝐭𝐟𝐨𝐥𝐢𝐨</title>
+  <title>Portfolio</title>
+  <!--𝐏𝐨𝐫𝐭𝐟𝐨𝐥𝐢𝐨-->
 </head>
 <link rel="stylesheet" type="text/css" href="styles.css">
-<!-- <link rel="icon" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text color='blue' x='0' y='24' font-size='32'>&#x2B22;</text></svg>" type="image/svg+xml"> -->
+<link rel="icon" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text fill='rgb(93,171,181)' x='0' y='24' font-size='32'>&#x2B22;</text></svg>" type="image/svg+xml">
 <style>
-
-*{
-  font-family: Verdana, sans-serif;
-  /* overflow: visible;
-  color: #c6c9cc; */
-}
-
-
-html{
-  /* height: 100%; */
-  /* background-image: url("media/bg_noise.png"); */
-  background-repeat: repeat;
-  background-attachment: fixed;
-  --Background-Color:#111;
-  --Text-Color: #c6c9cc;
-  --Section-Color: ;
-  --Side-Margin: 1em;
-  --Nav-Height: 1.5em;
-
-}
-
-
-body{
-  background-color: var(--Background-Color);
-  color: var(--Text-Color);
-  /* backdrop-filter: blur(1px) brightness(60%) contrast(90%); */
-
-  /* background-color: #111; */
-  /* background: linear-gradient(180deg, #222, #111); */
-  margin:0;
-  padding:0;
-  /* background-image: url('media/parallaxPattern.png'); */
-  /* background-color: red; */
-  /* background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover; */
-
-  /* overflow-x:hidden; */
-  
-}
-
-nav{
-  position: sticky;
-  height: var(--Nav-Height);
-  display: flex;
-  flex-direction: row;
-}
-nav > label,
-nav > a{
-  vertical-align: middle;
-  margin-left: 1ch;
-  margin-right: 1ch;
-}
-
-main{
-  scroll-snap-type: y proximity;
-  margin: var(--Side-Margin);
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 0;
-  width: min(calc(100% - var(--Side-Margin) - var(--Side-Margin)), 900px);
-}
-
-article.block{
-  scroll-margin: -1em;
-}
-
-.parallax {
-/* background-image: url('media/parallaxPattern.png'); */
-/* background-color: red; */
-  /* height: 3em; */
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-
-div, center{
-  margin:0;
-  padding: 0;
-}
-
-h1, h2, h3, p{
-  /* padding:1em 1em 0.25em 1em; */
-  margin:0;
-}
-h4{
-  padding-top: 0;
-  padding-left:1em;
-}
-code{
-  font-family: monospace;
-}
-
-img, video{
-  /* max-height: 8em; */
-  max-width: 20em;
-}
-iframe{
-  max-width: 40em;
-}
-
-.grid{
-  display: grid;
-  gap: 2rem;
-  grid-auto-flow: column;
-  margin: 0 0 2rem 0;
-}
-
-.grid > div{
-  min-width: 2rem;
-}
-.gradient{
-  background: linear-gradient(to top, #00a 0%, #5DABB5 33%, #5DABB5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-
-}
-div.gradient{
-  text-align:center;
-  font-size: x-large;
-  width: 100%;
-
-}
-iframe{
-  margin-top: 0.5em;
-  margin-bottom: 0.5ch;
-  max-height: 60vh;
-}
-article{
-  /* padding: 3vh 3vw; */
-  padding-top: 1em;
-  padding-bottom: 1em;
-}
-.figure{
-  border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 1vh;
-  /* box-shadow: inset 0.5vh 0.5vh 0.5vh rgba(0,0,0,0.4), inset -0.5vh -0.5vh 0.5vh rgba(255,255,255,0.4); */
-}
-.MATLAB {
-  background: linear-gradient(to top, #2222ff 0%, #000 100%);
-  /* background: black; */
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;}
-.w3 {
-  background: linear-gradient(to top, #ff9922 0%, #ffffdd 100%);
-  /* background: black; */
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-display: inline-block;}
-.Python {
-  background: linear-gradient(to top, #000 0%, #3377aa 33%, #3377aa 66%, #000 100%);
-  /* background: black; */
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-display: inline-block;}
-.TensorFlow{
-  background: linear-gradient(to top,  #000 0%,#ff6600 100%);
-  /* background: black; */
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-display: inline-block;}
-
 
 </style>
 
 <body>
+
 <!-- <nav>
   <label style="cursor: pointer;">◐<input type="checkbox" style="appearance: none; " onchange="let s = document.querySelector('html').style; s.setProperty( '--Background-Color', this.checked?'#111':'white' ); s.setProperty( '--Text-Color', this.checked?'#c6c9cc':'black' );"></input></label>
   <a href="https://github.com/seandabbs">GitHub</a>
 </nav> -->
+
 <main>
 
-<article class="block" >
+<article class="" 
+  aria-label="Portfolio page Introduction">
   <h2 class="gradient">Hello.</h2>
   <h4>
   <p>
-    This is my interactive software portfolio. Interest areas include...
+    This is a portfolio of some of my software projects. Interest areas include...
     <ul>
       <li>&nbsp;Data&nbsp;Visualization&nbsp;</li>
       <li>&nbsp;Electromagnetics&nbsp;</li>
@@ -204,47 +40,40 @@ display: inline-block;}
   </h4>
 </article>
 
-<div class="gradient" aria-role="none" >⁂ ⁂ ⁂</div>
-
 <article class="block" id="TV">
   <h3>NTSC Analog Television</h3>
   <h4>(MATLAB) <a href="https://github.com/seandabbs/NTSC_Analog_Television">Source Code</a></h4>
-  <center>
+  <div class="imageGrid">
     <img class="figure" style="width:min(97%, 90vmin);" src="media/ntsc_signal.png" alt="A line plot of sinusoidal data representing TV image signals.">
-  </center>
-  <center>
-    <video controls class="figure" style="width:min(97%, 90vmin);">
+    <video controls class="figure" style="width:min(97%, 90vmin);"
+      aria-label="A 3D model of a CRT television scanning, along with plots showing the signal.">
       <source src="media/ntsc.webm" type="video/webm">
       <source src="media/ntsc.mp4" type="video/mp4">
       <source src="media/NTSC_Animation1.ogg" type="video/ogg">
-      <p>Alt text: a 3D model of a CRT television scanning, along with plots showing the signal.</p>
     </video>
-  </center>
+  </div>
   <p>
     This script converts an input image into an NTSC television signal, and animates the signal along with an IQ plot and stylized CRT raster scan. My goal was to illustrate how color information is encoded in analog TV.
   </p>
 </article>
 
-<div class="gradient" aria-role="none" >⁂ ⁂ ⁂</div>
-
 
 <article class="block" id="3D">
   <h3 >3D Modeling Tool</h3>
   <h4 >(Vanilla JavaScript, HTML, CSS, SVG)</h4>
-  <center>
-    <img class="figure" src="media/3dmodeling1.png" alt="A graphical user interface for a 3D modeling application. Some controls are shown, along with an organic blob shape and a simple cube.">
-  </center>
+  <div class="imageGrid">
+    <img class="figure" style="width: 100%; " src="media/3dmodeling1.png" alt="A graphical user interface for a 3D modeling application. Some controls are shown, along with an organic blob shape and a simple cube.">
+  </div>
   <p>
     An application for 3D mesh and curve modeling. Supports import of Blender .blend files. Written from scratch in vanilla JS, without webGL or any other libraries. Work in progress.
   </p>
 </article>
 
-<div class="gradient" aria-role="none" >⁂ ⁂ ⁂</div>
 
 <article class="block" id="texture">
   <h3>Texture Analysis with Machine Learning</h3>
   <h4 >(Python, TensorFlow, MATLAB)</h4>
-  <div style="display: grid; grid-column-gap: 3px; grid-template-rows: 1fr auto; grid-template-columns: 1fr 1fr;place-items: center;">
+  <div class="imageGrid" style="display: grid; grid-column-gap: 3px; grid-template-rows: 1fr auto; grid-template-columns: 1fr 1fr;place-items: center;">
     <img class="figure" style="width: 100%;grid-column: 1 / 3; grid-row: 1;;" src="media/iPhoneClasses.png" alt="A five-by-five group of close-up photographs of common household objects, such as striped shirts, tile flooring, wood flooring, and houseplants. Each photo is labeled with a category of texture, such as 'wrinkled', 'bumpy', or 'zigzagged'.">
     <!-- <img class="figure" style="width:min(97%, 90vmin);margin:0 0;padding:0 0;" src="media/pyramids.png" alt="Four stacks of images, each shown with duplicates of itself in decreasing size going up, forming a 'pyramid' shape. Each image pyramid is labeled with one texture category for each layer, as well as a 'true' category."> -->
     <img class="figure" style="width: 100%;grid-row: 2; grid-column: 1;" src="media/pyramids1.jpg" alt="Four stacks of images, each shown with duplicates of itself in decreasing size going up, forming a 'pyramid' shape. Each image pyramid is labeled with one texture category for each layer, as well as a 'true' category.">
@@ -256,66 +85,71 @@ display: inline-block;}
 
 </article>
 
-<div class="gradient" >⁂ ⁂ ⁂</div>
-
 <article class="block" id="COVID">
   <h3>COVID and Happiness Data Viz</h3>
-  <h4>(JavaScript, d3.js, CSS, HTML) <a href="https://github.com/seandabbs/COVID_Happiness_Data_Science">Source Code</a></h4>
-  <center>
+  <h4>
+    (JavaScript, d3.js, CSS, HTML)
+    <a href="https://github.com/seandabbs/COVID_Happiness_Data_Science">Source Code</a>
+    <a href="pages/COVIDHappiness.html">Full Page</a> 
+  </h4>
+  <div class="imageGrid">
     <img class="figure" style="width:min(100%, 90vmin);" src="media/COVIDHappinessCountries.png" alt="A screenshot of an application showing data for populations on different continents. Six line plots are labeled Africa, Asia, Europe, North America, Oceania, and South America. The user interface shows options for displaying different variables on these plots, such as 'Life ladder', and 'Social suppoort'."><br>
-  </center>
+  </div>
   <p>
-    An interactive single-page app developed for a data science class visualization project. The page provides parallax scrolling, animations, interactive tooltips, and menus as the user explores the data from several perspectives. See this web app in a <a href="pages/COVIDHappiness.html">separate page</a> (animations work best with full screen) or see embedded page below.
+    An interactive single-page app developed for a data science class visualization project. The page provides parallax scrolling, animations, interactive tooltips, and menus as the user explores the data from several perspectives. 
   </p>
-  <center>
-    <iframe class="figure" style="border:none;width:100%; height: 90vh;" src="pages/COVIDHappiness.html"></iframe>
-  </center>
+  
 </article>
 
-<div class="gradient" aria-role="none">⁂ ⁂ ⁂</div>
 
 <article class="block" id="network_synthesis">
   <h3>Network Synthesis</h3>
-  <h4 >(JavaScript, d3.js, CSS, HTML, SVG)</h4>
-  <center>
+  <h4 >
+    (JavaScript, d3.js, CSS, HTML, SVG)
+    <a href="pages/NetworkSynthesis.html">Full Page</a>
+  </h4>
+  <div class="imageGrid">
     <img class="figure" style="width:min(100%, 90vmin);" src="media/fosterI1.png" alt="A screenshot of an application showing: a polynomial equation in fractional binomial form; algebraic expansion of that equation and isolation of certain resulting values; and a circuit diagram with those values labeling the capacitors and inductors.">
-  </center>
+  </div>
   <p >
     This tool generates a circuit diagram using the Foster I method of
     <a href="https://en.wikipedia.org/wiki/Network_synthesis">network synthesis</a>, historically used for designing analog electronic filters and equalizers.
     The algebra and circuit diagram will update in response to editing equation F(s), the impedence function in the Laplace domain. 
-    View in a <a href="pages/NetworkSynthesis.html">separate page</a> or see embedded page below.
   </p>
-  <center>
-    <iframe class="figure" style="border:none; width:100%; height: 95vh;" src="pages/NetworkSynthesis.html"></iframe>
-  </center>
+  
 </article>
 
-<div class="gradient" aria-role="none" >⁂ ⁂ ⁂</div>
 
 <article class="block" id="hexagons">
   <h3>Tileable Hexagons</h3>
-  <h4 >(JavaScript, CSS, HTML, SVG) <a href="https://github.com/seandabbs/Tileable_Hexagons">Source Code</a></h4>
-  <center>
-    <video controls class="figure" style="width:min(50%, 45vmin);">
+  <h4 >
+    (JavaScript, CSS, HTML, SVG) 
+    <a href="https://github.com/seandabbs/Tileable_Hexagons">Source Code</a>
+    <a href="pages/HexGrid.html">Full Page</a> 
+  </h4>
+  <div class="imageGrid" style="grid-template-columns: 1fr 1fr; grid-template-rows:auto auto;">
+    <video controls class="figure" style="width:100%; grid-row: 1; grid-column: 1;"
+      aria-label="A 3D model of a spinning snowflake-like shape, composed of heavily stylized curved hexagons.">
       <source src="media/hex1.mp4" type="video/mp4">
       <source src="media/hex1.webm" type="video/hex1.webm">
-      <p>Alt text: a 3D model of a spinning snowflake-like shape, composed of heavily stylized curved hexagons.</p>
     </video>
-    <video controls class="figure" style="width:min(50%, 45vmin);">
+    <video controls class="figure" style="width:100%; grid-row: 1; grid-column: 2;"
+      aria-label="A 3D model of a spinning torus composed of hexagons.">
       <source src="media/hex2.mp4" type="video/mp4">
       <source src="media/hex2.webm" type="video/hex2.webm">
-      <p>Alt text: a 3D model of a spinning torus composed of hexagons.</p>
-    </video><br>
-    <img class="figure" style="width:min(100%, 90vmin);" src="media/hex3.png" alt="A two-dimensional plain hexagonal grid."><br>
-  </center>
+    </video>
+    <img class="figure" style="width:100%;  grid-row: 2; grid-column: 1 / 3" src="media/hex3.png" alt="A two-dimensional plain hexagonal grid."><br>
+  </div>
   <p >
-    A personal project. This is part visualization and geometry, part art. It can create 2D grids, or 3D toroidal grids using CSS 3D transformations. See this web app in a <a href="pages/HexGrid.html">separate page</a> (best with full screen) or see embedded page below.
+    A tool that creates hexagonal grids in 2D, or as 3D toroids using CSS 3D transforms. 
   </p>
-  <center>
-    <iframe class="figure" style="border:none; width:100%; height: 95vh;" src="pages/HexGrid.html"></iframe>
-  </center>
+  
 </article>
+
+<footer>
+  <p>(I also created <a href="https://github.com/seandabbs/seandabbs.github.io">this portfolio</a>.)</p>
+  <a href="#">Top</a>
+</footer>
 
 </main>
 

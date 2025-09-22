@@ -1,2 +1,2 @@
 # seandabbs.github.io
-Portfolio page. Work in progress.
+Portfolio page. Often changed up as I try different styles.
