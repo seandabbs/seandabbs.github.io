@@ -65,7 +65,7 @@
     <img class="figure" style="width: 100%; " src="media/3dmodeling1.png" alt="A graphical user interface for a 3D modeling application. Some controls are shown, along with an organic blob shape and a simple cube.">
   </div>
   <p>
-    An application for 3D mesh and curve modeling. Supports import of Blender .blend files. Written from scratch in vanilla JS, without webGL or any other libraries. Work in progress.
+    An application for 3D mesh and curve modeling. Supports import of Blender .blend files. Written from scratch in vanilla JS, without WebGL or three.js any other libraries. Work in progress.
   </p>
 </article>
 
@@ -158,6 +158,19 @@
 /*
 
 */
+
+window.onload = () => {
+  console.log('page load');
+  [...document.querySelectorAll('article.block')].forEach( a =>{
+      let p = document.createElement('a');
+      // p.href = document.URL.split('#')[0].replace('/index.html','')+'#'+a.id;
+      p.href = document.URL.split('#')[0]+'#'+a.id;
+      p.classList.add('articleAnchor');
+      p.textContent = '#';
+      a.querySelector('h3').append(p);
+    }
+  );
+}
 
 </script>
 

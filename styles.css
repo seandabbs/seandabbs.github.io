@@ -134,9 +134,19 @@ article.block{
   box-shadow: 
     5px 5px 30px rgba(0, 0, 127,0.35), 
     -5px -5px 30px rgba(0, 127, 127,0.35);
+  scroll-margin: 1em;
 }
 
-
+.articleAnchor{
+  opacity: 0.0;
+  padding: 0.5ch;
+  text-decoration: unset;
+  color: inherit;
+  
+}
+.articleAnchor:hover{
+  opacity: 0.5;
+}
 
 .parallax {
 /* background-image: url('media/parallaxPattern.png'); */
