@@ -263,6 +263,17 @@ button{
 </head>
 <body>
 
+
+<svg xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="noise" patternUnits="userSpaceOnUse" width="100" height="100">
+      <image href="noise.png" x="0" y="0" width="100" height="100" />
+    </pattern>
+  </defs>
+</svg>
+
+  <!-- <pattern>url(#pattern_def_id_here) -->
+
           <div id="main" class="display:flex" style="white-space: normal;overflow: hidden;background-color:none;pointer-events:none;">
             <p id="inputs" style="pointer-events:auto;margin: 1em 2em 2em 1em;">
               <center>
@@ -886,10 +897,12 @@ button{
             'Z"';
           // close path:
           // path += ' stroke="#c8a640" stroke-width="0" fill="#362266"/>';
-          path += ' stroke="'+strokeColorA+'" stroke-width="'+
-            strokeWidth+'" fill="'+fillColor+'"/>'+
-            // '</g>'+
-            '';
+          fillColor = 'url(#noise)';
+          // path += ' stroke="'+strokeColorA+'" stroke-width="'+
+          //   strokeWidth+'" fill="'+fillColor+'"/>'+
+          //   // '</g>'+
+          //   '';
+          path += ` stroke="${strokeColorA}" stroke-width="${strokeWidth}" fill="url(#noise)"/>`;
           // path += '</g></g></g></g>';
           path  += '</svg>';
           path += '</div></div></div></div>';

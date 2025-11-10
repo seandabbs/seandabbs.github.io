@@ -43,38 +43,117 @@
 
 
 
-/*---*/
+/*-------------------------------------------------------------------------------------------------------*/
 
+:root {
+  /* using dark/light mode "Don't Repeat Yourself" trick via Lea Verou + CSS Tricks */
+  color-scheme: dark light;
+  --ON: initial;
+  --OFF: ;
+}
+/* dark by default, personal preference (and less screen energy use?) */
+.theme-default{
+  --dark: var(--ON);
+  --light: var(--OFF);
+}
+/**/
+.theme-dark{
+  --dark: var(--ON) !important;
+  --light: var(--OFF) !important;
+}
+/**/
+.theme-light{
+  --dark: var(--OFF) !important;
+  --light: var(--ON) !important;
+}
+@media (prefers-color-scheme: light){
+  :root{ 
+    --dark: var(--OFF);
+    --light: var(--ON);
+  }
+}
 
+/* if we were to use a font downloaded and saved in the site files */
+/* @font-face {
+  font-family: "myFontName";
+  src: url("relative/path/to/font.woff2");
+} */
+
+:root{
+
+  --background-color:
+    var(--dark, #231e22) 
+    var(--light, rgb(222, 222, 222));
+  --article-color:
+    var(--dark, #171717)
+    var(--light, rgb(235, 235, 235));
+  --text-color: 
+    var(--dark, #e7e7e7)
+    var(--light, #121212);
+  --section-color: ;
+  --side-margin: 1em;
+  --nav-height: 1.5em;
+  --accent-color: 
+    var(--dark, #5DABB5)
+    var(--light, #003136);
+  --shadow-color: 
+    var(--dark, black)
+    var(--light, #7c7c7c);
+  --gradient-color: 
+    var(--dark, linear-gradient(to top, rgb(8, 8, 228) 0%, var(--accent-color) 50%, var(--accent-color) 100%))
+    var(--light, linear-gradient(to top, var(--accent-color) 0%, rgb(1, 1, 208) 50%, rgb(1, 1, 208) 100%));
+  --shadow-one: 7px 7px 0px var(--shadow-color);
+  --unvisited-link: 
+    var(--dark, #3b8ffd)
+    var(--light, rgb(0, 0, 166));
+  --visited-link: 
+    var(--dark, #a402ea)
+    var(--light, rgb(74, 0, 33));
+  --page-background: 
+    var(--dark, var(--background-color) url('media/background_render.png'))
+    var(--light, white url('media/background_render.png'));
+  --background-filter: 
+    var(--dark, brightness(110%) contrast(105%))
+    var(--light, brightness(160%) contrast(50%));
+}
 
 *{
   font-family: Verdana, sans-serif;
+  /* font-family: myFont, sans-serif; */
   /* overflow: visible;
   color: #c6c9cc; */
 }
 
+:link{
+  color: var(--unvisited-link);
+}
+:visited{
+  color: var(--visited-link);
+
+}
 
 html{
   /* height: 100%; */
   /* background-image: url("media/bg_noise.png"); */
   /* background-repeat: repeat;
   background-attachment: fixed; */
-  --Background-Color:#111;
-  --Text-Color: #c6c9cc;
-  --Section-Color: ;
-  --Side-Margin: 1em;
-  --Nav-Height: 1.5em;
-  --Accent-Color: #5DABB5;
-  --Gradient-Color: linear-gradient(to top, #00a 0%, var(--Accent-Color) 33%, var(--Accent-Color) 100%);
 
-  background-color: var(--Background-Color);
-  background: linear-gradient(to top, rgb(8, 18, 38) 0%, #111 100%);
-  background-attachment: fixed; 
+  /* background-color: var(--background-color); */
+  /* background: linear-gradient(to top, rgb(8, 18, 38) 0%, #111 100%); */
+  
+  /* background-attachment: fixed;  */
+  color: var(--text-color);
+  background: var(--page-background);
+  background-position: center;
+  /* background-repeat: repeat; */
+  background-size:contain;
+  overscroll-behavior: none;
+  
+  --max-content-width: 56em;
 }
 
 
 body{
-  color: var(--Text-Color);
   /* backdrop-filter: blur(1px) brightness(60%) contrast(90%); */
 
   /* background-color: #111; */
@@ -90,50 +169,77 @@ body{
 
   overflow-x:hidden;
   
+  backdrop-filter: var(--background-filter);
+}
+
+/* Center things with a margin */
+nav, main, footer{
+  margin: var(--side-margin);
+  margin: 0 auto 0.5em auto;
+  width: min(calc(100% - var(--side-margin) - var(--side-margin)), var(--max-content-width));
+  
 }
 
 nav{
-  position: sticky;
-  height: var(--Nav-Height);
+  /* sticky version (better with more nav options?) */
+  /* position: sticky;
+  top: 0;
+  border-bottom: 1px solid var(--shadow-color); */
+  /* background-color: var(--background-color); */
+
+  height: var(--nav-height);
   display: flex;
   flex-direction: row;
+  height: 2em;
+
+  
+}
+nav > *:first-child{
+  margin-left:auto;
 }
 nav > label,
 nav > a{
-  vertical-align: middle;
+  /* vertical-align: middle; */
   margin-left: 1ch;
   margin-right: 1ch;
+  align-content: center;
+
+
 }
+nav > a, footer > a{
+  text-decoration: none;
+  color: var(--text-color) !important;
+}
+nav > label{
+  line-height: 1em;
+}
+
 
 main{
   scroll-snap-type: y proximity;
   display: flex;
   flex-direction: column;
-  margin: var(--Side-Margin);
+  margin: var(--side-margin);
   margin-left: auto;
   margin-right: auto;
   margin-top: 0;
-  width: min(calc(100% - var(--Side-Margin) - var(--Side-Margin)), 900px);
+  width: min(calc(100% - var(--side-margin) - var(--side-margin)), var(--max-content-width));
 }
 
-footer{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
 
 article.block{
   padding: 1ch;
   scroll-margin: -1em;
   /* height: calc(100vh - 2ch - 2em); */
-  border: 1px solid var(--Accent-Color);
+  border: 3px solid var(--shadow-color);
   border-radius: 4px;
   border-radius: 8px;
   margin: 1ch;
-  background-color: #111;
+  background-color: var(--article-color);
   box-shadow: 
     5px 5px 30px rgba(0, 0, 127,0.35), 
     -5px -5px 30px rgba(0, 127, 127,0.35);
+  box-shadow: var(--shadow-one);
   scroll-margin: 1em;
 }
 
@@ -147,6 +253,15 @@ article.block{
 .articleAnchor:hover{
   opacity: 0.5;
 }
+
+footer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 3em;
+  /* align-items: center; */
+}
+
 
 .parallax {
 /* background-image: url('media/parallaxPattern.png'); */
@@ -164,13 +279,16 @@ div, center{
   padding: 0;
 }
 
-h1, h2, h3, p{
-  /* padding:1em 1em 0.25em 1em; */
-  margin:0;
-}
+
 h4{
   padding-top: 0;
   padding-left:1em;
+}
+article > h1{
+  margin-top: 0;
+}
+.block > h3{ 
+  margin: 0;
 }
 .block > h4 > a{
   margin-left: 1ch;
@@ -200,11 +318,20 @@ iframe{
   min-width: 2rem;
 }
 .gradient{
-  background: var(--Gradient-Color);
+  background: var(--gradient-color);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* display: inline-block; */
+  filter: drop-shadow(1px 1px var(--shadow-color));
+
+}
+.hello{
+  background: var(--gradient-color);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
-
+  /* text-shadow: var(--shadow-One); */
 }
 div.gradient{
   text-align:center;
@@ -222,7 +349,7 @@ div.gradient{
   justify-content: center;
   justify-items: center;
 }
-}
+
 iframe{
   margin-top: 0.5em;
   margin-bottom: 0.5ch;
@@ -239,6 +366,11 @@ article{
   margin-bottom: 1vh;
   /* box-shadow: inset 0.5vh 0.5vh 0.5vh rgba(0,0,0,0.4), inset -0.5vh -0.5vh 0.5vh rgba(255,255,255,0.4); */
 }
+
+/* These were an attempt at a custom version of something like shields.io badges, or better yet, 
+markdown badges https://github.com/Ileriayo/markdown-badges?tab=readme-ov-file#-languages,
+both of which I discovered later.
+*/
 .MATLAB {
   background: linear-gradient(to top, #2222ff 0%, #000 100%);
   /* background: black; */

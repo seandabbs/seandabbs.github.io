@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="theme-default">
 
 <head>
   <meta charset="UTF-8">
@@ -12,29 +12,114 @@
 <style>
 
 </style>
+<script>
+function darkModeLightMode() {
+    
+  let html = document.querySelector('html');
+  switch (true){
+    case (!html.classList.contains('theme-dark') && !html.classList.contains('theme-light')):
+      if (window.matchMedia) 
+        if(window.matchMedia('(prefers-color-scheme: dark)').matches){
+          html.className = 'theme-light';
+          break;
+        }
+      html.className = 'theme-dark';
+      break;
+    case html.classList.contains('theme-dark'):
+      html.className = 'theme-light';
+      break;
+    case html.classList.contains('theme-light'):
+      html.className = 'theme-dark';
+      break;
+    
+  }
+  
+}
+</script>
 
 <body>
 
-<!-- <nav>
-  <label style="cursor: pointer;">◐<input type="checkbox" style="appearance: none; " onchange="let s = document.querySelector('html').style; s.setProperty( '--Background-Color', this.checked?'#111':'white' ); s.setProperty( '--Text-Color', this.checked?'#c6c9cc':'black' );"></input></label>
+<nav>
   <a href="https://github.com/seandabbs">GitHub</a>
-</nav> -->
+  <label style="cursor: pointer;" aria-label="Dark mode / light mode button" title="Toggle dark/light mode">
+    <svg height="1.5em" width="1.5em" viewBox="0 0 16 16" alt=""><path fill="var(--text-color)" d="M 1,8 3.0488281,8.6835938
+A 5,5 0 0 1 3,8 5,5 0 0 1 3.0488281,7.3164062
+Z
+
+M 0,16
+
+M 16,0
+
+M 1.9378222,11.5 4.0539563,11.067596
+A 5,5 0 0 1 3.669873,10.5 5,5 0 0 1 3.3703625,9.8835764
+Z
+
+m 3.1339746,7.428203
+
+M 10.928203,-2.9282032
+
+M 4.5,1.9378222 4.9324045,4.0539563
+A 5,5 0 0 1 5.5,3.669873 5,5 0 0 1 6.1164236,3.3703625
+Z
+
+M -2.9282032,5.0717968
+
+M 18.928203,10.928203
+
+M 1.9378222,4.5 3.3703625,6.1164236
+A 5,5 0 0 1 3.669873,5.5 5,5 0 0 1 4.0539563,4.9324045
+Z
+
+m -4.8660254,6.428203
+
+M 18.928203,5.0717968
+
+M 4.5,14.062178 6.1164236,12.629638
+A 5,5 0 0 1 5.5,12.330127 5,5 0 0 1 4.9324045,11.946044
+Z
+
+m 6.428203,4.866025
+
+M 5.0717968,-2.9282032
+
+M 8,1 7.3164062,3.0488281
+A 5,5 0 0 1 8,3
+Z
+
+M 7.3164062,12.951172 8,15
+V 13
+A 5,5 0 0 1 7.3164062,12.951172
+Z
+
+M 8,3.5
+C 5.5206484,3.5 3.5,5.5206484 3.5,8
+c 0,2.479353 2.0206484,4.5 4.5,4.5 2.479353,0 4.5,-2.020647 4.5,-4.5
+C 12.5,5.5206484 10.479353,3.5 8,3.5
+Z
+
+m 0,0
+c 1.9389132,0 3,2.5610868 3,4.5 0,1.9389132 -1.061087,4.5 -3,4.5
+z" /></svg>
+    <input type="checkbox" style="appearance: none;user-select: none; " onchange="darkModeLightMode()" ></input>
+  </label>
+</nav>
 
 <main>
 
 <article class="" 
   aria-label="Portfolio page Introduction">
-  <h2 class="gradient">Hello.</h2>
-  <p style="font-size:large;">
-    This is a portfolio of some of my software projects. Interest areas include...
-    <ul>
-      <li>&nbsp;Data&nbsp;Visualization&nbsp;</li>
-      <li>&nbsp;Electromagnetics&nbsp;</li>
-      <li>&nbsp;Image&nbsp;Processing&nbsp;</li>
-      <li>&nbsp;3D&nbsp;Graphics&nbsp;</li>
-      <li>&nbsp;UI/UX</li>
+  <h1 class="gradient">Hello.</h1>
+    This is a portfolio of my software projects. My software interests are mainly in applying
+    <ul class="" style="font-size: large;font-weight: 500;">
+      <li>&nbsp;Data&nbsp;Visualization,&nbsp;</li>
+      <li>&nbsp;Image&nbsp;Processing,&nbsp;</li>
+      <li>&nbsp;3D&nbsp;Graphics,&nbsp;</li>
+      <li>&nbsp;and UI/UX&nbsp;</li>
     </ul>
-    Take a look at some projects below. Also see my <a href="https://github.com/seandabbs">github profile</a>. 
+    <p>to science and engineering subjects (particularly electromagnetics). </p>
+
+  <p>
+    Take a look at the projects below. Also see my <a href="https://github.com/seandabbs">github profile</a>. 
   </p>
 </article>
 
@@ -58,12 +143,12 @@
 
 <article class="block" id="3D">
   <h3 >3D Modeling Tool</h3>
-  <h4 >(Vanilla JavaScript, HTML, CSS, SVG)</h4>
+  <h4 >(JavaScript, HTML, CSS, SVG)</h4>
   <div class="imageGrid">
     <img class="figure" style="width: 100%; " src="media/3dmodeling1.png" alt="A graphical user interface for a 3D modeling application. Some controls are shown, along with an organic blob shape and a simple cube.">
   </div>
   <p>
-    An application for 3D mesh and curve modeling. Supports import of Blender .blend files. Written from scratch in vanilla JS, without WebGL or three.js any other libraries. Work in progress.
+    An application for 3D mesh and curve modeling through interactive vector graphics. Supports import of Blender .blend files. Written from scratch in vanilla JS. Work in progress.
   </p>
 </article>
 
@@ -144,19 +229,23 @@
   
 </article>
 
-<footer>
-  <p>(I also created <a href="https://github.com/seandabbs/seandabbs.github.io">this portfolio</a>.)</p>
-  <a href="#">Top</a>
-</footer>
 
 </main>
 
+<footer>
+  <span>(I also designed <a href="https://github.com/seandabbs/seandabbs.github.io">this portfolio</a>.)</span>
+  <a href="#" aria-label="Go to top of page">Top</a>
+</footer>
+
+
+
+</body>
 <script>
 
 /*
 
 */
-
+// adds section anchor link #s that appear on hover
 window.onload = () => {
   console.log('page load');
   [...document.querySelectorAll('article.block')].forEach( a =>{
@@ -172,6 +261,4 @@ window.onload = () => {
 }
 
 </script>
-
-</body>
 </html>
