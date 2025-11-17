@@ -229,7 +229,7 @@ main{
 
 article.block{
   padding: 1ch;
-  scroll-margin: -1em;
+  scroll-margin: 0.5em;
   /* height: calc(100vh - 2ch - 2em); */
   border: 3px solid var(--shadow-color);
   border-radius: 4px;
@@ -240,7 +240,7 @@ article.block{
     5px 5px 30px rgba(0, 0, 127,0.35), 
     -5px -5px 30px rgba(0, 127, 127,0.35);
   box-shadow: var(--shadow-one);
-  scroll-margin: 1em;
+  /* scroll-margin: 1em; */
 }
 
 .articleAnchor{
