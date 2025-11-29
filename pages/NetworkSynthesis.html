@@ -1,14 +1,22 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title> Foster I</title>
-  <!-- <script type="module" src='https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.2.0/math.js'></script> -->
+  <title>Electrical Network Synthesis</title>
+  <meta name="title" content="Electrical Network Synthesis" />
+  <meta name="description" content="
+    A single-page web app for interactive synthesis of electrical circuits.
+    " />
+  <!-- 
+  # Details
 
-<!-- <script type="text/javascript" src='https://cdnjs.com/libraries/mathjs'></script> -->
+  ## Dependencies
+  * d3.js (automatically imported using jsdelivr CDN) 
 
-<!-- copyright 2024 seandabbs.github.io -->
+  ## Notes
+  All CSS and JavaScript are included inline in this HTML file.
+
+  -->
 </head>
 <style>
 
@@ -16,28 +24,46 @@
   font-family: Verdana, sans-serif;
   overflow: visible;
   background: none;
-
-  /* border: 1px black; */
-}
-
-#main{
-  overflow:hidden;
 }
 
 html{
+
+  overflow: hidden;
+}
+body{
+  display: grid;
+  grid-template-columns: 80vw 20vw;
+  grid-template-rows: 100vh;
+  overflow: hidden;
+}
+main{
+  overflow-x:hidden;
+  overflow-y:auto;
+  height: 100%;
+  width: 80vw;
+  display: inline-block;
+}
+aside{
+  width: calc(20vw - 1ch);
+  display: inline-block;
+  height: 100vh;
+  overflow-y: scroll;
+  padding: 0.5ch;
+}
+aside > div{
+
+}
+
+/* html{
   font-size: 1.25em;
 }
 @media (max-width: 980px) {
   html{
     font-size: 1.75rem;
   }
-}
+} */
 
-h2{
-  margin: 0;
-  height: 0;
-  padding: 0;
-}
+
 /* pre{
   display: block;
   position: relative;
@@ -98,7 +124,7 @@ body{
   position: absolute;
   padding-bottom: 2em;
   padding-right: 2em;
-  content: counter(page);
+  /* content: counter(page); */
   /* align-self: end; */
   right: 0;
   bottom: 0;
@@ -112,7 +138,7 @@ body{
   justify-content: center;
   /* flex-direction: column; */
 
-  width: 100vw;
+  /* width: 100vw; */
   /* flex-grow: 1; */
 }
 
@@ -134,7 +160,7 @@ body{
   position: relative;
   display: inline-block;
   width: 100%;
-  padding-bottom: 100%;
+  /* padding-bottom: 100%; */
   vertical-align: top;
   overflow: hidden;
 }
@@ -144,7 +170,11 @@ body{
   background: #123030;
   color: #edffed;
   border-radius: 1em;
-  padding: 1em;
+  padding: 0.5ch;
+  width: calc(100% - 3ch);
+  margin: 0.5ch;
+  display: inline-block;
+  overflow-x: scroll;
 }
 
 .lightCode{
@@ -153,7 +183,11 @@ body{
   color: #010101;
   border-radius: 1em;
   /* border: 1em solid black; */
-  padding: 1em;
+  padding: 0.5ch;
+  width: calc(100% - 3ch);
+  margin: 0.5ch;
+  display: inline-block;
+  overflow-x: scroll;
 }
 
 .math{
@@ -464,606 +498,217 @@ span.bar + sub{
 <body>
 
 
-<div class="main" id="main">
+<main>
+  <div style="width:90%;padding:5%;">
+    <header><h3 style="margin-top: 0;">Network Synthesis Tool: Foster I</h3></header>
 
-<!--
-
-Commented out blocks below were for more detail on the network synthesis process,
-presented as slides. Might return later as some kind of modal window or separate
-page.
-
--->
-
-
-  <!-- <div id="p1-1" class="visblock fullheight" style="height:100vh;justify-content: space-evenly;">
-    <h1 style="justify-content: space-evenly;">Network Synthesis: Foster I Realization</h1>
-  </div>
-
-  <div class="visblock fullheight" style="height:100vh;">
-    <div style="width:80%;">
-      <a class="header" >Background</a>
-      <br><br>&#8226; We have been analyzing circuits in the Laplace domain, looking at the impedence function Z(s).
-      <br><br>&#8226; "Realization": how can we create ("realize") circuit components, given Z(s)?
-      <br><br>&#8226; 4 methods of canonical realization, each producing a different "topology" of circuit.
-      <br><br>&ensp;&ensp;&ensp;&ensp;- Foster I
-      <br><br>&ensp;&ensp;&ensp;&ensp;- Foster II
-      <br><br>&ensp;&ensp;&ensp;&ensp;- Cauer I
-      <br><br>&ensp;&ensp;&ensp;&ensp;- Cauer II
-      <br><br>&#8226; In this lecture: Foster I
-      <br><br>&#8226; Methods involve rearranging polynomials and other algebra to get component values for inductors and capacitors.
-    </div>
-  </div>
-
-  <div class="visblock fullheight" style="height:100vh;">
-
-    <div style="width:80%;">
-      <a class="header" >Partial Fraction Expansion</a>
-      <br><br>&#8226; Remember: we're starting with some fraction, F(s), of one polynomial divided by another.
-      <br><br>&ensp;&ensp;&ensp;&ensp;- Something like
-        <span class="math">F(s) =
-          <span class="fraction">
-            <span>4s<sup>3</sup> + 3s<sup>2</sup> + 2s + 1</span>
-            <span class="symbol">/</span>
-            <span class="bottom">3s<sup>2</sup> + 2s + 1</span>
-          </span>
-        </span>
-
-      <br><br>&ensp;&ensp;&ensp;&ensp;- In our case, usually an impedence, Z(s), or admittance, Y(s).
-      <br><br>&ensp;&ensp;&ensp;&ensp;- We want to <i>expand</i> (or "decompose") that fraction into a more convenient format.
-
-      <br><br>&#8226; PFE can be done in MATLAB:<br>
-<pre class="lightCode" style="display:inline-block;">
-b = [4 3 2 1];
-a = [3 2 1]; % specify as coefficients in descending order.
-[residues, poles, directTerms] = residue(b, a)
-</pre>
-      <br>&#8226; OR: PFE can also be done in Python with SymPy:<br>
-<pre class="code" style="display:inline-block;">
-from sympy import symbols, apart
-s = symbols('s')
-b = 4*s**3 + 3*s**2 + 2*s + 1
-a = 3*s**2 + 2*s + 1 # specify as symbolic expression
-pfe = apart( b / a )
-</pre>
-      <br>&#8226; OR: since we are working with lossless functions, we can use <i>Foster's expansion</i> to expand it by hand...
-
-
-    </div>
-  </div>
-
-  <div class="visblock fullheight" style="height:100vh;">
-    <div style="width:80%;">
-      <a class="header" >Foster's Expansion of a Lossless Function</a>
-      <br><br>&#8226; Change format: expanding
-        <span class="math">F(s) =
-          <span class="fraction">
-            <span>s(s<sup>2</sup> - c<sub>1</sub>)(s<sup>2</sup> - c<sub>2</sub>)</span>
-            <span class="symbol">/</span>
-            <span class="bottom">(s<sup>2</sup> - ω<sub>1</sub>)(s<sup>2</sup> - ω<sub>2</sub>)</span>
-          </span>
-        </span>
-      &nbsp; into &nbsp;
-        <span class="math">F(s) =
-          <span class="fraction">
-            <span>k<sub>0</sub></span>
-            <span class="symbol">/</span>
-            <span class="bottom">s</span>
-          </span> + k<sub>&infin;</sub>s +
-          <span class="sum" style="margin-right:0.5em;">
-            &sum;<sub>i</sub></span><span class="fraction">
-            <span>k<sub>i</sub>s</span>
-            <span class="symbol">/</span>
-            <span class="bottom">(s<sup>2</sup> + ω<sub>i</sub><sup>2</sup>)</span>
-          </span>
-        </span>
-      <br><br>&#8226; Solve for <i>Residues</i>
-      <span class="math">k<sub>0</sub></span>,
-      <span class="math">k<sub>&infin;</sub></span>, and
-      <span class="math">k<sub>i</sub></span>'s:
-      <br><br>
-
-      <div style="display:flex;justify-content: space-around;">
-
-        <span class="math">
-          k<sub>0</sub>= s F(s)<span class="bar"> </span><sub>s=0</sub>
-        </span>
-
-        <span class="math">
-          k<sub>&infin;</sub> =
-          <span class="fraction">
-            <span>F(s)</span>
-            <span class="symbol">/</span>
-            <span class="bottom">s</span>
-          </span>
-          <span class="bar"> </span><sub>s=&infin;</sub>
-        </span>
-
-        <span class="math">k<sub>i</sub> =
-          <span class="fraction">
-            <span>(s<sup>2</sup> + ω<sub>i</sub><sup>2</sup>)</span>
-            <span class="symbol">/</span>
-            <span class="bottom">s</span>
-          </span> F(s)<span class="bar"> </span><sub>s<sup>2</sup>=-ω<sub>i</sub><sup>2</sup></sub>
-        </span>
-
-      </div>
-
-    </div>
-  </div> -->
-
-  <!-- Below div can be uncommented in place of the other to return to non-scrolling -->
-    <!-- <div class="visblock fullheight" style="height:100vh;"> -->
-  <div class="visblock" >
-    <div style="width:90%;">
-      <a class="header" >Network Synthesis Tool: Foster I</a>
-      <br>
-      <div id="" class="wrapColumns" style="padding:5px;">
+    <div style="display: grid; grid-template-columns: 3fr 2fr;">
+      
+      <div id="" class="wrapColumns" style="padding:5px; grid-column: 1;">
         <span class="math">F(s) = </span>
         <span id="fosterIex" style="background:#111;border-radius: 0.5em;"></span>
         <span class="math">=</span>
         <span id="fosterIexD"  ></span>
       </div>
-      <div id="fosterIexK" class="wrapColumns" style="background:#111;border-radius:0.5em;"></div>
-      <div id="fosterIexExpanded" class="evenColumns"></div>
-      <div id="fosterIexExpanded2" class="evenColumns" style="background:#222;"></div>
-      <!-- <div id="fosterIckt"></div> -->
-      <div class="centerdiv" style="overflow: visible; max-width: 100%; max-height: 10vh; perspective: none;">
-        <div id="fosterIckt" class="chart" style="overflow: visible; max-width: 100%; max-height: 10vh;"></div>
-      </div>
-      <div id="gridgrid" class="gridgrid">
-      </div>
-
-      <!-- <div class="gridgrid">
-        <div class="colucolu">
-          <div class="cellcell">aa1</div>
-          <div class="cellcell">bb1</div>
-          <div class="cellcell">cc1</div>
-        </div>
-        <div class="colucolu">
-          <div class="cellcell">aa2</div>
-          <div class="cellcell">bb2</div>
-          <div class="cellcell">cc2</div>
-        </div>
-        <div class="colucolu">
-          <div class="cellcell">aa3</div>
-          <div class="cellcell">bb3</div>
-          <div class="cellcell">cc3</div>
-        </div>
-        <div class="colucolu">
-          <div class="cellcell">aa4</div>
-          <div class="cellcell">bb4</div>
-          <div class="cellcell">cc4</div>
-        </div>
-      </div> -->
-
-      <div style="color:var(--bgColor);">.</div>
-      <div style="color:var(--bgColor);height:70vh;">.</div>
-      <!-- <div id="workspace" style=width:100%;height:100%;></div> -->
+      
+      <!-- Placeholders for future additional components (plots, etc) -->
+      <div id="fosterIexPlot" class="" style=""></div>
 
     </div>
 
+    <div id="fosterIexK" class="wrapColumns" style="background:#111;border-radius:0.5em;"></div>
+    <div id="fosterIexExpanded" class="evenColumns"></div>
+    <div id="fosterIexExpanded2" class="evenColumns" style="background:#222;"></div>
+    <div class="centerdiv" style=" max-width: 100%; perspective: none;">
+      <div id="fosterIckt" class="chart" style="max-width: 100%;"></div>
+    </div>
   </div>
+</main>
 
-      <!-- <div class="visblock fullheight" style="height:100vh;pointer-events:none;">
-        <div style="width:80%;pointer-events:none;">
-          <a class="header" style="margin-bottom:80vh;" >Foster I Example Results</a>
-      <br><br>&#8226; Now we have expanded F(s). Does this equation remind you of anything from circuit theory...?
-      <br><br>&ensp;&ensp;&ensp;&ensp;- Each term is one segment of a series circuit.
-      <br><br>&ensp;&ensp;&ensp;&ensp;- Some segments will be a parallel pair of inductor and capacitor.
-      <div style="color:var(--bgColor);">.</div>
+<aside>
+  <header style="position:sticky;"><h1>About</h1></header>
+  <h2>Background</h2>
+  <p>
+      Circuits are often analyzed in the Laplace domain, looking at their impedence function Z(s). How can we create ("realize") circuit components, given Z(s)?
+  </p>
+    There are 4 methods of canonical realization, each producing a different "topology" of circuit.
+    <ul>
+      <li>Foster I</li>
+      <li>Foster II</li>
+      <li>Cauer I</li>
+      <li>Cauer II</li>
+    </ul>
+  </p>
+  <p> This tool uses Foster I to rearrange polynomials and other algebra to get component values for inductors and capacitors.
+  </p>
+
+  <h2>Partial Fraction Expansion</h2>
+  <p>
+      PFE is an important piece of this method. It starts with an F(s) = b / a, a function of one polynomial divided by another. Something like
+  </p>
+  <p>
+    <span class="math">F(s) =
+      <span class="fraction">
+        <span>4s<sup>3</sup> + 3s<sup>2</sup> + 2s + 1</span>
+        <span class="symbol">/</span>
+        <span class="bottom">3s<sup>2</sup> + 2s + 1</span>
+      </span>
+    </span>
+  </p>
+  <p>
+    In our case, this is an impedence, Z(s), or admittance, Y(s). We want to <i>expand</i> (or "decompose") that fraction into a more convenient format. This can be done with code, usually.
+  </p>
+  <p> 
+    PFE can be done in MATLAB:
+  </p>
+      <pre class="lightCode">
+b = [4 3 2 1];
+a = [3 2 1]; % specify as coefficients in descending order.
+[residues, poles, directTerms] = residue(b, a)</pre>
+<p>
+      PFE can also be done as a symbolic computation in Python with SymPy:
+</p>
+      <pre class="code">
+from sympy import symbols, apart
+s = symbols('s')
+b = 4*s**3 + 3*s**2 + 2*s + 1
+a = 3*s**2 + 2*s + 1 # specify as symbolic expression
+pfe = apart( b / a )</pre>
+  <p> 
+    But how can we learn how this works? Since we are working with lossless functions, we can use <i>Foster's expansion</i> to expand it by hand.
+  </p>
+
+  <h2>Foster's Expansion of a Lossless Function</h2>
+  <p>
+    We want to change the format of the impedence equation, ultimately to separate its terms into values for circuit components.
+  </p>
+  <p>
+    We first factor our polynomials in the numerator and denominator each into a product of quadratic binomials. This is one convention for adjusting a frequency response, and it is the format used interactively in this document.
+  </p>
+  <p>
+    <span class="math">F(s) =
+      <span class="fraction">
+        <span>s(s<sup>2</sup> - c<sub>1</sub>)(s<sup>2</sup> - c<sub>2</sub>)</span>
+        <span class="symbol">/</span>
+        <span class="bottom">(s<sup>2</sup> - ω<sub>1</sub>)(s<sup>2</sup> - ω<sub>2</sub>)</span>
+      </span>
+    </span>
+  </p>
+  <p> 
+    Next,  <span class="math">F(s)</span> is expanded and its <i>residuals</i> are separated.
+  </p>
+  <p>
+    <span class="math">F(s) =
+      <span class="fraction">
+        <span>k<sub>0</sub></span>
+        <span class="symbol">/</span>
+        <span class="bottom">s</span>
+    </span>
+    <span class="math">
+      </span> + k<sub>&infin;</sub>s +
+    </span>
+    <span class="math">
+      <span class="sum" style="margin-right:0.5em;">
+        &sum;<sub>i</sub></span><span class="fraction">
+        <span>k<sub>i</sub>s</span>
+        <span class="symbol">/</span>
+        <span class="bottom">(s<sup>2</sup> + ω<sub>i</sub><sup>2</sup>)</span>
+      </span>
+    </span>
+    <br>Where 
+    <br><div style="display: inline-block;width:4ch;"></div><span class="math">
+      k<sub>0</sub>= s F(s)<span class="bar"> </span><sub>s=0</sub>
+    </span>
+
+    <br><br><div style="display: inline-block;width:4ch;"></div><span class="math">
+      k<sub>&infin;</sub> =
+      <span class="fraction">
+        <span>F(s)</span>
+        <span class="symbol">/</span>
+        <span class="bottom">s</span>
+      </span>
+      <span class="bar"> </span><sub>s=&infin;</sub>
+    </span>
+
+    <br><br><div style="display: inline-block;width:4ch;"></div><span class="math">k<sub>i</sub> =
+      <span class="fraction">
+        <span>(s<sup>2</sup> + ω<sub>i</sub><sup>2</sup>)</span>
+        <span class="symbol">/</span>
+        <span class="bottom">s</span>
+      </span> F(s)<span class="bar"> </span><sub>s<sup>2</sup>=-ω<sub>i</sub><sup>2</sup></sub>
+    </span><br>
+      are the residuals.
+  </p>
+  <p>
+    Once we have expanded F(s), the equation should remind you of something from circuit theory - series and parallel components. 
+    <span class="math">
+      k<sub>0</sub>
+    </span>
+    corresponds to inverse capacitance, 
+    <span class="math">
+      k<sub>&infin;</sub>
+    </span>
+    to inverse inductance, and each
+    <span class="math">k<sub>i</sub></span> 
+    to a parallel pair of inductor and capacitor. In this tool, the values in the algebra are color-coded to their matching values in the circuit.
+  </p>
+  <h2>Editing</h2>
+  <p>
+    The equation can be edited by clicking any of the constants in the binomials. The tool will adjust your edits to comply with the convention of constants increasing in value from left to right. The rightmost binomial can be removed (hover over it to see an X appear). 
+  </p>
+  <p>
+    Other editing features are available for certain conditions of the equation. If there are an equal number of binomials in the numerator and denominator, the single <i>s</i> on the left can be clicked to invert it. More binomials can be added by hovering over either the numerator or deniminator's last binomial and clicking the "+".
+  </p>
+  <p>
+    To the top right of the residual calculations is "ⓘ+". Click this to show the intermediate steps of the algebra.
+  <p/>
+</aside>
 
 
 
-        </div>
-
-      </div> -->
-
-  <!-- <div class="visblock fullheight" style="height:100vh;pointer-events:none;">
-    <div style="width:80%;pointer-events:none;">
-      <a class="header" style="margin-bottom:80vh;" >Foster I Example Results</a>
-
-      <div class="centerdiv" style="overflow: visible; max-width: 100%; max-height: 10vh; perspective: none;">
-        <div id="fosterI" class="chart" style="overflow: visible;"></div>
-      </div>
-
-
-    </div> -->
-
-  </div>
-
-  <!-- <div id="p3-3" class="visblock fullheight" style="height:100vh;">
-    Conclusion
-    <div id="puthere"></div>
-  </div> -->
-
-  </div>
-
-
-
+<!-- begin main javascript -->
 <script type="module">
 
-// Import D3.js
+// Import D3.js, a data visualization library
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
-// import * as math from "https://www.jsdelivr.com/package/npm/mathjs";
-// import * as math from "https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.2.0/math.js";
-// import * as math from "https://www.jsdelivr.com/package/npm/mathjs";
-// import { create, all } from 'mathjs';
 
-// const config = { };
-// const math = create(all, {});
-// console.log(math.sqrt(-4).toString());
-
-// Setup and function definitions:
-
-// -----------------------
-
-// Below functions were for debugging svg curves; might be useful at another time.
-// from https://using-d3js.com/05_01_paths.html
-//
-
-function addCurveOutline(start, bControl1, bControl2, end, selection, ggs){
-  var bData = [start, bControl1, bControl2, end];
-
-  var data = [ [bData[0],bData[1]], [bData[2],bData[3]] ];
-
-  ggs[0].selectAll(".circle")
-    .data(bData)
-    .attr("cx", (d) => d[0])
-    .attr("cy", (d) => d[1]);
-    // .attr("r", 5);
-
-  // console.log(ggs[1])
-  ggs[1].selectAll(".line")
-    .data(data)
-    .attr("x1", (d) => d[0][0])
-    .attr("x2", (d) => d[1][0])
-    .attr("y1", (d) => d[0][1])
-    .attr("y2", (d) => d[1][1]);
-}
-
-function addCurveOutlineInit(start, bControl1, bControl2, end, selection,
-  circlesName, dashesName){
-  var bData = [start, bControl1, bControl2, end];
-
-  var data = [ [bData[0],bData[1]], [bData[2],bData[3]] ];
-
-  var gCircles = selection.append("g")
-    .attr("class", circlesName);
-  var gDashes = selection.append("g")
-    .attr("class", dashesName);
-
-  var c = gCircles.selectAll(".circle")
-    .data(bData)
-    .enter()
-    .append("circle")
-    .attr("class", "circle")
-    .attr("cx", (d) => d[0])
-    .attr("cy", (d) => d[1])
-    .attr("r", 3)
-    .attr("fill", "red");
-
-  var l = gDashes.selectAll(".line")
-    .data(data)
-    .enter()
-    .append("line")
-    .attr("class", "line")
-    .attr("x1", (d) => d[0][0])
-    .attr("x2", (d) => d[1][0])
-    .attr("y1", (d) => d[0][1])
-    .attr("y2", (d) => d[1][1])
-    .attr("stroke-dasharray", 2)
-    .attr("stroke", "red");
-
-  return [gCircles, gDashes];
-}
-
-// ---
-
-//
-// Below functions create a line with multiple arcs.
-//
-
-function multiArc(axName, arcName, arcs, color, ggs){
-  // updates a multi-arc line with D3JS
-
-  var arcPath = d3.path();
-  arcPath.moveTo(arcs[0][0], arcs[0][1]);
-  // console.log(ggs)
-  var ggcnt = 0;
-
-  // iterate through every three points in the arcs array of points
-  for (var i=1; i<arcs.length; i+=3){
-
-    arcPath.bezierCurveTo(arcs[i][0], arcs[i][1], arcs[i+1][0], arcs[i+1][1],
-      arcs[i+2][0], arcs[i+2][1]);
-    // console.log(i)
-    // console.log(ggs[i-1])
-    addCurveOutline(arcs[i-1], arcs[i], arcs[i+1], arcs[i+2],
-      d3.select("#"+axName), ggs[ggcnt]);
-    ggcnt++;
-  }
-
-  // Select the path and update its data
-  d3.select("#"+arcName)
-    .attr("fill", "none")
-    .attr("stroke", color)
-    .attr("stroke-width", 1.5)
-    .attr("d", arcPath);
-
-
-}
-
-function multiArcInit(axName, arcName, arcs, color){
-  // Initializes a multi-arc path in d3js
-
-  var arcPath = d3.path();
-  arcPath.moveTo(arcs[0][0], arcs[0][1]);
-  var ggs = [];
-
-  // Create the updated SVG path and add the debug checking visuals
-  for (var i=1; i<arcs.length; i+=3){
-
-    arcPath.bezierCurveTo(arcs[i][0], arcs[i][1], arcs[i+1][0], arcs[i+1][1],
-      arcs[i+2][0], arcs[i+2][1]);
-
-
-    var gg = addCurveOutlineInit(arcs[i-1], arcs[i], arcs[i+1], arcs[i+2],
-         d3.select("#"+axName), "circlez", "dashez");
-    ggs.push(gg);
-  }
-
-  // Apply the update to the arc line
-  d3.select("#"+arcName)
-    .attr("fill", "red")
-    .attr("stroke", color)
-    .attr("stroke-width", 1.5)
-    .attr("d", arcPath);
-
-    return ggs
-}
-
-
-// assumes counter clockwise:
-function tangents(rs, angle, dist, cx, cy, angoff){
-  // angoff = angoff;
-  var ptx = rs * Math.cos(angle),
-      pty = rs * Math.sin(angle);
-  var dx = dist * Math.cos( (angle + angoff ) + Math.PI/2),
-      dy = dist * Math.sin( (angle + angoff ) + Math.PI/2);
-
-  // "before" control point, middle point, and "after" control point:
-  return [ [cx+ptx-dx, cy+pty-dy], [cx+ptx, cy+pty], [cx+ptx+dx, cy+pty+dy] ];
-}
-
-function anglesToArcs(angles, cx, cy, rs, cpd, yoffs){
-  // console.log(yoffs)
-  var arcs = []
-  var ofs = 0;
-  // var cpd = rs*4*(Math.sqrt(2)-1)/3;
-  var angle = angles[0]+ofs;
-  var yoff = yoffs[0];
-  var tri = tangents(rs, angle, cpd, cx, cy, (-0.5*yoff/rs));
-  // console.log("start tri:");
-  // console.log(tri);
-  arcs.push( [tri[1][0],tri[1][1]+yoff]);
-  arcs.push( [tri[2][0],tri[2][1]+yoff]);
-
-  for (var i=1; i<angles.length-1; i++){
-    angle = angles[i]+ofs;
-    yoff = yoffs[i]
-    tri = tangents(rs, angle, cpd, cx, cy, (-0.5*yoff/rs) );
-    arcs.push( [tri[0][0],tri[0][1]+yoff]);
-    arcs.push( [tri[1][0],tri[1][1]+yoff]);
-    arcs.push( [tri[2][0],tri[2][1]+yoff]);
-
-  }
-  angle = angles[angles.length-1]+ofs;
-  yoff = yoffs[yoffs.length-1];
-  tri= tangents(rs, angle, cpd, cx, cy, (-0.5*yoff/rs));
-  arcs.push( [tri[0][0],tri[0][1]+yoff]);
-  arcs.push( [tri[1][0],tri[1][1]+yoff]);
-  return arcs;
-
-}
-
-
-
-//NOTE: Good potential 3D plot, for future features:
-// https://stackoverflow.com/questions/21043260/3-dimension-x-y-and-z-graph-using-d3-js#answer-57340982
-
-
-
-//
-// Now, below are the network synthesis-specific functions.
-//
-
-function inductor(svg, color, txt, a, b, ratio, vs, n, sw=1.5){
-  // Creates an inductor SVG.
-  // vs - vertical scale
-  // const cpd = rs*4*(Math.sqrt(2)-1)/3;
-  // var extra = 1; // extra loops over the bare minimum
-  // a[0]/=sc;
-  // a[1]/=sc;
-  //
-  // b[0]/=sc;
-  // b[1]/=sc;
-
-  const dw = (b[0] - a[0]);
-  const dw2 = dw/2;
-  const mid = a[0] + dw2;
-  // n-=0.5;
-  // const r = (dw - ratio*(tl-1))/2;
-  const r = dw * ratio/2;
-  n = n - 0.5;
-  const perTurn = 30;
-  const tl = 1 + (perTurn * n);
-  var data = [];
-  const xinc = (dw - (2*r))/(tl-1);
-
-  const dh2 = (vs*r);
-
-  const line = d3.line()
-    .x((d) => d.x)
-    .y((d) => d.y);
-  var ymax = 0;
-  for (var t=0; t<tl; t++){
-    var angle = Math.PI + ( ((t%perTurn)/perTurn) * Math.PI*2);
-    data.push( {x: a[0] + r + (t*xinc) + (r*Math.cos(angle)),
-                y: a[1] + (vs*r*Math.sin(angle))});
-    ymax = Math.max(ymax, data[data.length-1].y);
-  }
-
-  // console.log(data);
-  svg.append("path")
-    .attr("d", line(data))
-    .attr("stroke", color)
-    .attr("stroke-width", "0.2em")
-    .attr("vector-effect", "non-scaling-stroke")
-    .attr("stroke-linejoin","round")
-    .attr("stroke-linecap","round")
-    .attr("fill", "none");
-
-  svg.append("text")
-    .attr("x", mid)
-    .classed("svgmath",true)
-    // .attr("y", a[1]+((ymax-a[1])*2))
-    // .attr("y", a[1]+((ymax-a[1])*1))
-    .attr("y", a[1]+(dh2*1.4))
-    .attr("fill", color)
-    .text(txt)
-    .attr("text-anchor","middle")
-    .attr("font-size", "1em")
-    .attr("dominant-baseline","hanging");
-
-
-}
-function capacitor(svg, color, txt, a, b, ratio, vs, n, sw=1.5){
-  // Creates a capacitor SVG.
-  // const cpd = rs*4*(Math.sqrt(2)-1)/3;
-  // var extra = 1; // extra loops over the bare minimum
-  // a[0]/=sc;
-  // a[1]/=sc;
-  //
-  // b[0]/=sc;
-  // b[1]/=sc;
-  // n is unused; just used in the sister function "inductor()".
-
-  const dw = (b[0] - a[0]);
-
-  const dw2 = dw/2;
-  const mid = a[0]+dw2;
-  ratio/=2;
-  vs/=2;
-
-
-  const dh2 = dw2*vs;
-
-  var datal = [
-    {x: a[0], y: a[1]},
-    {x: mid-(dw2*ratio), y: a[1]},
-    {x: mid-(dw2*ratio), y: a[1]+(dw2*vs)},
-    {x: mid-(dw2*ratio), y: a[1]-(dw2*vs)}
-  ];
-
-  var datar = [
-    {x: mid+(dw2*ratio), y: b[1]+(dw2*vs)},
-    {x: mid+(dw2*ratio), y: b[1]-(dw2*vs)},
-    {x: mid+(dw2*ratio), y: b[1]},
-    {x: b[0], y: b[1]}
-  ];
-
-  var pathStr = `M${a[0]}, ${a[1]}` +
-                `L${mid-(dw2*ratio)}, ${a[1]}` +
-                `L${mid-(dw2*ratio)}, ${a[1]+(dw2*vs)}` +
-                `L${mid-(dw2*ratio)}, ${a[1]-(dw2*vs)}` +
-                `M${mid+(dw2*ratio)}, ${b[1]+(dw2*vs)}` +
-                `L${mid+(dw2*ratio)}, ${b[1]-(dw2*vs)}` +
-                `L${mid+(dw2*ratio)}, ${b[1]}` +
-                `L${b[0]}, ${b[1]}`;
-
-  svg.append("path")
-    // .attr("d", line([...datal, null, ...datar]))
-    .attr("d", pathStr)
-    .attr("stroke", color)
-    .attr("stroke-width", "0.2em")
-    .attr("stroke-linecap","round")
-    .attr("stroke-linejoin","round")
-    .attr("vector-effect", "non-scaling-stroke")
-    .attr("fill", "none");
-
-svg.append("text")
-  .attr("fill", color)
-  .attr("x", mid)
-  .classed("svgmath",true)
-  .attr("y", a[1]+(dh2*1.4))
-  .text(txt)
-  .attr("text-anchor","middle")
-  .attr("font-size", "1em")
-  .attr("dominant-baseline","hanging");
-
-
-}
-
-function componentSVG(parentDiv, plotId, w, h, iscap, strokeWidth, color){
-  // Wrapper for inductor() and capacitor()
-
-  // append the svg object to the body of the page
-  // Note: no height/width, just viewbox, to stay responsive
-  console.log("parentDiv "+parentDiv+"; plotId "+plotId);
-  var svg = d3.select("div#"+parentDiv)
-    .append("svg")
-      .attr("id", plotId)
-      // .attr("preserveAspectRatio", "xMidYMid meet")
-      // .attr("viewBox", `0 0 ${w*10} ${h*10}`)
-
-      .attr("viewBox", `0 0 200 100`)
-      .attr("width", w+'em')
-      .attr("height", h+'em')
-      // .classed("responsiveSVG", true)
-  svg.append("style")
-    .text(`
-      .svgmath{
-
-        font-family: serif;
-
-      }
-      `);
-
-  // iscap = this.componentLabels[i][j].slice(-1)=='F';
-  // const color = (iscap?[255,0,255,1]:[0,255,255,1]);
-  // h*=10;
-  // w*=10;
-  // (iscap?capacitor:inductor)(
-  //     svg,
-  //     `rgba(${color[0]},${color[1]},${color[2]},${color[3]})`,
-  //     "",
-  //     // [x0, y0],
-  //     // [x1, y1],
-  //     [0, 0.5*h],
-  //     [w, 0.5*h],
-  //     (iscap?0.5:0.25), (iscap?0.5:1), 4);
-
-  (iscap?capacitor:inductor)(
-      svg,
-      // `rgba(${color[0]},${color[1]},${color[2]},${color[3]})`,
-      color,
-      "",
-      // [x0, y0],
-      // [x1, y1],
-      [0, 50],
-      [200, 50],
-      (iscap?0.5:0.25), (iscap?1:2), 4, strokeWidth);
-  return svg;
-}
-
-
-
+/**
+ * F(s) represents a positive-real function in the s-domain, and all the steps to expand it and realize it as a circuit. It generates equations and a circuit diagram, appends them to the HTML, and updates after interactions.
+ *
+ * @class Fs
+ * @typedef {Fs}
+ */
 class Fs {
-  // This is the main class of this program. F(s); represents a positive-real function
-  // and all the steps to expand it and represent it (/realize it) as a circuit diagram.
-  //
+  
+  /**
+   * Creates an instance of Fs.
+   *
+   * Example use:
+   * Represent 
+   *  (s^2 + 1)(s^2 + 5)(s^2 + 20)
+   * --------------------------------
+   *      s(s^2 + 2)(s^2 + 10)
+   * with:
+   * var fs = new Fs([0, 1, 5, 20], [1, 2, 10], 'fs1',
+                      document.getElementById('fosterIex'),
+                      document.getElementById('fosterIexD'),
+                      document.getElementById('fosterIexK'),
+                      document.getElementById('fosterIexExpanded'),
+                      document.getElementById('fosterIckt'));
+   * @constructor
+   * @param {array} b constants of the quadratic binomials in the numerator. Is a single s monomial is present, include as 0.
+   * @param {array} a constants of the quadratic binomials in the numerator. Is a single s monomial is present, include as 0.
+   * @param {string} id html element id
+   * @param {HTMLElement} parentHTML the parent element for the generated editable equation
+   * @param {HTMLElement} [distHTML=null] the parent element for the algebraically distributed equation
+   * @param {HTMLElement} [kisHTML=null] the parent element for the residuals ("ki's")
+   * @param {HTMLElement} [expandedHTML=null] the parent element for the expanded equation (incorporates the ki's)
+   * @param {HTMLElement} [cktHTML=null] the parent element for the circuit
+   * @param {number} [b1=0] 
+   * @param {number} [a1=0] 
+   */
   constructor(b,a,id,parentHTML,
-    distHTML=null,kisHTML=null,expandedHTML=null, expanded2HTML=null, cktHTML=null,b1=0,a1=0){
+    distHTML=null,kisHTML=null,expandedHTML=null, cktHTML=null,b1=0,a1=0){
     // Setup/ init for an instance of this class
     //a1, b1: additional factors of s to be multiplied.
     this.b = b;
@@ -1073,45 +718,57 @@ class Fs {
     this.dist = distHTML;
     this.kis = kisHTML;
     this.expandedHTML = expandedHTML;
-    this.expanded2HTML = expanded2HTML;
+    // this.expanded2HTML = expanded2HTML;
     this.ckt = cktHTML;
     this.plots = {};
     this.plt = ''; // name/key
 
-    this.colors = ["#ff0000", "#0000ff",
+    // hand-picked cycle of colors to use in the series of component groups.
+    this.colors = [
+      "#ff0000", "#0000ff",
       "#00a1a1", "#20cf20",
       "#bf00bf", "#ff8600",
       "#ffff00", "#8171bb",
-    "#bb1986", "#99ab33"];
+      "#bb1986", "#99ab33"
+    ];
 
 
     this.makeHTML();
 
-    this.updateAll()
+    this.updateAll();
 
+    // this.makeSDomainPlot();
 
   }
+  
+  /**
+   * Returns a color from the cycle of possible colors.
+   *
+   * @param {int} i index within the cycle
+   * @returns {string} color hex string
+   */
   color(i){
-    // colors, with "wraparound" when highest index of color is exceeded.
     return this.colors[i%this.colors.length];
   }
+  
+  /**
+   * This creates the initial HTML equation for the positive real functions
+   * (PRF) driving point function, representing F(s).
+   * It adds in a lot of interactivity, letting the user
+   * change, add, and remove values,
+   * but has checks to try and maintain PRF status.
+   * The constants in the binomials follow a convention of increasing
+   * in value from left to right.
+   * b and a are not typical descending order form; just binomials,
+   * or 1 of linear monomial s for the first element.
+   *
+   * @returns {string} HTML string
+   */
   makeHTML(){
-    // This creates the initial HTML equation for the positive real functions
-    // (PRF) driving point function, representing F(s).
-    // It adds in a lot of interactivity, letting the user
-    // change, add, and remove values,
-    // but has checks to try and maintain PRF status.
-    // The constants in the binomials follow a convention of increasing
-    // in value from left to right.
 
-    // b and a are not typical descending order form; just binomials,
-    // or 1 of linear monomial s for the first element.
     const et=' contenteditable="true" data-currentlyentering="false" ';
     const ct=this.id+'_editable';
-    // console.log('makeHTML start: this.b, this.a:');
-    // console.log(this.b);
-    // console.log(this.a);
-
+    
     // Loop through numerator (b)(j=0), then denominator (a)(j=1).
     var x = [this.b, this.a]; // current side, numer. or denom. ... "fractand"?
     var o = [this.a, this.b]; // opposite side.
@@ -1195,7 +852,7 @@ class Fs {
     this.parent.innerHTML = t;
 
     //
-    // add event listeners:
+    // add event listeners for the interactivity:
     //
 
     // contenteditables:
@@ -1444,12 +1101,17 @@ class Fs {
     return t;
 
   }
-
-
+  
+  /**
+   * performs algebra to distribute an expression of a product of binomials.
+   * Assumes we are given scalar x1, and x where x[0] is 1 or 0,
+   * and subsequent x[i] values are constants in binomials ( s^2 + x[i] )
+   *
+   * @param {number} x1 
+   * @param {array} x list of coefficients
+   * @returns {*} 
+   */
   distributePolynomials(x1,x){
-    // performs algebra to distribute an expression of a product of binomials.
-    // Assumes we are given scalar x1, and x where x[0] is 1 or 0,
-    // and subsequent x[i] values are constants in binomials ( s^2 + x[i] )
     var ns = [];
     for (var i=0; i<(2*(x.length+1)); i++){
       ns.push( [] ); // add an array that we'll add coefficients to
@@ -1543,7 +1205,14 @@ class Fs {
               .reverse()
               .join(' + ');
   }
-
+  
+  /**
+   * Greatest common denominator
+   *
+   * @param {number} num numerator
+   * @param {number} den denominator
+   * @returns {{}} the GCD.
+   */
   gcd(num,den){
     // greatest common denominator.
     var b=num, a=den, c;
@@ -1552,9 +1221,14 @@ class Fs {
     }
     return [num/b, den/b];
   }
+  /**
+   *  solve residues k0, kinf (AKA koo) and ki's.
+   * 
+   * @param {*} b 
+   * @param {*} a 
+   * @returns 
+   */
   solveResidues(b,a){
-    // solve residues k0, kinf (AKA koo) and ki's.
-
 
     // setup for k0 and koo, since they both depend on even/odd num or denom
     if ((b[0]==1) && (a[0]==0)){ /* S on top; a unaffected */
@@ -1727,6 +1401,7 @@ class Fs {
 
     return t;
   }
+
   makeExpandedHTML(){
     // Makes the Foster expanded expression of F(s, by incorporating residues.
     const colstart = '<div class="evenCol"><span class="math g">';
@@ -1772,9 +1447,11 @@ class Fs {
     return t;
   }
   makeExpanded2HTML(){
+    // deprecated
     // the Foster expanded expression broken up to more clearly show component values.
     // Not really used anymore; this functionality was added into the new circuitGrid() function,
     // so that terms of the expression can be horizontally aligned with circuit components.
+    console.warn('makeExpanded2HTML() is deprecated. This functionality was added into the new circuitGrid() function.' );
     const colstart = '<div class="evenCol"><span class="math g">';
     const colend = '</span></div>';
 
@@ -1843,8 +1520,10 @@ class Fs {
   }
 
   makeCktHTML(){
+    // deprecated
     // This makes the circuit diagram HTML, using one SVG element.
     // Not really used anymore; replaced in favor of circuitGrid()
+    console.warn('makeCktHTML() is deprecated. This functionality was added into the new circuitGrid() function.' );
 
     // var plots = {};
     var plt = "fosterSVG";
@@ -2094,7 +1773,7 @@ display : flex;
     2 [ top element's label]            2 / 3
     3   [ top element of parallel ]             3 / 4
     4 [ branch to top element ]               4 / 5
-  *  5 [ main line, + branches/nodes ]
+    5 [ main line, + branches/nodes ]
     6 [ branch line to bottom element of parallel, or to first in serial to gnd ]
     7 [ bottom element of parrallel  or ffirst part of irst component to gnd of serial ]
     8 [ bottom element's label, second part of first serial element ]
@@ -2379,6 +2058,178 @@ display : flex;
 
   }
 
+  /**
+   * Creates the SVG for an inductor or capacitor.
+   *
+   * @param {HTMLElement} parentDiv 
+   * @param {string} plotId 
+   * @param {number} w width
+   * @param {number} h height
+   * @param {bool} iscap is a capacitor
+   * @param {number} strokeWidth width of SVG path stroke
+   * @param {string} color hex color code string
+   * @returns {*} the SVG element
+   */
+  componentSVG(parentDiv, plotId, w, h, iscap, strokeWidth, color){
+    // Wrapper for inductor() and capacitor()
+
+    // append the svg object to the body of the page
+    // Note: no height/width, just viewbox, to stay responsive
+    console.log("parentDiv "+parentDiv+"; plotId "+plotId);
+    var svg = d3.select("div#"+parentDiv)
+      .append("svg")
+        .attr("id", plotId)
+        // .attr("preserveAspectRatio", "xMidYMid meet")
+        // .attr("viewBox", `0 0 ${w*10} ${h*10}`)
+        .attr("viewBox", `0 0 200 100`)
+        .attr("width", w+'em')
+        .attr("height", h+'em')
+        // .classed("responsiveSVG", true)
+
+      svg.append("style")
+      .text(`
+        .svgmath{
+
+          font-family: serif;
+
+        }
+        `);
+
+
+      if (iscap){
+
+        var txt= '', a=[0, 50], b=[200,50], ratio=0.5, vs=1, n=4, sw=strokeWidth;
+        // Creates a capacitor SVG.
+        // const cpd = rs*4*(Math.sqrt(2)-1)/3;
+        // var extra = 1; // extra loops over the bare minimum
+        // a[0]/=sc;
+        // a[1]/=sc;
+        //
+        // b[0]/=sc;
+        // b[1]/=sc;
+        // n is unused; just used in the sister function "inductor()".
+
+        const dw = (b[0] - a[0]);
+
+        const dw2 = dw/2;
+        const mid = a[0]+dw2;
+        ratio/=2;
+        vs/=2;
+
+
+        const dh2 = dw2*vs;
+
+        var datal = [
+          {x: a[0], y: a[1]},
+          {x: mid-(dw2*ratio), y: a[1]},
+          {x: mid-(dw2*ratio), y: a[1]+(dw2*vs)},
+          {x: mid-(dw2*ratio), y: a[1]-(dw2*vs)}
+        ];
+
+        var datar = [
+          {x: mid+(dw2*ratio), y: b[1]+(dw2*vs)},
+          {x: mid+(dw2*ratio), y: b[1]-(dw2*vs)},
+          {x: mid+(dw2*ratio), y: b[1]},
+          {x: b[0], y: b[1]}
+        ];
+
+        var pathStr = `M${a[0]}, ${a[1]}` +
+                      `L${mid-(dw2*ratio)}, ${a[1]}` +
+                      `L${mid-(dw2*ratio)}, ${a[1]+(dw2*vs)}` +
+                      `L${mid-(dw2*ratio)}, ${a[1]-(dw2*vs)}` +
+                      `M${mid+(dw2*ratio)}, ${b[1]+(dw2*vs)}` +
+                      `L${mid+(dw2*ratio)}, ${b[1]-(dw2*vs)}` +
+                      `L${mid+(dw2*ratio)}, ${b[1]}` +
+                      `L${b[0]}, ${b[1]}`;
+
+        svg.append("path")
+          // .attr("d", line([...datal, null, ...datar]))
+          .attr("d", pathStr)
+          .attr("stroke", color)
+          .attr("stroke-width", "0.2em")
+          .attr("stroke-linecap","round")
+          .attr("stroke-linejoin","round")
+          .attr("vector-effect", "non-scaling-stroke")
+          .attr("fill", "none");
+
+      svg.append("text")
+        .attr("fill", color)
+        .attr("x", mid)
+        .classed("svgmath",true)
+        .attr("y", a[1]+(dh2*1.4))
+        .text(txt)
+        .attr("text-anchor","middle")
+        .attr("font-size", "1em")
+        .attr("dominant-baseline","hanging");
+
+
+
+      } else {
+
+        var txt= '', a=[0, 50], b=[200,50], ratio=0.25, vs=2, n=4, sw=strokeWidth;
+      // Creates an inductor SVG.
+        // vs - vertical scale
+        // const cpd = rs*4*(Math.sqrt(2)-1)/3;
+        // var extra = 1; // extra loops over the bare minimum
+        // a[0]/=sc;
+        // a[1]/=sc;
+        //
+        // b[0]/=sc;
+        // b[1]/=sc;
+        console.log('inductor svg type',svg)
+
+        const dw = (b[0] - a[0]);
+        const dw2 = dw/2;
+        const mid = a[0] + dw2;
+        // n-=0.5;
+        // const r = (dw - ratio*(tl-1))/2;
+        const r = dw * ratio/2;
+        n = n - 0.5;
+        const perTurn = 30;
+        const tl = 1 + (perTurn * n);
+        var data = [];
+        const xinc = (dw - (2*r))/(tl-1);
+
+        const dh2 = (vs*r);
+
+        const line = d3.line()
+          .x((d) => d.x)
+          .y((d) => d.y);
+        var ymax = 0;
+        for (var t=0; t<tl; t++){
+          var angle = Math.PI + ( ((t%perTurn)/perTurn) * Math.PI*2);
+          data.push( {x: a[0] + r + (t*xinc) + (r*Math.cos(angle)),
+                      y: a[1] + (vs*r*Math.sin(angle))});
+          ymax = Math.max(ymax, data[data.length-1].y);
+        }
+
+        // console.log(data);
+        svg.append("path")
+          .attr("d", line(data))
+          .attr("stroke", color)
+          .attr("stroke-width", "0.2em")
+          .attr("vector-effect", "non-scaling-stroke")
+          .attr("stroke-linejoin","round")
+          .attr("stroke-linecap","round")
+          .attr("fill", "none");
+
+        svg.append("text")
+          .attr("x", mid)
+          .classed("svgmath",true)
+          // .attr("y", a[1]+((ymax-a[1])*2))
+          // .attr("y", a[1]+((ymax-a[1])*1))
+          .attr("y", a[1]+(dh2*1.4))
+          .attr("fill", color)
+          .text(txt)
+          .attr("text-anchor","middle")
+          .attr("font-size", "1em")
+          .attr("dominant-baseline","hanging");
+
+    }
+
+    return svg;
+  }
+
   gridAddCell(gridRow, lines, label, component, cols="", color="#fefefe"){
     // Adds a cell to the grid created by circuitGrid().
     // There are three main cases:
@@ -2414,7 +2265,7 @@ display : flex;
 
         if (component !== "") {
           var componentID = "component_" + (component?"cap":"ind") + cellID ;
-          var svg = componentSVG(cellID, componentID, 2, 1, component, 0.2, color);
+          var svg = this.componentSVG(cellID, componentID, 2, 1, component, 0.2, color);
 
           var svgn = cell.childNodes[cell.childNodes.length-1];
 
@@ -2451,7 +2302,7 @@ display : flex;
   }
 
   updateSVGTextSize(){
-    // this doesn't work...
+    //TODO: implement and test this
 
     // console.log("updateSVGTextSize");
     // console.log(this.plots);
@@ -2628,79 +2479,68 @@ display : flex;
       // window.addEventListener('resize', updateSVGTextSize);
     }
 
+    // this.makeSDomainPlot();
 
   }
 
+  makeSDomainPlot(){
+    // work in progress
+    // return 0;
+    let el = document.getElementById('fosterIexPlot');
+    el.innerHTML = 'Plot here';
+
+    let f = [];
+    let min=Infinity, max=-Infinity;
+    for (let s=0; s<1;s+=0.01){
+      let sn =  this.bns.slice().reverse().map((b,i)=>b*(s**i)).reduce((a,v,j)=>a+=v,0) /
+                this.ans.slice().reverse().map((a,i)=>a*(s**i)).reduce((a,v,j)=>a+=v,0);
+      
+      f.push(sn);
+
+      min = Math.min(min,sn);
+      max = Math.max(max,sn);
+      
+
+    }
+
+    let range = max-min;
+
+    let fscaled = f.map(sn=> 100*(sn-min)/range);
+    console.log(f);
+    el.innerHTML = `<svg width="100px" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <path stroke="blue" d="M ${fscaled.map((y,i)=>String(100*i/f.length) +','+String(y)).join(' L ')}" ></path>
+    </svg>`;
+
+  }
 
 }
 
-// function updateSVGTextSize(){
-//   console.log("updateSVGTextSize");
-//   // console.log(this.plots);
-//   // console.log(this.plt);
-//   // var svg = this.plots[this.plt]["svg"]._groups[0][0];
-//   var svg = document.getElementById('fosterSVG');
-//   var texts = svg.getElementsByTagName('text');
+
 //
+//  Instantiate the an Fs / circuit class.
 //
-//   // var svgBoundingBox = svg.getBoundingClientRect();
-//   for (var i=0; i<texts.length; i++){
-//     texts[i].setAttribute('font-size', '12px')
-//   }
-// }
-
-// const fs1obj = new Fs([1, 69, 42], [0, 3, 4],
-//                   'fs1', document.getElementById('puthere'));
-// fs1obj.makeHMTL();
-// console.log(fs1obj);
-
-
-// const fs1obj = new Fs([0, 1, 5, 20], [1, 2, 10], 'fs1',
-//                       document.getElementById('fosterIex'),
-//                       document.getElementById('fosterIexD'),
-//                       document.getElementById('fosterIexK'),
-//                       document.getElementById('fosterIexExpanded'),
-//                       document.getElementById('fosterIexExpanded2'),
-//                       document.getElementById('fosterIckt'));
-
 
 // main call, creates an instance of the Fs class.
-const fs1obj = new Fs([0, 1, 5, 20], [1, 2, 10], 'fs1',
+var fs1obj = new Fs([0, 1, 5, 20], [1, 2, 10], 'fs1',
                       document.getElementById('fosterIex'),
                       document.getElementById('fosterIexD'),
                       document.getElementById('fosterIexK'),
                       document.getElementById('fosterIexExpanded'),
-                      document.getElementById('fosterIexExpanded2'),
                       document.getElementById('fosterIckt'));
-// fs1obj.makeHMTL();
-// console.log(fs1obj);
-// console.log("b");
-// var bb = fs1obj.nsToHTML(fs1obj.bns);
-// console.log("a");
-// var aa = fs1obj.nsToHTML(fs1obj.ans);
+                      
+console.log('fs1obj',fs1obj);
+
 //
-// document.getElementById('fosterIexD').innerHTML = '<span class="math" id="j"> ='+
-//   '<span class="fraction">'+
-//     '<span>'+bb+'</span>'+
-//     '<span class="symbol">/</span>'+
-//     '<span class="bottom">'+aa+'</span>'+
-//   '</span>'+
-// '</span>';
+//  Future additions
+//  Other features, in progrss
+//
 
-// document.getElementById('puthere').innerHTML = inhtml;
-// modified from D3 tutorials
-// https://d3-graph-gallery.com/graph/scatter_basic.html
 
+// S-plane / Z-plane plot 
 
 var plots = {}; // where all the main data will be stored.
 
-
-//
-//      S-plane / Z-plane plot ------------------------------------------------
-//
-
-// ------------- Initial setup ----------------------------------
-
+// Initial setup
 
 function makePlot(plt,parentDiv,margin,xDomain,yDomain,wview, hview, addAxes=false){
   console.log(parentDiv);
@@ -2782,72 +2622,10 @@ function makePlot(plt,parentDiv,margin,xDomain,yDomain,wview, hview, addAxes=fal
   return plots[plt];
 };
 
-// var plots = {};
-// var plt = "planePlot";
-// plots[plt] = makePlot(plt,"s-plane-z-plane",10,[-10, 10],[-10, 10], 500, 500);
-//
-// plt="fosterIckt";
-// plots[plt] = makePlot(plt,"fosterI",10,[-10, 10],[-10, 10], 500, 200);
-// const w = plots[plt]["w"];
-// inductor(plots[plt]["svg"], "red", "H",
-//       [plots[plt]["w2"]*1.5, plots[plt]["h2"]-(2*plots[plt].ysc)],
-//       [(plots[plt]["w2"]*1.5) + (2*plots[plt].xsc), plots[plt]["h2"]-(2*plots[plt].ysc)],
-//        0.25, 1.5, 4);
-//
-// capacitor(plots[plt]["svg"], "green", "F",
-//       [(plots[plt]["w2"]*1.5), plots[plt]["h2"]+ (2*plots[plt].ysc)],
-//       [(plots[plt]["w2"]*1.5) +(2*plots[plt].xsc), plots[plt]["h2"]+(2*plots[plt].ysc)],
-//       0.5, 1.5);
-//
-
-
-// -----------------------------------------------
-
-
-
-
-
-// const angles = [-Math.PI, -Math.PI/2, 0, Math.PI/2, Math.PI];
-//
-// var lines = [
-//                 {r:3,cxo:0,cyo:0,color:"blue",pathName:"planePathArcOuter"},
-//                 {r:1.5,cxo:-plots[plt].xsc*1.5,cyo:0,color:"green",pathName:"planePathArcInner"}
-//               ];
-//
-// for (var i=0; i<lines.length; i++ ){
-//   plots[plt].data[i] = {};
-//   plots[plt].data[i].pathName = lines[i].pathName;
-//   plots[plt].data[i].color = lines[i].color;
-//   plots[plt].data[i].r = lines[i].r;
-//   plots[plt].data[i].rs = plots[plt].data[i].r * plots[plt].xsc;
-//   plots[plt].data[i].cpd = plots[plt].data[i].rs*4*(Math.sqrt(2)-1)/3;
-//   plots[plt].data[i].cx = plots[plt].w2 - plots[plt].data[i].rs +lines[i].cxo,
-//   plots[plt].data[i].cy = plots[plt].h2 +lines[i].cyo;
-//
-//
-//
-//   plots[plt].data[i].arcs = anglesToArcs(angles, plots[plt].data[i].cx, plots[plt].data[i].cy,
-//     plots[plt].data[i].rs, plots[plt].data[i].cpd, angles.map((x)=>0))
-//
-//   // plots[plt].data[i].pathName =
-//   plots[plt].svg.append("path")
-//     .attr("id",plots[plt].data[i].pathName);
-//
-//   // addCurveOutlineInit
-//   // console.log(plots[plt].data[i].pathName);
-//   plots[plt].data[i].ggs = multiArcInit("ax1", plots[plt].data[i].pathName,
-//     plots[plt].data[i].arcs, plots[plt].data[i].color, 0);
-//
-// }
-// console.log(plots[plt].sc);
-// console.log(plots[plt].data[0].arcs);
-
-// -----------------------------------------------
-
-
-
 // for scrolling effects ------------------------------
-window.addEventListener('scroll',scroller);
+// to be introduced later.
+
+// window.addEventListener('scroll',scroller);
 
 function scroller(){
   // event listener for animations or motion-graphics like transitions.
@@ -2864,7 +2642,7 @@ function scroller(){
 }
 
 
-
+// for other scroll-driven animations
 function updatecharts(scrollpoint){
 
   // linearly interpolate/scale by scroll positions (should map to negaive scales too):
@@ -2875,46 +2653,10 @@ function updatecharts(scrollpoint){
     return Math.max(Math.min(maxpossible, v), minpossible); // clip to limits
   }
 
-  // series of if statements to focus the scroll-based CSS updating to only specific segments
-  // if (scrollpoint <= 6.5 ){
-
-
-
     var p1 = 2,
         p2 = 1.9+1;
 
-    //
-    // for (var i=0; i<lines.length; i++ ){
-    //
-    //   var angsc = angles.map( (angle) => interpsc(scrollpoint, p1, p2, 0, angle) )
-    //
-    //   var yoffs = angsc.map( (angle,idx) => interpsc(scrollpoint,
-    //     p1, p2, plots[plt].data[i].rs * angles[idx], 0) ) // this helps with y height
-    //   // console.log(angsc.map( (d) => (d*plots[plt].data[i].rs)) );
-    //   // console.log(yoffs);
-    //
-    //   var cpdsc = interpsc(scrollpoint, p1, p2, 0, plots[plt].data[i].cpd);
-    //
-    //   // console.log([yoffs[0],yoffs[yoffs.length-1]])
-    //   plots[plt].data[i].arcs = anglesToArcs(angsc, plots[plt].data[i].cx, plots[plt].data[i].cy,
-    //     plots[plt].data[i].rs, cpdsc, yoffs)
-    //
-    //
-    //   // arcs2 = arcs2.map( (c) => [c[0], c[1] ]);
-    //
-    //
-    //   multiArc("ax1", plots[plt].data[i].pathName, plots[plt].data[i].arcs,
-    //     plots[plt].data[i].color, plots[plt].data[i].ggs);
-    //
-    // }
-
-
-
-  // } else if(scrollpoint > 6.5){
-  //   0;
-  // }
 }
-
 
 
 </script>
