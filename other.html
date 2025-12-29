@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-default">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta
+  name="theme-color"
+  content="cornflowerblue"
+  media="(prefers-color-scheme: light)" />
+<meta
+  name="theme-color"
+  content="dimgray"
+  media="(prefers-color-scheme: dark)" /> -->
+  <title>Portfolio - Other</title>
+  <!--𝐏𝐨𝐫𝐭𝐟𝐨𝐥𝐢𝐨-->
+</head>
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link rel="icon" href="data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text fill='rgb(93,171,181)' x='0' y='24' font-size='32'>&#x2B22;</text></svg>" type="image/svg+xml">
+<style>
+
+</style>
+<script>
+function darkModeLightMode() {
+    
+  let html = document.querySelector('html');
+  switch (true){
+    case (!html.classList.contains('theme-dark') && !html.classList.contains('theme-light')):
+      if (window.matchMedia) 
+        if(window.matchMedia('(prefers-color-scheme: dark)').matches){
+          html.className = 'theme-light';
+          break;
+        }
+      html.className = 'theme-dark';
+      break;
+    case html.classList.contains('theme-dark'):
+      html.className = 'theme-light';
+      break;
+    case html.classList.contains('theme-light'):
+      html.className = 'theme-dark';
+      break;
+    
+  }
+  
+}
+</script>
+
+<body>
+
+<nav id="top">
+  <a href="index.html" style="margin-right: auto;margin-left:0;">Portfolio</a>
+  <a href="https://github.com/seandabbs">GitHub</a>
+  <label style="cursor: pointer;" aria-label="Dark mode / light mode button" title="Toggle dark/light mode">
+    <svg height="1.5em" width="1.5em" viewBox="0 0 16 16" alt=""><path fill="var(--text-color)" d="M 1,8 3.0488281,8.6835938
+A 5,5 0 0 1 3,8 5,5 0 0 1 3.0488281,7.3164062
+Z
+
+M 0,16
+
+M 16,0
+
+M 1.9378222,11.5 4.0539563,11.067596
+A 5,5 0 0 1 3.669873,10.5 5,5 0 0 1 3.3703625,9.8835764
+Z
+
+m 3.1339746,7.428203
+
+M 10.928203,-2.9282032
+
+M 4.5,1.9378222 4.9324045,4.0539563
+A 5,5 0 0 1 5.5,3.669873 5,5 0 0 1 6.1164236,3.3703625
+Z
+
+M -2.9282032,5.0717968
+
+M 18.928203,10.928203
+
+M 1.9378222,4.5 3.3703625,6.1164236
+A 5,5 0 0 1 3.669873,5.5 5,5 0 0 1 4.0539563,4.9324045
+Z
+
+m -4.8660254,6.428203
+
+M 18.928203,5.0717968
+
+M 4.5,14.062178 6.1164236,12.629638
+A 5,5 0 0 1 5.5,12.330127 5,5 0 0 1 4.9324045,11.946044
+Z
+
+m 6.428203,4.866025
+
+M 5.0717968,-2.9282032
+
+M 8,1 7.3164062,3.0488281
+A 5,5 0 0 1 8,3
+Z
+
+M 7.3164062,12.951172 8,15
+V 13
+A 5,5 0 0 1 7.3164062,12.951172
+Z
+
+M 8,3.5
+C 5.5206484,3.5 3.5,5.5206484 3.5,8
+c 0,2.479353 2.0206484,4.5 4.5,4.5 2.479353,0 4.5,-2.020647 4.5,-4.5
+C 12.5,5.5206484 10.479353,3.5 8,3.5
+Z
+
+m 0,0
+c 1.9389132,0 3,2.5610868 3,4.5 0,1.9389132 -1.061087,4.5 -3,4.5
+z" /></svg>
+    <input type="checkbox" style="appearance: none;user-select: none; " onchange="darkModeLightMode()" ></input>
+  </label>
+</nav>
+
+<main>
+
+<article class="" 
+  aria-label="Introduction">
+  <h1 class="gradient">Other Stuff</h1>
+  <p>
+    Photos and screenshots of some other non-work projects, and works in progress.
+  </p>
+</article>
+
+<!-- Sort of a fake masonry; just columns -->
+<article class="masonry" id="" style="">
+
+  <figure>
+    <img class="" style="width: 100%; " src="media/MDSP_Array_Proc_01.png" alt="A dark plot showing several white lines from left to right, each peaking in the middle. It is labelled 'Steering Angle 1' at its top, and the horizontal axis at the bottom is labelled 'Angle (Degrees)'. The plot resembles the cover of music album Unknown Pleasures by Joy Division.">
+    <img class="" style="width: 100%; " src="media/MDSP_Array_Proc_02.png" alt="A dark plot showing several white lines from left to right, each peaking in the middle. It is labelled 'Steering Angle 2' at its top, and the horizontal axis at the bottom is labelled 'Angle (Degrees)'. The plot resembles the cover of music album Unknown Pleasures by Joy Division.">
+    <!-- <img class="" style="width: 100%; " src="media/MDSP_Array_Proc_03.png" alt="A white plot showing a three-dimensional colored surface, mostly flat but with two main peaks, which are colored more brightly at their tops. The plot is labelled 'Frequency-Azimuth Surface Plot' at its top, 'Azimuth' at its left vertical axis, and 'Frequency (Hz)' at its bottom horizontal axis."> -->
+    <img class="" style="width: 100%; " src="media/MDSP_Array_Proc_04.png" alt="A white plot showing a three-dimensional colored surface. The plot is labelled 'Steering Angle vs Signal Over Time' at its top, 'Azimuth' at its left vertical axis, and 'Time (ms)' at its bottom horizontal axis. The surface consists mainly of bumpy noise, but there are two main peaks running along the time axis, which are colored more prominently at their tops.">
+    <figcaption>
+      Visualizing amplitude over beam steering angle and time, for <a href="https://en.wikipedia.org/wiki/Sensor_array">sensor arrays</a>. Two culturally-inspired ridgeline plots, then a more traditional format. Tick labels removed.
+    </figcaption>
+  </figure>
+
+  <figure title="">
+   <img class="" style="width: 100%; " src="media/magnetometers_and_temperature.jpg" alt="A set of line plots against a white background. There are two rows of plots, each row showing two time-series and two frequency domain plots. The plots in the top row are showing temperature data, while those in the bottom row show total magnetic field data.">
+   <figcaption>
+    Temperature fluctuations as potential noise in fluxgate magnetometer data from <a href="https://geomag.usgs.gov/plots/?stations=BRW&stations=SIT&stations=BOU&stations=FRD&stations=FRN&stations=TUC&stations=HON&timeRangeType=custom&channels=F&channels=UK3&scale=Auto& dataType=variation&endTime=2022-04-13T00:00:00.000Z&startTime=2022-04-06T00:00:00.000Z
+">USGS</a>.
+   </figcaption>
+  </figure>
+
+  <figure title="">
+   <img class="" style="width: 100%; " src="media/arduino_blimp_LEDs.jpg" alt="An Arduino Uno board is connected to a breadboard with several wires. Several circuit components are also on the breadboard: two circuit boards, some resistors, and three LEDs. One of two LEDs is lit.">
+   <!-- <img class="" style="width: 100%; " src="media/arduino_blimp_test1.jpg" alt="A breadboard with some electronic components is connected to two motors with quadcopter propellors. The left propellor is spinning."> -->
+   <img class="" style="width: 100%; " src="media/arduino_blimp_test2.jpg" alt="A breadboard with some electronic components is connected to two motors with quadcopter propellors. The right propellor is spinning.">
+   
+   <figcaption>
+    Prototyping a GPS-enabled Arduino miniature blimp.
+   </figcaption>
+  </figure>
+
+  <figure title="">
+   <img class="" style="width: 100%; " src="media/parametric_surface_optimization.png" alt="A three-dimensional plot of three surfaces against a white background. There is a control net displayed over each surface, as a set of solid lines running along one of its parametric axes, and a set of dashed lines running along its other axis. The three surfaces together constitute half of a vaguely spherical shape. The plot is labelled 'Optimized NURBS step 249, cost 1.5060 0.2897 0.4322'.">
+   <figcaption>
+    Optimizing parametric surfaces.
+   </figcaption>
+  </figure>
+
+  <figure title="">
+   <img class="" style="width: 100%; " src="media/microwave_amplifier_final_layout.png" alt="A screenshot of an electronic design automation application showing a circuit board layout. The board is relatively sparse and features an input trace and output trace reaching the edges of the board.">
+   <img class="" style="width: 100%; " src="media/microwave_amplifier_on_VNA.jpg" alt="A circuitboard, sparsely populated with a few traces and components, is connected to a device by an SMA port.">
+   <img class="" style="width: 100%; " src="media/microwave_amplifier_on_VNA_Smith_Chart.jpg" alt="A circuitboard is connected to vector neetwork analyzer, which displays a spiraling measurement trace on its polar coordinate Smith chart display.">
+   <figcaption>
+    Designing, building, and testing a microwave amplifier.
+   </figcaption>
+  </figure>
+
+  <figure title="">
+   <img class="" style="width: 100%; " src="media/capcade_CAD_preview_tall.png" alt="A 3D CAD model of an arcade cabinet. The model has a wood texture and has an open window where the screen will go.">
+   <img class="" style="width: 100%; " src="media/capcade_photo_tall.jpg" alt="A photograph of the arcade machine. It is painted black and red. In the panel above the screen, a pixelated design displays the word 'CAPCADE'.">
+   <figcaption>
+    CAD, graphic design, and some electronics for an arcade project.
+   </figcaption>
+  </figure>
+  
+</article>
+
+
+</main>
+
+<footer>
+  <a href="https://github.com/seandabbs/seandabbs.github.io">portfolio design</a>
+  <a href="#top" aria-label="Go to top of page">top</a><!-- explicitly stating the id helps for printed pdf navigation-->
+</footer>
+
+
+
+</body>
+<script>
+
+
+</script>
+</html>

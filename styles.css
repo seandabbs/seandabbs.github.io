@@ -167,6 +167,7 @@ body{
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover; */
+  min-height: 100vh;
 
   overflow-x:hidden;
   
@@ -204,7 +205,7 @@ nav > a{
   margin-left: 1ch;
   margin-right: 1ch;
   align-content: center;
-
+  font-weight: bold;
 
 }
 nav > a, footer > a{
@@ -249,6 +250,68 @@ article.block{
   /* scroll-margin: 1em; */
 }
 
+article.masonry{
+  columns: 3;
+}
+@media (width < 48em) and (width >= 24em){
+  article.masonry{
+    columns: 2;
+  }
+}
+@media (width < 24em){
+  article.masonry{
+    columns: 1;
+  }
+}
+
+article.masonry > div,
+article.masonry > figure{
+  display: block;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  break-inside: avoid-column;
+  border: 3px solid var(--shadow-color);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 0px;
+  /* margin-top: 4px; */
+  margin-bottom: 2ch;
+  background-color: var(--article-color);
+}
+article.masonry > div > *,
+article.masonry > figure > *{
+  margin: 0px;
+  display: inline;
+  width: 100%;
+}
+
+article.masonry > div > *:first-child,
+article.masonry > figure > *:first-child{
+
+  /* border-top-left-radius: 8px;
+  border-top-right-radius: 8px; */
+  
+  
+}
+article.masonry > div > *:last-child,
+article.masonry > figure > *:last-child{
+  margin: 0px;
+  /* border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px; */
+  border-top-width: 0px;
+  
+}
+article.masonry > div > p,
+article.masonry > figure > figcaption{
+  padding: 1ch;
+  width: calc(100% - 2ch);
+  /* border: 3px solid var(--shadow-color); */
+  margin: 0px;
+}
+
+
+
 .articleAnchor{
   opacity: 0.0;
   padding: 0.5ch;
@@ -265,6 +328,8 @@ footer{
   flex-direction: row;
   justify-content: space-around;
   height: 3em;
+  position: sticky;
+  top: calc(100vh - 3em);
   /* align-items: center; */
 }
 
@@ -305,7 +370,7 @@ code{
   font-family: monospace;
 }
 
-img, video{
+.block img, .block video{
   /* max-height: 8em; */
   max-width: 20em;
 }
@@ -366,7 +431,7 @@ article{
   padding-top: 1em;
   padding-bottom: 1em;
 }
-.figure{
+.block .figure{
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 1vh;
